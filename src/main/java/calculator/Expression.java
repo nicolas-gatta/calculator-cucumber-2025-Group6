@@ -19,6 +19,16 @@ public interface Expression {
    void accept(Visitor v);
 
    /**
+    * Accepts a NotationVisitor to convert the expression to a String
+    * in the requested notation (Prefix, Infix, Postfix).
+    *
+    * @param visitor The visitor handling the notation conversion.
+    * @return The string representation of the expression in the selected notation.
+    */
+   String accept(NotationVisitor visitor);
+
+
+   /**
     * Counts the depth of nested expressions in an arithmetic expression
     *
     * @return The depth of an arithmetic expression

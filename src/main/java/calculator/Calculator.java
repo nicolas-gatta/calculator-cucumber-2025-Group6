@@ -10,6 +10,8 @@ import visitor.Evaluator;
  */
 public class Calculator {
 
+    NotationVisitor notationVisitor = new NotationVisitor();
+
     /**
      * Default constructor of the class.
      * Does nothing since the class does not have any variables that need to be initialised.
@@ -30,10 +32,14 @@ public class Calculator {
      * @param e the arithmetic Expression to be printed
      * @see #printExpressionDetails(Expression) 
      */
-    public void print(Expression e) {
-        System.out.println("The result of evaluating expression " + e);
-        System.out.println("is: " + eval(e) + ".");
-        System.out.println();
+    public void print(Expression e, Notation n) {
+        NotationVisitor notationVisitor = new NotationVisitor();
+        System.out.println(switch (n) {
+            case PREFIX -> notationVisitor.visitPrefix((Operation) e);
+            case INFIX -> notationVisitor.visitInfix((Operation) e);
+            case POSTFIX -> notationVisitor.visitPostfix((Operation) e);
+        });
+
     }
 
     /**
@@ -42,7 +48,8 @@ public class Calculator {
      * @see #print(Expression)
      */
     public void printExpressionDetails(Expression e) {
-        print(e);
+        NotationVisitor visitor = new NotationVisitor();
+        System.out.println(e.accept(visitor));
         System.out.print("It contains " + e.countDepth() + " levels of nested expressions, ");
         System.out.print(e.countOps() + " operations");
         System.out.println(" and " + e.countNbs() + " numbers.");

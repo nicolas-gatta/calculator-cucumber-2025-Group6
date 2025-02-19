@@ -76,6 +76,14 @@ public abstract class Operation implements Expression
   }
 
 	/**
+	 * getter method to return the symbol
+	 *
+	 * @return	The symbol of the arithmetic operation.
+	 */
+	public String getSymbol() { return symbol;}
+
+
+	/**
 	 * Abstract method representing the actual binary arithmetic operation to compute
 	 * @param l	 first argument of the binary operation
 	 * @param r	second argument of the binary operation
@@ -208,5 +216,16 @@ public abstract class Operation implements Expression
 		result = prime * result + args.hashCode();
 		return result;
 	}
+
+
+	@Override
+	public String accept(NotationVisitor visitor) {
+		return switch (notation) {
+			case PREFIX -> visitor.visitPrefix(this);
+			case INFIX -> visitor.visitInfix(this);
+			case POSTFIX -> visitor.visitPostfix(this);
+		};
+	}
+
 
 }

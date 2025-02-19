@@ -108,4 +108,10 @@ public class MyNumber implements Expression
 		return value;
   }
 
+    @Override
+    public String accept(NotationVisitor visitor) {
+        return this.toString();
+    }
+
+
 }
