@@ -112,4 +112,7 @@ public class CalculatorSteps {
 		assertEquals(val, c.eval(op));
 	}
 
+	@Then("the operation evaluates to null")
+	public void thenTheOperationEvaluatesTo() {assertNull(c.eval(op));}
+
 }

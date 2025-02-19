@@ -11,6 +11,8 @@ import java.util.ArrayList;
  */
 public class Evaluator extends Visitor {
 
+    private String error;
+
     /**
      * Default constructor of the class. Does not initialise anything.
      */
@@ -23,8 +25,13 @@ public class Evaluator extends Visitor {
      *
      * @return an Integer object containing the result of the evaluation
      */
-    public Integer getResult() { return computedValue; }
+    public Integer getResult() {
+        if (error != null) {
+            return null;
+        }
+        return computedValue; }
 
+    public String getError() { return error; }
     /** Use the visitor design pattern to visit a number.
      *
      * @param n The number being visited
@@ -38,20 +45,27 @@ public class Evaluator extends Visitor {
      * @param o The operation being visited
      */
     public void visit(Operation o) {
-        ArrayList<Integer> evaluatedArgs = new ArrayList<>();
-        //first loop to recursively evaluate each subexpression
-        for(Expression a:o.args) {
-            a.accept(this);
-            evaluatedArgs.add(computedValue);
+        try {
+            ArrayList<Integer> evaluatedArgs = new ArrayList<>();
+            //first loop to recursively evaluate each subexpression
+            for (Expression a : o.args) {
+                a.accept(this);
+                evaluatedArgs.add(computedValue);
+            }
+            //second loop to accumulate all the evaluated subresults
+            int temp = evaluatedArgs.get(0);
+            int max = evaluatedArgs.size();
+            for (int counter = 1; counter < max; counter++) {
+                temp = o.op(temp, evaluatedArgs.get(counter));
+            }
+            // store the accumulated result
+            computedValue = temp;
+            this.error = null;
         }
-        //second loop to accumulate all the evaluated subresults
-        int temp = evaluatedArgs.get(0);
-        int max = evaluatedArgs.size();
-        for(int counter=1; counter<max; counter++) {
-            temp = o.op(temp,evaluatedArgs.get(counter));
+        catch(ArithmeticException e) {
+            this.error = "NaN";
         }
-        // store the accumulated result
-        computedValue = temp;
+
     }
 
 }
