@@ -26,17 +26,27 @@ public class Calculator {
      public Expression read(String s)
     */
 
+    /**
+     * Prints an arithmetic expression provided as input parameter.
+     * @param e the arithmetic Expression to be printed
+     * @see #print(Expression)
+     */
+    public void print(Expression e) {
+        System.out.println("The result of evaluating expression " + e);
+        System.out.println("is: " + eval(e) + ".");
+        System.out.println();
+    }
+
 
     /**
      * Prints verbose details of an arithmetic expression provided as input parameter.
      * @param e the arithmetic Expression to be printed
-     * @see #print(Expression, Notation)
      */
     public void printExpressionDetails(Expression e) {
-        NotationVisitor visitor = new NotationVisitor(Notation.INFIX);
+        Notation n = (e instanceof Operation) ? ((Operation) e).notation : Notation.INFIX;
+        NotationVisitor visitor = new NotationVisitor(n);
         e.accept(visitor);
-        String result = visitor.getResult();
-        System.out.println(result);
+        print(e);
         System.out.print("It contains " + e.countDepth() + " levels of nested expressions, ");
         System.out.print(e.countOps() + " operations");
         System.out.println(" and " + e.countNbs() + " numbers.");
