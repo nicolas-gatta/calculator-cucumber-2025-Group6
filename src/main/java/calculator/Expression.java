@@ -1,5 +1,6 @@
 package calculator;
 
+import visitor.NotationVisitor;
 import visitor.Visitor;
 
 /**
@@ -17,16 +18,6 @@ public interface Expression {
     * @param v The visitor object being passed as a parameter
     */
    void accept(Visitor v);
-
-   /**
-    * Accepts a NotationVisitor to convert the expression to a String
-    * in the requested notation (Prefix, Infix, Postfix).
-    *
-    * @param visitor The visitor handling the notation conversion.
-    * @return The string representation of the expression in the selected notation.
-    */
-   String accept(NotationVisitor visitor);
-
 
    /**
     * Counts the depth of nested expressions in an arithmetic expression

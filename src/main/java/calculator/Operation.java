@@ -1,5 +1,6 @@
 package calculator;
 
+import visitor.NotationVisitor;
 import visitor.Visitor;
 
 import java.util.ArrayList;
@@ -216,16 +217,5 @@ public abstract class Operation implements Expression
 		result = prime * result + args.hashCode();
 		return result;
 	}
-
-
-	@Override
-	public String accept(NotationVisitor visitor) {
-		return switch (notation) {
-			case PREFIX -> visitor.visitPrefix(this);
-			case INFIX -> visitor.visitInfix(this);
-			case POSTFIX -> visitor.visitPostfix(this);
-		};
-	}
-
 
 }
