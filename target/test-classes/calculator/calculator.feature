@@ -92,3 +92,25 @@ Feature: Integer Arithmetic Expressions
       | "*" | 7| 2|    14|
       | "/" | 6| 2|     3|
       | "/" | 6| 0|  null|
+
+    Scenario Outline: Validate calculator operations and notation
+        Given I initialise a calculator
+        And an integer operation "<op>"
+        And I provide a first number <n1>
+        And I provide a second number <n2>
+        Then its <notation> notation is <result>
+
+        Examples:
+          | op  | n1 | n2 | notation  | result    |
+          |  +  | 8  | 6  | PREFIX    | + (8, 6)  |
+          |  +  | 8  | 6  | INFIX     | ( 8 + 6 ) |
+          |  +  | 8  | 6  | POSTFIX   | (8, 6) +  |
+          |  -  | 8  | 6  | PREFIX    | - (8, 6)  |
+          |  -  | 8  | 6  | INFIX     | ( 8 - 6 ) |
+          |  -  | 8  | 6  | POSTFIX   | (8, 6) -  |
+          |  *  | 8  | 6  | PREFIX    | * (8, 6)  |
+          |  *  | 8  | 6  | INFIX     | ( 8 * 6 ) |
+          |  *  | 8  | 6  | POSTFIX   | (8, 6) *  |
+          |  /  | 8  | 6  | PREFIX    | / (8, 6)  |
+          |  /  | 8  | 6  | INFIX     | ( 8 / 6 ) |
+          |  /  | 8  | 6  | POSTFIX   | (8, 6) /  |

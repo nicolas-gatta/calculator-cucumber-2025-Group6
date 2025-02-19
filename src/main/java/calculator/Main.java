@@ -1,5 +1,7 @@
 package calculator;
 
+import visitor.NotationVisitor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +30,6 @@ public class Main {
 	try{
 
 		e = new MyNumber(8);
-		c.print(e);
 		c.eval(e);
 
 	    List<Expression> params = new ArrayList<>();
@@ -40,7 +41,6 @@ public class Main {
 		List<Expression> params2 = new ArrayList<>();
 		Collections.addAll(params2, new MyNumber(5), new MyNumber(3));
 		e = new Minus(params2, Notation.INFIX);
-		c.print(e);
 		c.eval(e);
 
 		List<Expression> params3 = new ArrayList<>();
@@ -52,7 +52,6 @@ public class Main {
 		List<Expression> params4 = new ArrayList<>();
 		Collections.addAll(params4, new Plus(params), new Minus(params2), new MyNumber(5));
 		e = new Divides(params4,Notation.POSTFIX);
-		c.print(e);
 		c.eval(e);
 	}
 

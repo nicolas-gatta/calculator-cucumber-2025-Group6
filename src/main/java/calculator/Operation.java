@@ -1,5 +1,6 @@
 package calculator;
 
+import visitor.NotationVisitor;
 import visitor.Visitor;
 
 import java.util.ArrayList;
@@ -74,6 +75,14 @@ public abstract class Operation implements Expression
 	public List<Expression> getArgs() {
   	return args;
   }
+
+	/**
+	 * getter method to return the symbol
+	 *
+	 * @return	The symbol of the arithmetic operation.
+	 */
+	public String getSymbol() { return symbol;}
+
 
 	/**
 	 * Abstract method representing the actual binary arithmetic operation to compute
