@@ -91,6 +91,7 @@ Feature: Integer Arithmetic Expressions
       | "-" | 8| 5|     3|
       | "*" | 7| 2|    14|
       | "/" | 6| 2|     3|
+      | "/" | 6| 0|  null|
 
     Scenario Outline: Validate calculator operations and notation
         Given I initialise a calculator
