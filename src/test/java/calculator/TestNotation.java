@@ -2,14 +2,20 @@ package calculator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import visitor.NotationVisitor;
 
 import java.util.Arrays;
 import java.util.List;
 
 
 class TestNotation {
+
+	private List<Expression> params;
+	private List<Expression> nestedParams;
 
     /* This is an auxilary method to avoid code duplication.
      */
@@ -54,4 +60,57 @@ class TestNotation {
 		testNotations(symbol, value1, value2, op);
 	}
 
+	@BeforeEach
+	void setUp() {
+		int value1 = 3;
+		int value2 = 4;
+		int value3 = 5;
+		params = Arrays.asList(new MyNumber(value1), new MyNumber(value2));
+		nestedParams = Arrays.asList(new MyNumber(value3), createOperation(params));
+	}
+
+	private Operation createOperation(List<Expression> expressions) {
+		try {
+			return new Plus(expressions);
+		} catch (IllegalConstruction e) {
+			fail();
+			return null;
+		}
+	}
+
+	private void notationTest(Operation op, Notation notation, String expected) {
+		NotationVisitor visitor = new NotationVisitor(notation);
+		op.accept(visitor);
+		assertEquals(expected, visitor.getResult());
+	}
+
+	@Test
+	void testSimpleExpressionInfix() {
+		notationTest(createOperation(params), Notation.INFIX, "( 3 + 4 )");
+	}
+
+	@Test
+	void testSimpleExpressionPrefix() {
+		notationTest(createOperation(params), Notation.PREFIX, "+ (3, 4)");
+	}
+
+	@Test
+	void testSimpleExpressionPostfix() {
+		notationTest(createOperation(params), Notation.POSTFIX, "(3, 4) +");
+	}
+
+	@Test
+	void testNestedExpressionInfix() {
+		notationTest(createOperation(nestedParams), Notation.INFIX, "( 5 + ( 3 + 4 ) )");
+	}
+
+	@Test
+	void testNestedExpressionPrefix() {
+		notationTest(createOperation(nestedParams), Notation.PREFIX, "+ (5, + (3, 4))");
+	}
+
+	@Test
+	void testNestedExpressionPostfix() {
+		notationTest(createOperation(nestedParams), Notation.POSTFIX, "(5, (3, 4) +) +");
+	}
 }

@@ -107,6 +107,42 @@ public class CalculatorSteps {
 		}
 	}
 
+	@Given("I provide a nested operation with operator {string} and numbers {int} and {int}")
+	public void iProvideANestedOperationWithOperatorAndNumbers(String nestedOp, int value2, int value3) {
+		System.out.println("test nested OP");
+		try {
+			// Création des nombres de l'opération imbriquée
+			ArrayList<Expression> nestedParams = new ArrayList<>();
+			nestedParams.add(new MyNumber(value2));
+			nestedParams.add(new MyNumber(value3));
+
+			// Définition de l'opération imbriquée
+			Operation nestedOperation;
+			switch (nestedOp) {
+				case "+" -> nestedOperation = new Plus(nestedParams);
+				case "-" -> nestedOperation = new Minus(nestedParams);
+				case "*" -> nestedOperation = new Times(nestedParams);
+				case "/" -> nestedOperation = new Divides(nestedParams);
+				default -> throw new IllegalArgumentException("Operator not supported: " + nestedOp);
+			}
+
+			// Ajout de cette opération imbriquée à la liste des paramètres de l'opération principale
+			params.add(nestedOperation);
+		} catch (IllegalConstruction e) {
+			fail();
+		}
+	}
+
+	@When("I convert the nested expression to {string}")
+	public void iConvertTheNestedExpressionTo(String notation) {
+		System.out.println("Converting to notation: " + notation);
+		if (notation.equals("PREFIX") || notation.equals("POSTFIX") || notation.equals("INFIX")) {
+			op.notation = Notation.valueOf(notation);
+		} else {
+			fail(notation + " is not a valid notation !");
+		}
+	}
+
 	@Then("the operation evaluates to {int}")
 	public void thenTheOperationEvaluatesTo(int val) {
 		assertEquals(val, c.eval(op));
@@ -114,5 +150,10 @@ public class CalculatorSteps {
 
 	@Then("the operation evaluates to null")
 	public void thenTheOperationEvaluatesTo() {assertNull(c.eval(op));}
+
+	@Then("the result should be {string}")
+	public void theResultShouldBe(String expected) {
+		assertEquals(expected, op.toString());
+	}
 
 }

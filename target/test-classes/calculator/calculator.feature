@@ -114,3 +114,20 @@ Feature: Integer Arithmetic Expressions
           |  /  | 8  | 6  | PREFIX    | / (8, 6)  |
           |  /  | 8  | 6  | INFIX     | ( 8 / 6 ) |
           |  /  | 8  | 6  | POSTFIX   | (8, 6) /  |
+          |  +  | 3  | 4  | INFIX     | ( 3 + 4 ) |
+          |  +  | 3  | 4  | PREFIX    | + (3, 4)  |
+          |  +  | 3  | 4  | POSTFIX   | (3, 4) +  |
+
+    Scenario Outline: Convert a nested arithmetic expression to different notations
+        Given I initialise a calculator
+        And an integer operation "<op>"
+        And I provide a first number <value1>
+        And I provide a nested operation with operator "<nestedOp>" and numbers <value2> and <value3>
+        When I convert the nested expression to "<notation>"
+        Then its <notation> notation is <result>
+
+        Examples:
+          | op  | nestedOp | value1 | value2 | value3 | notation  | result             |
+          | +   | +        | 5      | 3      | 4      | INFIX     | ( 5 + ( 3 + 4 ) )  |
+          | +   | +        | 5      | 3      | 4      | PREFIX    | + (5, + (3, 4))    |
+          | +   | +        | 5      | 3      | 4      | POSTFIX   | (5, (3, 4) +) +    |
