@@ -15,6 +15,12 @@ import java.util.List;
 public class Main {
 
 	/**
+	 * Default constructor for Main class.
+	 */
+	public Main() {
+	}
+
+	/**
 	 * This is the main method of the application.
 	 * It provides examples of how to use it to construct and evaluate arithmetic expressions.
 	 *
