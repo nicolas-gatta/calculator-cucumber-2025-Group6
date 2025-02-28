@@ -7,8 +7,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Test class for CountingVisitor
+ * Tests the counting of depth, operations and numbers in expressions
+ */
 class TestCountingVisitor {
 
+    /**
+     * Test that a single number has:
+     * - depth of 0 (no nested expressions)
+     * - 0 operations
+     * - 1 number
+     */
     @Test
     void testNumberCounting() {
         MyNumber number = new MyNumber(42);
@@ -20,6 +30,12 @@ class TestCountingVisitor {
         assertEquals(1, visitor.getNumbers());
     }
 
+    /**
+     * Test that a simple operation (e.g., 5 + 3) has:
+     * - depth of 1 (one level of operation)
+     * - 1 operation
+     * - 2 numbers
+     */
     @Test
     void testSimpleOperationCounting() throws IllegalConstruction {
         List<Expression> params = Arrays.asList(new MyNumber(5), new MyNumber(3));
@@ -32,6 +48,12 @@ class TestCountingVisitor {
         assertEquals(2, visitor.getNumbers());
     }
 
+    /**
+     * Test that a complex expression ((5 + 3) * (2 - 1)) has:
+     * - depth of 2 (nested operations)
+     * - 3 operations (plus, minus, times)
+     * - 4 numbers (5,3,2,1)
+     */
     @Test
     void testComplexExpressionCounting() throws IllegalConstruction {
         // Create expression: (5 + 3) * (2 - 1)

@@ -7,8 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Test class for StringVisitor
+ * Tests the string representation of expressions in different notations
+ */
 class TestStringVisitor {
 
+    /**
+     * Test that a number is correctly converted to its string representation
+     */
     @Test
     void testNumberToString() {
         MyNumber number = new MyNumber(42);
@@ -17,6 +24,10 @@ class TestStringVisitor {
         assertEquals("42", visitor.getResult());
     }
 
+    /**
+     * Test that an operation is correctly converted to infix notation
+     * Example: "( 5 + 3 )"
+     */
     @Test
     void testOperationToStringInfix() throws IllegalConstruction {
         List<Expression> params = Arrays.asList(new MyNumber(5), new MyNumber(3));
@@ -26,6 +37,10 @@ class TestStringVisitor {
         assertEquals("( 5 + 3 )", visitor.getResult());
     }
 
+    /**
+     * Test that an operation is correctly converted to prefix notation
+     * Example: "+ (5, 3)"
+     */
     @Test
     void testOperationToStringPrefix() throws IllegalConstruction {
         List<Expression> params = Arrays.asList(new MyNumber(5), new MyNumber(3));
@@ -35,6 +50,10 @@ class TestStringVisitor {
         assertEquals("+ (5, 3)", visitor.getResult());
     }
 
+    /**
+     * Test that an operation is correctly converted to postfix notation
+     * Example: "(5, 3) +"
+     */
     @Test
     void testOperationToStringPostfix() throws IllegalConstruction {
         List<Expression> params = Arrays.asList(new MyNumber(5), new MyNumber(3));
@@ -44,6 +63,10 @@ class TestStringVisitor {
         assertEquals("(5, 3) +", visitor.getResult());
     }
 
+    /**
+     * Test that a complex expression is correctly converted to string
+     * Tests nested operations: (5 + 3) * 2
+     */
     @Test
     void testComplexExpression() throws IllegalConstruction {
         // Create expression: (5 + 3) * 2
