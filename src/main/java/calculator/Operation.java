@@ -1,6 +1,5 @@
 package calculator;
 
-import visitor.NotationVisitor;
 import visitor.Visitor;
 import visitor.StringVisitor;
 import visitor.CountingVisitor;

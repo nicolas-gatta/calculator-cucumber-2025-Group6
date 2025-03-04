@@ -1,7 +1,7 @@
 package calculator;
 
-import visitor.NotationVisitor;
 import visitor.Visitor;
+import visitor.CountingVisitor;
 
 /**
  * Expression is an abstract class that represents arithmetic expressions.
@@ -29,7 +29,11 @@ public interface Expression {
     * @return The depth of an arithmetic expression
     * @see visitor.CountingVisitor
     */
-   int countDepth();
+   default int countDepth() {
+      CountingVisitor cv = new CountingVisitor();
+      this.accept(cv);
+      return cv.getDepth();
+   }
 
    /**
     * Counts the number of operations recursively contained in an arithmetic expression.
@@ -41,7 +45,11 @@ public interface Expression {
     * @return The number of operations contained in an arithmetic expression
     * @see visitor.CountingVisitor
     */
-   int countOps();
+   default int countOps() {
+      CountingVisitor cv = new CountingVisitor();
+      this.accept(cv);
+      return cv.getOperations();
+   }
 
    /**
     * Counts the number of values recursively contained in an arithmetic expression.
@@ -53,5 +61,9 @@ public interface Expression {
     * @return The number of values contained in an arithmetic expression
     * @see visitor.CountingVisitor
     */
-   int countNbs();
+   default int countNbs() {
+      CountingVisitor cv = new CountingVisitor();
+      this.accept(cv);
+      return cv.getNumbers();
+   }
 }
