@@ -3,6 +3,7 @@ package visitor;
 import calculator.MyNumber;
 import calculator.Operation;
 import calculator.Expression;
+import calculator.RealNumber;
 
 /**
  * A visitor that counts various metrics of an expression tree:
@@ -33,6 +34,19 @@ public class CountingVisitor extends Visitor {
      */
     @Override
     public void visit(MyNumber n) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+    /**
+     * Visits a real number node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param n The real number node being visited
+     */
+    @Override
+    public void visit(RealNumber n) {
         numbers = 1;
         operations = 0;
         depth = 0;

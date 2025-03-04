@@ -108,6 +108,14 @@ public abstract class Operation implements Expression
 	public abstract int op(int l, int r);
 
 	/**
+	 * Abstract method representing the actual binary arithmetic operation to compute
+	 * @param l	 first argument of the binary operation
+	 * @param r	second argument of the binary operation
+	 * @return	result of computing the binary operation
+	 */
+	public abstract double opReal(double l, double r);
+
+	/**
 	 * Add more parameters to the existing list of parameters.
 	 * The new parameters are appended to the end of the existing list.
 	 *

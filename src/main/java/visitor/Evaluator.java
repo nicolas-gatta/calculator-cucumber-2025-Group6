@@ -3,6 +3,7 @@ package visitor;
 import calculator.Expression;
 import calculator.MyNumber;
 import calculator.Operation;
+import calculator.RealNumber;
 
 import java.util.ArrayList;
 
@@ -19,17 +20,18 @@ public class Evaluator extends Visitor {
     public Evaluator() {}
 
     /** The result of the evaluation will be stored in this private variable */
-    private int computedValue;
+    private double computedValue;
 
     /** getter method to obtain the result of the evaluation
      *
-     * @return an Integer object containing the result of the evaluation
+     * @return a Double object containing the result of the evaluation
      */
-    public Integer getResult() {
+    public Double getResult() {
         if (error != null) {
             return null;
         }
-        return computedValue; }
+        return computedValue;
+    }
 
     public String getError() { return error; }
     /** Use the visitor design pattern to visit a number.
@@ -46,17 +48,17 @@ public class Evaluator extends Visitor {
      */
     public void visit(Operation o) {
         try {
-            ArrayList<Integer> evaluatedArgs = new ArrayList<>();
+            ArrayList<Double> evaluatedArgs = new ArrayList<>();
             //first loop to recursively evaluate each subexpression
             for (Expression a : o.args) {
                 a.accept(this);
                 evaluatedArgs.add(computedValue);
             }
             //second loop to accumulate all the evaluated subresults
-            int temp = evaluatedArgs.get(0);
+            double temp = evaluatedArgs.get(0);
             int max = evaluatedArgs.size();
             for (int counter = 1; counter < max; counter++) {
-                temp = o.op(temp, evaluatedArgs.get(counter));
+                temp = o.opReal(temp, evaluatedArgs.get(counter));
             }
             // store the accumulated result
             computedValue = temp;
@@ -65,7 +67,11 @@ public class Evaluator extends Visitor {
         catch(ArithmeticException e) {
             this.error = "NaN";
         }
+    }
 
+    @Override
+    public void visit(RealNumber n) {
+        computedValue = n.getValue();
     }
 
 }

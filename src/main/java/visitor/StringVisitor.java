@@ -3,6 +3,7 @@ package visitor;
 import calculator.Operation;
 import calculator.MyNumber;
 import calculator.Notation;
+import calculator.RealNumber;
 
 import java.util.stream.Stream;
 
@@ -32,6 +33,16 @@ public class StringVisitor extends Visitor {
     @Override
     public void visit(MyNumber n) {
         result = n.getValue().toString();
+    }
+
+    /**
+     * Visits a real number node and converts it to its string representation.
+     *
+     * @param n The real number node being visited
+     */
+    @Override
+    public void visit(RealNumber n) {
+        result = n.toString();
     }
 
     /**
