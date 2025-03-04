@@ -1,9 +1,17 @@
 package calculator;
 
 /**
- * Utility class for converting between degrees and radians
+ * Utility class for converting angles between degrees and radians.
  */
 public class AngleConverter {
+    
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private AngleConverter() {
+        // Utility class should not be instantiated
+    }
+
     /**
      * Converts an angle from degrees to radians
      * @param degrees The angle in degrees

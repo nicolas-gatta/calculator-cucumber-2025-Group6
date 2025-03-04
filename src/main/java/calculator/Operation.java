@@ -86,26 +86,20 @@ public abstract class Operation implements Expression
 
 
 	/**
-	 * Abstract method representing the actual binary arithmetic operation to compute.
-	 * Each concrete operation class must implement this method to define its behavior.
-	 *
-	 * @param l first argument of the binary operation
-	 * @param r second argument of the binary operation
-	 * @return result of computing the binary operation
-	 * getter method to return the symbol
-	 *
-	 * @return	The symbol of the arithmetic operation.
+	 * Abstract method that defines how to combine two operands with the operation.
+	 * @param left first argument of the binary operation
+	 * @param right second argument of the binary operation
+	 * @return result of applying the operation
 	 */
-	public String getSymbol() { return symbol;}
-
+	public abstract int op(int left, int right);
 
 	/**
-	 * Abstract method representing the actual binary arithmetic operation to compute
-	 * @param l	 first argument of the binary operation
-	 * @param r	second argument of the binary operation
-	 * @return	result of computing the binary operation
+	 * Gets the symbol of this operation.
+	 * @return The symbol of the arithmetic operation.
 	 */
-	public abstract int op(int l, int r);
+	public String getSymbol() {
+		return symbol;
+	}
 
 	/**
 	 * Abstract method representing the actual binary arithmetic operation to compute

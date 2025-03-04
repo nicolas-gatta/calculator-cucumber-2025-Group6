@@ -121,7 +121,8 @@ public class Main {
 	}
 
 	/**
-	 * Main method demonstrating both integer and real number operations
+	 * Main entry point of the calculator application.
+	 * @param args Command line arguments (not used)
 	 */
 	public static void main(String[] args) {
 		//demonstrateIntegerOperations();

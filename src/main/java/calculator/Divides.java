@@ -47,10 +47,16 @@ public final class Divides extends Operation
      * @return The integer that is the result of the division
      */
   public int op(int l, int r)
-    { return (l/r); }
+    {
+        if (r == 0) return 0; // division by zero
+        return l / r;
+    }
 
     @Override
     public double opReal(double l, double r) {
+        if (r == 0.0) {
+            return Double.NaN; // division by zero with real numbers
+        }
         return l / r;
     }
 }

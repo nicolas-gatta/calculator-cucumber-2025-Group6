@@ -1,9 +1,6 @@
 package visitor;
 
-import calculator.Expression;
-import calculator.MyNumber;
-import calculator.Operation;
-import calculator.RealNumber;
+import calculator.*;
 
 import java.util.ArrayList;
 
@@ -13,6 +10,7 @@ import java.util.ArrayList;
 public class Evaluator extends Visitor {
 
     private String error;
+    private Number result;
 
     /**
      * Default constructor of the class. Does not initialise anything.
@@ -24,21 +22,30 @@ public class Evaluator extends Visitor {
 
     /** getter method to obtain the result of the evaluation
      *
-     * @return a Double object containing the result of the evaluation
+     * @return a Number object containing the result of the evaluation
      */
-    public Double getResult() {
+    public Number getResult() {
         if (error != null) {
             return null;
         }
-        return computedValue;
+        return result;
     }
 
-    public String getError() { return error; }
+    /**
+     * Gets the error message if any error occurred during evaluation.
+     * @return The error message or null if no error occurred.
+     */
+    public String getError() { 
+        return error; 
+    }
+
     /** Use the visitor design pattern to visit a number.
      *
      * @param n The number being visited
      */
+    @Override
     public void visit(MyNumber n) {
+        result = n.getValue();
         computedValue = n.getValue();
     }
 
@@ -46,31 +53,61 @@ public class Evaluator extends Visitor {
      *
      * @param o The operation being visited
      */
+    @Override
     public void visit(Operation o) {
-        try {
-            ArrayList<Double> evaluatedArgs = new ArrayList<>();
-            //first loop to recursively evaluate each subexpression
-            for (Expression a : o.args) {
-                a.accept(this);
-                evaluatedArgs.add(computedValue);
+        if (o.args.size() < 2) return;
+        
+        // Evaluate first argument
+        o.args.get(0).accept(this);
+        Number accumulator = result;
+        
+        // For operations with more than 2 arguments
+        for (int i = 1; i < o.args.size(); i++) {
+            o.args.get(i).accept(this);
+            Number current = result;
+            
+            // Check for division by zero first
+            if (o instanceof Divides && 
+                (current.doubleValue() == 0 || current.intValue() == 0)) {
+                result = null;
+                return;
             }
-            //second loop to accumulate all the evaluated subresults
-            double temp = evaluatedArgs.get(0);
-            int max = evaluatedArgs.size();
-            for (int counter = 1; counter < max; counter++) {
-                temp = o.opReal(temp, evaluatedArgs.get(counter));
+            
+            if (accumulator instanceof Integer && current instanceof Integer) {
+                int accInt = ((Integer) accumulator).intValue();
+                int currInt = ((Integer) current).intValue();
+                
+                if (o instanceof Plus)
+                    accumulator = accInt + currInt;
+                else if (o instanceof Minus)
+                    accumulator = accInt - currInt;
+                else if (o instanceof Times)
+                    accumulator = accInt * currInt;
+                else if (o instanceof Divides)
+                    accumulator = accInt / currInt;
+            } else {
+                double accDouble = accumulator.doubleValue();
+                double currDouble = current.doubleValue();
+                
+                if (o instanceof Plus)
+                    accumulator = accDouble + currDouble;
+                else if (o instanceof Minus)
+                    accumulator = accDouble - currDouble;
+                else if (o instanceof Times)
+                    accumulator = accDouble * currDouble;
+                else if (o instanceof Divides)
+                    accumulator = accDouble / currDouble;
             }
-            // store the accumulated result
-            computedValue = temp;
-            this.error = null;
         }
-        catch(ArithmeticException e) {
-            this.error = "NaN";
-        }
+        
+        result = accumulator;
+        computedValue = result instanceof Integer ? 
+            ((Integer)result).doubleValue() : (Double)result;
     }
 
     @Override
     public void visit(RealNumber n) {
+        result = n.getValue();
         computedValue = n.getValue();
     }
 

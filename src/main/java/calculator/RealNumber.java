@@ -16,6 +16,9 @@ public class RealNumber implements Expression {
      * @param precision The number of significant digits to display
      */
     public RealNumber(double value, int precision) {
+        if (precision <= 0) {
+            throw new IllegalArgumentException("Precision must be positive");
+        }
         this.value = value;
         this.precision = precision;
     }
@@ -41,6 +44,9 @@ public class RealNumber implements Expression {
      * @param precision The number of significant digits to display
      */
     public void setPrecision(int precision) {
+        if (precision <= 0) {
+            throw new IllegalArgumentException("Precision must be positive");
+        }
         this.precision = precision;
     }
 
