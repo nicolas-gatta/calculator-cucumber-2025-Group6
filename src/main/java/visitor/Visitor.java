@@ -9,6 +9,12 @@ import calculator.Operation;
 public abstract class Visitor {
 
     /**
+     * Default constructor for the Visitor class.
+     */
+    protected Visitor() {
+    }
+
+    /**
      * The Visitor can traverse a number (a subtype of Expression)
      *
      * @param n The number being visited

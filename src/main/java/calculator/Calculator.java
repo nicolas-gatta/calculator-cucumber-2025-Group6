@@ -1,7 +1,6 @@
 package calculator;
 
 import visitor.Evaluator;
-import visitor.NotationVisitor;
 
 /**
  * This class represents the core logic of a Calculator.
@@ -43,9 +42,6 @@ public class Calculator {
      * @param e the arithmetic Expression to be printed
      */
     public void printExpressionDetails(Expression e) {
-        Notation n = (e instanceof Operation) ? ((Operation) e).notation : Notation.INFIX;
-        NotationVisitor visitor = new NotationVisitor(n);
-        e.accept(visitor);
         print(e);
         System.out.print("It contains " + e.countDepth() + " levels of nested expressions, ");
         System.out.print(e.countOps() + " operations");

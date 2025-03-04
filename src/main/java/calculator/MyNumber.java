@@ -1,8 +1,8 @@
 package calculator;
 
-import visitor.NotationVisitor;
 import visitor.Visitor;
-
+import visitor.StringVisitor;
+import visitor.CountingVisitor;
 /**
  * MyNumber is a concrete class that represents arithmetic numbers,
  * which are a special kind of Expressions, just like operations are.
@@ -12,16 +12,17 @@ import visitor.Visitor;
  */
 public class MyNumber implements Expression
 {
+  /** The integer value contained in the MyNumber object */
   private final int value;
 
-    /** getter method to obtain the value contained in the object
+    /** Getter method to obtain the value contained in the object
      *
      * @return The integer number contained in the object
      */
   public Integer getValue() { return value; }
 
     /**
-     * Constructor method
+     * Constructor method to create a new MyNumber with a specific value.
      *
      * @param v The integer value to be contained in the object
      */
@@ -30,50 +31,71 @@ public class MyNumber implements Expression
 	  }
 
     /**
-     * accept method to implement the visitor design pattern to traverse arithmetic expressions.
+     * Accept method to implement the visitor design pattern to traverse arithmetic expressions.
      * Each number will pass itself to the visitor object to get processed by the visitor.
      *
-     * @param v	The visitor object
+     * @param v The visitor object that will process this number
      */
   public void accept(Visitor v) {
       v.visit(this);
   }
 
-
-    /** The depth of a number expression is always 0
-     *
-     * @return The depth of a number expression
-     */
-  public int countDepth() {
-	  return 0;
+  /**
+   * Count the depth of a number expression using a CountingVisitor.
+   * This implementation uses a CountingVisitor to traverse the expression
+   * and compute its depth. For a MyNumber, this will always return 0.
+   *
+   * @return The depth of the number expression
+   * @see CountingVisitor
+   */
+  @Override
+  public final int countDepth() {
+      CountingVisitor cv = new CountingVisitor();
+      this.accept(cv);
+      return cv.getDepth();
   }
 
-    /** The number of operations contained in a number expression is always 0
-     *
-     * @return The number of operations contained in a number expression
-     */
-  public int countOps() {
-	  return 0;
+  /**
+   * Count the number of operations in this expression using a CountingVisitor.
+   * This implementation uses a CountingVisitor to traverse the expression
+   * and count its operations. For a MyNumber, this will always return 0.
+   *
+   * @return The number of operations
+   * @see CountingVisitor
+   */
+  @Override
+  public final int countOps() {
+      CountingVisitor cv = new CountingVisitor();
+      this.accept(cv);
+      return cv.getOperations();
   }
 
-    /** The number of numbers contained in a number expression is always 1
-     *
-     * @return The number of numbers contained in  a number expression
-     */
-  public int countNbs() {
-	  return 1;
+  /**
+   * Count the number of numbers in this expression using a CountingVisitor.
+   * This implementation uses a CountingVisitor to traverse the expression
+   * and count its numbers. For a MyNumber, this will always return 1.
+   *
+   * @return The number of numbers
+   * @see CountingVisitor
+   */
+  @Override
+  public final int countNbs() {
+      CountingVisitor cv = new CountingVisitor();
+      this.accept(cv);
+      return cv.getNumbers();
   }
 
-    /**
-     * Convert a number into a String to allow it to be printed.
-     *
-     * @return	The String that is the result of the conversion.
-     */
+  /**
+   * Convert the number to its string representation using a StringVisitor.
+   *
+   * @return The string representation of the number
+   */
   @Override
   public String toString() {
-	  return Integer.toString(value);
+      StringVisitor sv = new StringVisitor(Notation.INFIX);
+      this.accept(sv);
+      return sv.getResult();
   }
-
   /** Two MyNumber expressions are equal if the values they contain are equal
    *
    * @param o The object to compare to
@@ -85,14 +107,11 @@ public class MyNumber implements Expression
       if (o == null) return false;
 
       // If the object is compared to itself then return true
-      if (o == this) {
-          return true;
-      }
+      if (o == this) return true;
 
       // If the object is of another type then return false
-      if (!(o instanceof MyNumber)) {
-            return false;
-      }
+      if (!(o instanceof MyNumber)) return false;
+
       return this.value == ((MyNumber)o).value;
       // Used == since the contained value is a primitive value
       // If it had been a Java object, .equals() would be needed
