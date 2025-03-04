@@ -1,5 +1,6 @@
 package calculator;
 
+import visitor.NotationVisitor;
 import visitor.Visitor;
 import visitor.StringVisitor;
 import visitor.CountingVisitor;
@@ -84,17 +85,6 @@ public abstract class Operation implements Expression
   	return args;
   }
 
-	/**
-	 * Returns the symbol representing this operation (e.g., "+", "-", "*", "/").
-	 * This symbol is used when converting the operation to a string representation.
-	 *
-	 * @return The string symbol of the operation
-	 * @see #toString()
-	 * @see visitor.StringVisitor
-	 */
-	public String getSymbol() {
-		return symbol;
-	}
 
 	/**
 	 * Abstract method representing the actual binary arithmetic operation to compute.
@@ -103,6 +93,18 @@ public abstract class Operation implements Expression
 	 * @param l first argument of the binary operation
 	 * @param r second argument of the binary operation
 	 * @return result of computing the binary operation
+	 * getter method to return the symbol
+	 *
+	 * @return	The symbol of the arithmetic operation.
+	 */
+	public String getSymbol() { return symbol;}
+
+
+	/**
+	 * Abstract method representing the actual binary arithmetic operation to compute
+	 * @param l	 first argument of the binary operation
+	 * @param r	second argument of the binary operation
+	 * @return	result of computing the binary operation
 	 */
 	public abstract int op(int l, int r);
 

@@ -1,6 +1,7 @@
 package calculator;
 
 import visitor.Evaluator;
+import visitor.NotationVisitor;
 
 /**
  * This class represents the core logic of a Calculator.
@@ -28,7 +29,7 @@ public class Calculator {
     /**
      * Prints an arithmetic expression provided as input parameter.
      * @param e the arithmetic Expression to be printed
-     * @see #printExpressionDetails(Expression) 
+     * @see #print(Expression)
      */
     public void print(Expression e) {
         System.out.println("The result of evaluating expression " + e);
@@ -36,12 +37,15 @@ public class Calculator {
         System.out.println();
     }
 
+
     /**
      * Prints verbose details of an arithmetic expression provided as input parameter.
      * @param e the arithmetic Expression to be printed
-     * @see #print(Expression)
      */
     public void printExpressionDetails(Expression e) {
+        Notation n = (e instanceof Operation) ? ((Operation) e).notation : Notation.INFIX;
+        NotationVisitor visitor = new NotationVisitor(n);
+        e.accept(visitor);
         print(e);
         System.out.print("It contains " + e.countDepth() + " levels of nested expressions, ");
         System.out.print(e.countOps() + " operations");
@@ -54,7 +58,7 @@ public class Calculator {
      * @param e the arithmetic Expression to be evaluated
      * @return The result of the evaluation
      */
-    public int eval(Expression e) {
+    public Integer eval(Expression e) {
         // create a new visitor to evaluate expressions
         Evaluator v = new Evaluator();
         // and ask the expression to accept this visitor to start the evaluation process

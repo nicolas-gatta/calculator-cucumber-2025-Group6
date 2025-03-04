@@ -12,13 +12,14 @@ import java.util.List;
 class TestEvaluator {
 
     private Calculator calc;
-    private int value1, value2;
+    private int value1, value2, value3;
 
     @BeforeEach
     void setUp() {
         calc = new Calculator();
         value1 = 8;
         value2 = 6;
+        value3 = 0;
     }
 
     @Test
@@ -40,6 +41,16 @@ class TestEvaluator {
                 case "/"	->	assertEquals( value1 / value2, calc.eval(new Divides(params)));
                 default		->	fail();
             }
+        } catch (IllegalConstruction e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testDivideByZero() {
+        List<Expression> params = Arrays.asList(new MyNumber(value1),new MyNumber(value3));
+        try {
+            assertNull(calc.eval(new Divides(params)));
         } catch (IllegalConstruction e) {
             fail();
         }

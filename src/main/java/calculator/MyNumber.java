@@ -1,5 +1,6 @@
 package calculator;
 
+import visitor.NotationVisitor;
 import visitor.Visitor;
 import visitor.StringVisitor;
 import visitor.CountingVisitor;
@@ -127,5 +128,4 @@ public class MyNumber implements Expression
   public int hashCode() {
 		return value;
   }
-
 }
