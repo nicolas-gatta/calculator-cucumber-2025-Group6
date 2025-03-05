@@ -86,10 +86,12 @@ public abstract class Operation implements Expression
 
 
 	/**
-	 * Abstract method that defines how to combine two operands with the operation.
+	 * Abstract method representing the actual binary arithmetic operation to compute.
+	 * Each concrete operation class must implement this method to define its behavior.
+	 *
 	 * @param left first argument of the binary operation
 	 * @param right second argument of the binary operation
-	 * @return result of applying the operation
+	 * @return result of computing the binary operation
 	 */
 	public abstract int op(int left, int right);
 

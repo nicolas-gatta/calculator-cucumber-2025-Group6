@@ -33,8 +33,8 @@ public class Evaluator extends Visitor {
      * Gets the error message if any error occurred during evaluation.
      * @return The error message or null if no error occurred.
      */
-    public String getError() { 
-        return error; 
+    public String getError() {
+        return error;
     }
 
     /** Use the visitor design pattern to visit a number.
@@ -54,27 +54,27 @@ public class Evaluator extends Visitor {
     @Override
     public void visit(Operation o) {
         if (o.args.size() < 2) return;
-        
+
         // Evaluate first argument
         o.args.get(0).accept(this);
         Number accumulator = result;
-        
+
         // For operations with more than 2 arguments
         for (int i = 1; i < o.args.size(); i++) {
             o.args.get(i).accept(this);
             Number current = result;
-            
+
             // Check for division by zero first
-            if (o instanceof Divides && 
+            if (o instanceof Divides &&
                 (current.doubleValue() == 0 || current.intValue() == 0)) {
                 result = null;
                 return;
             }
-            
+
             if (accumulator instanceof Integer && current instanceof Integer) {
                 int accInt = ((Integer) accumulator).intValue();
                 int currInt = ((Integer) current).intValue();
-                
+
                 if (o instanceof Plus)
                     accumulator = accInt + currInt;
                 else if (o instanceof Minus)
@@ -86,7 +86,7 @@ public class Evaluator extends Visitor {
             } else {
                 double accDouble = accumulator.doubleValue();
                 double currDouble = current.doubleValue();
-                
+
                 if (o instanceof Plus)
                     accumulator = accDouble + currDouble;
                 else if (o instanceof Minus)
@@ -97,9 +97,9 @@ public class Evaluator extends Visitor {
                     accumulator = accDouble / currDouble;
             }
         }
-        
+
         result = accumulator;
-        computedValue = result instanceof Integer ? 
+        computedValue = result instanceof Integer ?
             ((Integer)result).doubleValue() : (Double)result;
     }
 
