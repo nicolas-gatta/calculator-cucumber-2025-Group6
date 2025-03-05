@@ -31,7 +31,14 @@ public class Evaluator extends Visitor {
         }
         return computedValue; }
 
-    public String getError() { return error; }
+    /**
+     * Gets the error message if any error occurred during evaluation.
+     * @return The error message or null if no error occurred.
+     */
+    public String getError() {
+        return error;
+    }
+
     /** Use the visitor design pattern to visit a number.
      *
      * @param n The number being visited
