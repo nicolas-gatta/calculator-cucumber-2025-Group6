@@ -1,5 +1,7 @@
 package calculator;
 
+import calculator.numbers.MyNumber;
+import calculator.operations.Operation;
 import visitor.Visitor;
 import visitor.CountingVisitor;
 

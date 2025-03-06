@@ -1,6 +1,8 @@
 package visitor;
 
-import calculator.*;
+import calculator.numbers.MyNumber;
+import calculator.numbers.RealNumber;
+import calculator.operations.*;
 
 /** Evaluation is a concrete visitor that serves to
  * compute and evaluate the results of arithmetic expressions.

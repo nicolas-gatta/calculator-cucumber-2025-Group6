@@ -1,9 +1,9 @@
 package visitor;
 
-import calculator.Operation;
-import calculator.MyNumber;
+import calculator.operations.Operation;
+import calculator.numbers.MyNumber;
 import calculator.Notation;
-import calculator.RealNumber;
+import calculator.numbers.RealNumber;
 
 import java.util.stream.Stream;
 

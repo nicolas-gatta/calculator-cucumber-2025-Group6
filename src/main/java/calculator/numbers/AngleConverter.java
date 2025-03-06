@@ -1,4 +1,4 @@
-package calculator;
+package calculator.numbers;
 
 /**
  * Utility class for converting angles between degrees and radians.

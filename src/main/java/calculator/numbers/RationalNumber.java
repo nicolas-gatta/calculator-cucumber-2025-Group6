@@ -1,4 +1,4 @@
-package calculator;
+package calculator.numbers;
 
 /**
  * Class representing a rational number as a fraction of two integers.

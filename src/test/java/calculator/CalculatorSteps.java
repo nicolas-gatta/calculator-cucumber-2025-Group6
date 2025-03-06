@@ -2,6 +2,8 @@ package calculator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import calculator.numbers.MyNumber;
+import calculator.operations.*;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

@@ -1,6 +1,10 @@
 package visitor;
 
 import calculator.*;
+import calculator.numbers.MyNumber;
+import calculator.operations.Operation;
+import calculator.operations.Plus;
+import calculator.operations.Times;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

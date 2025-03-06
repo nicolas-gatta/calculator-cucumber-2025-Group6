@@ -1,5 +1,8 @@
-package calculator;
+package calculator.numbers;
 
+import calculator.Expression;
+import calculator.Notation;
+import calculator.operations.Operation;
 import visitor.Visitor;
 import visitor.StringVisitor;
 import visitor.CountingVisitor;

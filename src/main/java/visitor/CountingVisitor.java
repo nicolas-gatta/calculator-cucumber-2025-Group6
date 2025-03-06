@@ -1,9 +1,9 @@
 package visitor;
 
-import calculator.MyNumber;
-import calculator.Operation;
+import calculator.numbers.MyNumber;
+import calculator.operations.Operation;
 import calculator.Expression;
-import calculator.RealNumber;
+import calculator.numbers.RealNumber;
 
 /**
  * A visitor that counts various metrics of an expression tree:

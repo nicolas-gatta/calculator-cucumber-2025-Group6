@@ -1,4 +1,7 @@
-package calculator;
+package calculator.operations;
+
+import calculator.*;
+import calculator.numbers.RationalNumber;
 
 import java.util.List;
 
@@ -18,7 +21,7 @@ public final class Plus extends Operation
    *
    * @param elist The list of Expressions to add
    * @throws IllegalConstruction    If an empty list of expressions if passed as parameter
-   * @see #Plus(List<Expression>,Notation)
+   * @see #Plus(List< Expression >,Notation)
    */
   public /*constructor*/ Plus(List<Expression> elist) throws IllegalConstruction {
 	this(elist, null);

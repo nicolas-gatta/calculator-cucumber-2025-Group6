@@ -1,8 +1,8 @@
 package visitor;
 
-import calculator.MyNumber;
-import calculator.Operation;
-import calculator.RealNumber;
+import calculator.numbers.MyNumber;
+import calculator.operations.Operation;
+import calculator.numbers.RealNumber;
 
 /**
  * Visitor that converts numbers to scientific notation

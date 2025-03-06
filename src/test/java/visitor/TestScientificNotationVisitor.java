@@ -1,6 +1,7 @@
 package visitor;
 
-import calculator.*;
+import calculator.numbers.MyNumber;
+import calculator.numbers.RealNumber;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
