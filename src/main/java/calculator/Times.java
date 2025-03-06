@@ -52,4 +52,9 @@ public final class Times extends Operation
   public double opReal(double l, double r) {
     return l * r;
   }
+
+  @Override
+  public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+    return l.multiply(r);
+  }
 }

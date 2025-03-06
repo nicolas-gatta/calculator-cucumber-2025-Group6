@@ -222,4 +222,13 @@ public abstract class Operation implements Expression
 		return result;
 	}
 
+	/**
+	 * Abstract method representing the actual binary arithmetic operation to compute
+	 * for rational numbers.
+	 * @param l The first RationalNumber
+	 * @param r The second RationalNumber
+	 * @return The result of the operation as a RationalNumber
+	 */
+	public abstract RationalNumber opRational(RationalNumber l, RationalNumber r);
+
 }

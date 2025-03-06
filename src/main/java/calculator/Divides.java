@@ -59,4 +59,9 @@ public final class Divides extends Operation
         }
         return l / r;
     }
+
+    @Override
+    public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+        return l.divide(r);
+    }
 }

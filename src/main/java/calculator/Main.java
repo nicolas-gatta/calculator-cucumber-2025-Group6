@@ -121,12 +121,52 @@ public class Main {
 	}
 
 	/**
+	 * Shows examples of rational number operations
+	 */
+	public static void demonstrateRationalOperations() {
+		System.out.println("\n=== Rational Number Operations Examples ===");
+
+		// Create some rational numbers
+		RationalNumber r1 = new RationalNumber(1, 2); // 1/2
+		RationalNumber r2 = new RationalNumber(3, 4); // 3/4
+		RationalNumber r3 = new RationalNumber(6, 12); // 6/12
+		RationalNumber r4 = new RationalNumber(0, 1); // 0/1
+
+		// Addition
+		RationalNumber sum = r1.add(r2);
+		System.out.println(r1 + " + " + r2 + " = " + sum); // Should print 5/4
+
+		// Subtraction
+		RationalNumber difference = r1.subtract(r2);
+		System.out.println(r1 + " - " + r2 + " = " + difference); // Should print -1/4
+
+		// Multiplication
+		RationalNumber product = r1.multiply(r2);
+		System.out.println(r1 + " * " + r2 + " = " + product); // Should print 3/8
+
+		// Division
+		RationalNumber quotient = r1.divide(r2);
+		System.out.println(r1 + " / " + r2 + " = " + quotient); // Should print 2/3
+
+		// Simplification
+		System.out.println("Simplifying " + r3 + " gives " + r3); // Should print 1/2
+
+		// Division by zero
+		try {
+			RationalNumber result = r1.divide(r4); // This should throw an exception
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error: " + e.getMessage()); // Should print "Cannot divide by zero."
+		}
+	}
+
+	/**
 	 * Main entry point of the calculator application.
 	 * @param args Command line arguments (not used)
 	 */
 	public static void main(String[] args) {
 		//demonstrateIntegerOperations();
-		demonstrateRealOperations();
+		//demonstrateRealOperations();
+		demonstrateRationalOperations();
 	}
 
 }
