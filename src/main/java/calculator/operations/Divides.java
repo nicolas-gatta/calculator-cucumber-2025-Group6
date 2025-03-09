@@ -4,6 +4,7 @@ import calculator.Expression;
 import calculator.IllegalConstruction;
 import calculator.Notation;
 import calculator.numbers.RationalNumber;
+import calculator.numbers.ComplexNumber;
 
 import java.util.List;
 
@@ -67,6 +68,11 @@ public final class Divides extends Operation
 
     @Override
     public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+        return l.divide(r);
+    }
+
+    @Override
+    public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
         return l.divide(r);
     }
 }

@@ -2,7 +2,7 @@ package calculator.operations;
 
 import calculator.*;
 import calculator.numbers.RationalNumber;
-
+import calculator.numbers.ComplexNumber;
 import java.util.List;
 
 /** This class represents the arithmetic multiplication operation "*".
@@ -58,6 +58,11 @@ public final class Times extends Operation
 
   @Override
   public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+    return l.multiply(r);
+  }
+
+  @Override
+  public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
     return l.multiply(r);
   }
 }

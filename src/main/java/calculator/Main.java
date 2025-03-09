@@ -4,6 +4,7 @@ import calculator.numbers.AngleConverter;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RationalNumber;
 import calculator.numbers.RealNumber;
+import calculator.numbers.ComplexNumber;
 import calculator.operations.Divides;
 import calculator.operations.Minus;
 import calculator.operations.Plus;
@@ -169,13 +170,40 @@ public class Main {
 	}
 
 	/**
+	 * Shows examples of complex number operations
+	 */
+	public static void demonstrateComplexOperations() {
+		System.out.println("\n=== Complex Number Operations Examples ===");
+
+		ComplexNumber c1 = new ComplexNumber(3, 4); // 3 + 4i
+		ComplexNumber c2 = new ComplexNumber(1, 2); // 1 + 2i
+
+		// Addition
+		ComplexNumber sum = c1.add(c2);
+		System.out.println("Sum: " + sum); // Should print "Sum: 4.0 + 6.0i"
+
+		// Soustraction
+		ComplexNumber difference = c1.subtract(c2);
+		System.out.println("Subtraction: " + difference); // Should print "Subtraction: 2.0 + 2.0i"
+
+		// Multiplication
+		ComplexNumber product = c1.multiply(c2);
+		System.out.println("Product: " + product); // Should print "Product: -5.0 + 10.0i"
+
+		// Division
+		ComplexNumber quotient = c1.divide(c2);
+		System.out.println("Quotient: " + quotient); // Should print "Quotient: 2.2 + 0.4i"
+	}
+
+	/**
 	 * Main entry point of the calculator application.
 	 * @param args Command line arguments (not used)
 	 */
 	public static void main(String[] args) {
 		//demonstrateIntegerOperations();
 		//demonstrateRealOperations();
-		demonstrateRationalOperations();
+		//demonstrateRationalOperations();
+		demonstrateComplexOperations();
 	}
 
 }

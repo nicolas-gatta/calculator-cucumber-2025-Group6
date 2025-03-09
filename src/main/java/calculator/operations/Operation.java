@@ -3,6 +3,7 @@ package calculator.operations;
 import calculator.*;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RationalNumber;
+import calculator.numbers.ComplexNumber;
 import visitor.Visitor;
 import visitor.StringVisitor;
 import visitor.CountingVisitor;
@@ -234,4 +235,12 @@ public abstract class Operation implements Expression
 	 */
 	public abstract RationalNumber opRational(RationalNumber l, RationalNumber r);
 
+	/**
+	 * Abstract method representing the actual binary arithmetic operation to compute
+	 * for complex numbers.
+	 * @param l The first ComplexNumber
+	 * @param r The second ComplexNumber
+	 * @return The result of the operation as a ComplexNumber
+	 */
+	public abstract ComplexNumber opComplex(ComplexNumber l, ComplexNumber r);
 }

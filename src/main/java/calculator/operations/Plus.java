@@ -2,7 +2,7 @@ package calculator.operations;
 
 import calculator.*;
 import calculator.numbers.RationalNumber;
-
+import calculator.numbers.ComplexNumber;
 import java.util.List;
 
 /** This class represents the arithmetic sum operation "+".
@@ -60,6 +60,11 @@ public final class Plus extends Operation
 
   @Override
   public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+    return l.add(r);
+  }
+
+  @Override
+  public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
     return l.add(r);
   }
 }
