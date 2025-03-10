@@ -37,6 +37,9 @@ jobs:
     - id: mvn
       name: Build with Maven (including running all tests and generating coverage report)
       run: mvn clean test jacoco:report --file pom.xml
+
+    - name: List files in target directory
+      run: ls -R target/
       
     - id: testreport
       name: Publish Test Report
