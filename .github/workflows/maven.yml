@@ -35,8 +35,8 @@ jobs:
         cache: 'maven'
         
     - id: mvn
-      name: Build with Maven (including running all tests)
-      run: mvn -B package --file pom.xml
+      name: Build with Maven (including running all tests and generating coverage report)
+      run: mvn clean test jacoco:report --file pom.xml
       
     - id: testreport
       name: Publish Test Report
