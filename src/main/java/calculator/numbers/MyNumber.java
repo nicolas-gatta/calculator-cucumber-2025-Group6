@@ -4,7 +4,6 @@ import calculator.Expression;
 import calculator.Notation;
 import calculator.operations.Operation;
 import visitor.Visitor;
-import visitor.StringVisitor;
 import visitor.CountingVisitor;
 /**
  * MyNumber is a concrete class that represents arithmetic numbers,
@@ -15,23 +14,21 @@ import visitor.CountingVisitor;
  */
 public class MyNumber implements Expression
 {
-  /** The integer value contained in the MyNumber object */
-  private final int value;
+    /** The integer value contained in the MyNumber object */
+    private final int value;
 
     /** Getter method to obtain the value contained in the object
      *
      * @return The integer number contained in the object
      */
-  public Integer getValue() { return value; }
+    public Integer getValue() { return value; }
 
     /**
      * Constructor method to create a new MyNumber with a specific value.
      *
      * @param v The integer value to be contained in the object
      */
-    public /*constructor*/ MyNumber(int v) {
-	  value=v;
-	  }
+    public /*constructor*/ MyNumber(int v) { value=v;}
 
     /**
      * Accept method to implement the visitor design pattern to traverse arithmetic expressions.
@@ -39,66 +36,63 @@ public class MyNumber implements Expression
      *
      * @param v The visitor object that will process this number
      */
-  public void accept(Visitor v) {
-      v.visit(this);
-  }
+    public void accept(Visitor v) {v.visit(this);}
 
-  /**
-   * Count the depth of a number expression using a CountingVisitor.
-   * This implementation uses a CountingVisitor to traverse the expression
-   * and compute its depth. For a MyNumber, this will always return 0.
-   *
-   * @return The depth of the number expression
-   * @see CountingVisitor
-   */
-  @Override
-  public final int countDepth() {
-      CountingVisitor cv = new CountingVisitor();
-      this.accept(cv);
-      return cv.getDepth();
-  }
+    /**
+     * Count the depth of a number expression using a CountingVisitor.
+     * This implementation uses a CountingVisitor to traverse the expression
+     * and compute its depth. For a MyNumber, this will always return 0.
+     *
+     * @return The depth of the number expression
+     * @see CountingVisitor
+     */
+    @Override
+    public final int countDepth() {
+        CountingVisitor cv = new CountingVisitor();
+        this.accept(cv);
+        return cv.getDepth();
+    }
 
-  /**
-   * Count the number of operations in this expression using a CountingVisitor.
-   * This implementation uses a CountingVisitor to traverse the expression
-   * and count its operations. For a MyNumber, this will always return 0.
-   *
-   * @return The number of operations
-   * @see CountingVisitor
-   */
-  @Override
-  public final int countOps() {
-      CountingVisitor cv = new CountingVisitor();
-      this.accept(cv);
-      return cv.getOperations();
-  }
+    /**
+     * Count the number of operations in this expression using a CountingVisitor.
+     * This implementation uses a CountingVisitor to traverse the expression
+     * and count its operations. For a MyNumber, this will always return 0.
+     *
+     * @return The number of operations
+     * @see CountingVisitor
+     */
+    @Override
+    public final int countOps() {
+        CountingVisitor cv = new CountingVisitor();
+        this.accept(cv);
+        return cv.getOperations();
+    }
 
-  /**
-   * Count the number of numbers in this expression using a CountingVisitor.
-   * This implementation uses a CountingVisitor to traverse the expression
-   * and count its numbers. For a MyNumber, this will always return 1.
-   *
-   * @return The number of numbers
-   * @see CountingVisitor
-   */
-  @Override
-  public final int countNbs() {
-      CountingVisitor cv = new CountingVisitor();
-      this.accept(cv);
-      return cv.getNumbers();
-  }
+    /**
+     * Count the number of numbers in this expression using a CountingVisitor.
+     * This implementation uses a CountingVisitor to traverse the expression
+     * and count its numbers. For a MyNumber, this will always return 1.
+     *
+     * @return The number of numbers
+     * @see CountingVisitor
+     */
+    @Override
+    public final int countNbs() {
+        CountingVisitor cv = new CountingVisitor();
+        this.accept(cv);
+        return cv.getNumbers();
+    }
 
-  /**
-   * Convert the number to its string representation using a StringVisitor.
-   *
-   * @return The string representation of the number
-   */
-  @Override
-  public String toString() {
-      StringVisitor sv = new StringVisitor(Notation.INFIX);
-      this.accept(sv);
-      return sv.getResult();
-  }
+    /**
+     * Convert the number to its string representation using a StringVisitor.
+     *
+     * @return The string representation of the number
+     */
+    @Override
+    public String toString() {
+        return toString(Notation.INFIX); // Default, INFIX
+    }
+
   /** Two MyNumber expressions are equal if the values they contain are equal
    *
    * @param o The object to compare to

@@ -4,7 +4,7 @@ import calculator.numbers.MyNumber;
 import calculator.operations.Operation;
 import visitor.Visitor;
 import visitor.CountingVisitor;
-
+import visitor.StringVisitor;
 /**
  * Expression is an abstract class that represents arithmetic expressions.
  * It has two concrete subclasses Operation and MyNumber.
@@ -67,5 +67,18 @@ public interface Expression {
       CountingVisitor cv = new CountingVisitor();
       this.accept(cv);
       return cv.getNumbers();
+   }
+
+   /**
+    * Returns the string representation of the expression in the specified notation.
+    *
+    * @param notation The notation to use for string conversion (INFIX, PREFIX, or POSTFIX)
+    * @return The string representation of the expression
+    * @see visitor.StringVisitor
+    */
+   default String toString(Notation notation) {
+      StringVisitor sv = new StringVisitor(notation);
+      this.accept(sv);
+      return sv.getResult();
    }
 }
