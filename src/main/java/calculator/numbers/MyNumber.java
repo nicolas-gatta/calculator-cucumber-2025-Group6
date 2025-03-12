@@ -39,51 +39,6 @@ public class MyNumber implements Expression
     public void accept(Visitor v) {v.visit(this);}
 
     /**
-     * Count the depth of a number expression using a CountingVisitor.
-     * This implementation uses a CountingVisitor to traverse the expression
-     * and compute its depth. For a MyNumber, this will always return 0.
-     *
-     * @return The depth of the number expression
-     * @see CountingVisitor
-     */
-    @Override
-    public final int countDepth() {
-        CountingVisitor cv = new CountingVisitor();
-        this.accept(cv);
-        return cv.getDepth();
-    }
-
-    /**
-     * Count the number of operations in this expression using a CountingVisitor.
-     * This implementation uses a CountingVisitor to traverse the expression
-     * and count its operations. For a MyNumber, this will always return 0.
-     *
-     * @return The number of operations
-     * @see CountingVisitor
-     */
-    @Override
-    public final int countOps() {
-        CountingVisitor cv = new CountingVisitor();
-        this.accept(cv);
-        return cv.getOperations();
-    }
-
-    /**
-     * Count the number of numbers in this expression using a CountingVisitor.
-     * This implementation uses a CountingVisitor to traverse the expression
-     * and count its numbers. For a MyNumber, this will always return 1.
-     *
-     * @return The number of numbers
-     * @see CountingVisitor
-     */
-    @Override
-    public final int countNbs() {
-        CountingVisitor cv = new CountingVisitor();
-        this.accept(cv);
-        return cv.getNumbers();
-    }
-
-    /**
      * Convert the number to its string representation using a StringVisitor.
      *
      * @return The string representation of the number

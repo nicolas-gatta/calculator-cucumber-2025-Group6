@@ -1,9 +1,10 @@
 package calculator.numbers;
-
+import calculator.Expression;
+import visitor.Visitor;
 /**
  * Class representing a rational number as a fraction of two integers.
  */
-public class RationalNumber {
+public class RationalNumber implements Expression {
     private final int numerator;
     private final int denominator;
 
@@ -90,4 +91,12 @@ public class RationalNumber {
     public String toString() {
         return numerator + "/" + denominator;
     }
+
+     /**
+     * Accept method to implement the visitor design pattern to traverse arithmetic expressions.
+     * Each number will pass itself to the visitor object to get processed by the visitor.
+     *
+     * @param v The visitor object that will process this number
+     */
+    public void accept(Visitor v) {v.visit(this);}
 } 

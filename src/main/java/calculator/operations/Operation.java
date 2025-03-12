@@ -6,7 +6,6 @@ import calculator.numbers.RationalNumber;
 import calculator.numbers.ComplexNumber;
 import visitor.Visitor;
 import visitor.StringVisitor;
-import visitor.CountingVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,45 +135,6 @@ public abstract class Operation implements Expression
   	for(Expression a:args) { a.accept(v); }
   	v.visit(this);
   }
-
-	/**
-	 * Count the depth of nested expressions in this operation using a CountingVisitor.
-	 *
-	 * @return The depth of the operation and its sub-expressions
-	 * @see visitor.CountingVisitor
-	 */
-	@Override
-	public int countDepth() {
-		CountingVisitor cv = new CountingVisitor();
-		this.accept(cv);
-		return cv.getDepth();
-	}
-
-	/**
-	 * Count the number of operations in this expression using a CountingVisitor.
-	 *
-	 * @return The total number of operations in this expression
-	 * @see visitor.CountingVisitor
-	 */
-	@Override
-	public int countOps() {
-		CountingVisitor cv = new CountingVisitor();
-		this.accept(cv);
-		return cv.getOperations();
-	}
-
-	/**
-	 * Count the number of numbers in this expression using a CountingVisitor.
-	 *
-	 * @return The total number of numbers in this expression
-	 * @see visitor.CountingVisitor
-	 */
-	@Override
-	public int countNbs() {
-		CountingVisitor cv = new CountingVisitor();
-		this.accept(cv);
-		return cv.getNumbers();
-	}
 
 	/**
 	 * Converts the operation to its string representation using a StringVisitor.

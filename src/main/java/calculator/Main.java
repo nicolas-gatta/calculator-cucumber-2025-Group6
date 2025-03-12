@@ -67,6 +67,22 @@ public class Main {
 			e = new Divides(params4, Notation.POSTFIX);
 			c.print(e);
 			c.eval(e);
+
+			List<Expression> params5 = new ArrayList<>();
+			Collections.addAll(params5, new RealNumber(3.14159, 5), new RealNumber(2.71828, 5));
+			e = new Plus(params5, Notation.PREFIX);
+			c.print(e);
+			c.printExpressionDetails(e);
+			c.eval(e);
+
+			List<Expression> params6 = new ArrayList<>();
+			Collections.addAll(params6, new ComplexNumber(5, 6), new ComplexNumber(1, 2));
+			e = new Plus(params6, Notation.POSTFIX);
+			c.printExpressionDetails(e);
+			c.eval(e);
+
+
+
 		} catch(IllegalConstruction exception) {
 			System.out.println("Cannot create operations without parameters");
 		}
@@ -200,10 +216,10 @@ public class Main {
 	 * @param args Command line arguments (not used)
 	 */
 	public static void main(String[] args) {
-		//demonstrateIntegerOperations();
+		demonstrateIntegerOperations();
 		//demonstrateRealOperations();
 		//demonstrateRationalOperations();
-		demonstrateComplexOperations();
+		//demonstrateComplexOperations();
 	}
 
 }

@@ -1,9 +1,11 @@
 package calculator.numbers;
 
+import calculator.Expression;
+import visitor.Visitor;
 /**
  * Class representing a complex number in the form a + bi.
  */
-public class ComplexNumber {
+public class ComplexNumber implements Expression {
     private final double real;
     private final double imaginary;
 
@@ -87,4 +89,12 @@ public class ComplexNumber {
             return real + " - " + (-imaginary) + "i";
         }
     }
+
+     /**
+     * Accept method to implement the visitor design pattern to traverse arithmetic expressions.
+     * Each number will pass itself to the visitor object to get processed by the visitor.
+     *
+     * @param v The visitor object that will process this number
+     */
+    public void accept(Visitor v) {v.visit(this);}
 }
