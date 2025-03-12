@@ -12,7 +12,7 @@ import calculator.Expression;
 public class Evaluator extends Visitor {
 
     private String error;
-    private Number result;
+    private Expression result;
 
     /**
      * Default constructor of the class. Does not initialise anything.
@@ -24,22 +24,99 @@ public class Evaluator extends Visitor {
 
     /** getter method to obtain the result of the evaluation
      *
-     * @return a Number object containing the result of the evaluation
+     * @return an Expression containing the result of the evaluation
      */
-    public Number getResult() {
+    public Expression getResult() {
         if (error != null) {
             return null;
         }
         return result;
     }
 
-    /**
-     * Gets the error message if any error occurred during evaluation.
-     * @return The error message or null if no error occurred.
-     */
-    public String getError() {
-        return error;
+    @Override
+    public void visit(Operation o) {
+        if (o.args.size() < 2) return;
+    
+        o.args.get(0).accept(this);
+        Expression accumulator = result;
+    
+        for (int i = 1; i < o.args.size(); i++) {
+            o.args.get(i).accept(this);
+            Expression current = result;
+    
+            // Gestion de la division par zéro
+            if (o instanceof Divides && current instanceof RealNumber && ((RealNumber) current).getValue() == 0) {
+                result = null;
+                return;
+            }
+    
+            // Gestion des opérations entre RealNumber
+            if (accumulator instanceof RealNumber && current instanceof RealNumber) {
+                double accVal = ((RealNumber) accumulator).getValue();
+                double currVal = ((RealNumber) current).getValue();
+    
+                if (o instanceof Plus)
+                    accumulator = new RealNumber(accVal + currVal, ((RealNumber) accumulator).getPrecision());
+                else if (o instanceof Minus)
+                    accumulator = new RealNumber(accVal - currVal, ((RealNumber) accumulator).getPrecision());
+                else if (o instanceof Times)
+                    accumulator = new RealNumber(accVal * currVal, ((RealNumber) accumulator).getPrecision());
+                else if (o instanceof Divides)
+                    accumulator = new RealNumber(accVal / currVal, ((RealNumber) accumulator).getPrecision());
+            }
+            // Gestion des opérations entre ComplexNumber
+            else if (accumulator instanceof ComplexNumber || current instanceof ComplexNumber) {
+                ComplexNumber accComp = (ComplexNumber) accumulator;
+                ComplexNumber currComp = (ComplexNumber) current;
+    
+                if (o instanceof Plus)
+                    accumulator = accComp.add(currComp);
+                else if (o instanceof Minus)
+                    accumulator = accComp.subtract(currComp);
+                else if (o instanceof Times)
+                    accumulator = accComp.multiply(currComp);
+                else if (o instanceof Divides)
+                    accumulator = accComp.divide(currComp);
+            }
+            // Gestion des opérations entre RationalNumber
+            else if (accumulator instanceof RationalNumber || current instanceof RationalNumber) {
+                RationalNumber accRat = (RationalNumber) accumulator;
+                RationalNumber currRat = (RationalNumber) current;
+    
+                if (o instanceof Plus)
+                    accumulator = accRat.add(currRat);
+                else if (o instanceof Minus)
+                    accumulator = accRat.subtract(currRat);
+                else if (o instanceof Times)
+                    accumulator = accRat.multiply(currRat);
+                else if (o instanceof Divides)
+                    accumulator = accRat.divide(currRat);
+            }
+            // Gestion des opérations entre MyNumber
+            else if (accumulator instanceof MyNumber && current instanceof MyNumber) {
+                int accVal = ((MyNumber) accumulator).getValue();
+                int currVal = ((MyNumber) current).getValue();
+    
+                if (o instanceof Plus)
+                    accumulator = new MyNumber(accVal + currVal);
+                else if (o instanceof Minus)
+                    accumulator = new MyNumber(accVal - currVal);
+                else if (o instanceof Times)
+                    accumulator = new MyNumber(accVal * currVal);
+                else if (o instanceof Divides) {
+                    if (currVal == 0) {
+                        result = null;
+                        return;
+                    }
+                    accumulator = new MyNumber(accVal / currVal);
+                }
+            }
+        }
+    
+        result = accumulator;
     }
+    
+    
 
     /** Use the visitor design pattern to visit a number.
      *
@@ -47,82 +124,22 @@ public class Evaluator extends Visitor {
      */
     @Override
     public void visit(MyNumber n) {
-        result = n.getValue();
-        computedValue = n.getValue();
-    }
-
-    /** Use the visitor design pattern to visit an operation
-     *
-     * @param o The operation being visited
-     */
-    @Override
-    public void visit(Operation o) {
-        if (o.args.size() < 2) return;
-
-        // Evaluate first argument
-        o.args.get(0).accept(this);
-        Number accumulator = result;
-
-        // For operations with more than 2 arguments
-        for (int i = 1; i < o.args.size(); i++) {
-            o.args.get(i).accept(this);
-            Number current = result;
-
-            // Check for division by zero first
-            if (o instanceof Divides &&
-                (current.doubleValue() == 0 || current.intValue() == 0)) {
-                result = null;
-                return;
-            }
-
-            if (accumulator instanceof Integer && current instanceof Integer) {
-                int accInt = ((Integer) accumulator).intValue();
-                int currInt = ((Integer) current).intValue();
-
-                if (o instanceof Plus)
-                    accumulator = accInt + currInt;
-                else if (o instanceof Minus)
-                    accumulator = accInt - currInt;
-                else if (o instanceof Times)
-                    accumulator = accInt * currInt;
-                else if (o instanceof Divides)
-                    accumulator = accInt / currInt;
-            } else {
-                double accDouble = accumulator.doubleValue();
-                double currDouble = current.doubleValue();
-
-                if (o instanceof Plus)
-                    accumulator = accDouble + currDouble;
-                else if (o instanceof Minus)
-                    accumulator = accDouble - currDouble;
-                else if (o instanceof Times)
-                    accumulator = accDouble * currDouble;
-                else if (o instanceof Divides)
-                    accumulator = accDouble / currDouble;
-            }
-        }
-
-        result = accumulator;
-        computedValue = result instanceof Integer ?
-            ((Integer)result).doubleValue() : (Double)result;
+        result = n;
     }
 
     @Override
     public void visit(RealNumber n) {
-        result = n.getValue();
-        computedValue = n.getValue();
+        result = n;
     }
 
     @Override
     public void visit(ComplexNumber c){
-        result = c.getReal();
-        computedValue = c.getImaginary();
+        result = c;
     }
 
     @Override
     public void visit(RationalNumber r){
-        result = r.getNumerator();
-        computedValue = r.getDenominator();
+        result = r;
     }
 
 }

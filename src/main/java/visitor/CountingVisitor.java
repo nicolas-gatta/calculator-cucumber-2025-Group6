@@ -4,6 +4,8 @@ import calculator.numbers.MyNumber;
 import calculator.operations.Operation;
 import calculator.Expression;
 import calculator.numbers.RealNumber;
+import calculator.numbers.ComplexNumber;
+import calculator.numbers.RationalNumber;
 
 /**
  * A visitor that counts various metrics of an expression tree:
@@ -51,6 +53,33 @@ public class CountingVisitor extends Visitor {
         operations = 0;
         depth = 0;
     }
+
+    /**
+     * Visits a complex number node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param n The complex number node being visited
+     */
+    @Override
+    public void visit(ComplexNumber n) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+    /** 
+     * Visits a rational number node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param n The rational number node being visited
+     */
+    @Override
+    public void visit(RationalNumber n) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+    
 
     /**
      * Visits an operation node in the expression tree.

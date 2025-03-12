@@ -2,7 +2,9 @@ package visitor;
 
 import calculator.numbers.MyNumber;
 import calculator.operations.Operation;
-import calculator.numbers.RealNumber;
+import calculator.numbers.RealNumber;   
+import calculator.numbers.ComplexNumber;
+import calculator.numbers.RationalNumber;
 
 /**
  * Visitor that converts numbers to scientific notation
@@ -40,6 +42,18 @@ public class ScientificNotationVisitor extends Visitor {
     @Override
     public void visit(RealNumber n) {
         result = String.format("%." + precision + "E", n.getValue());
+    }
+
+    @Override
+    public void visit(ComplexNumber n) {
+        double realPart = n.getReal();
+        double imaginaryPart = n.getImaginary();
+        result = String.format("%." + precision + "E + %." + precision + "Ei", realPart, imaginaryPart);
+    }
+
+    @Override
+    public void visit(RationalNumber n) {
+        result = String.format("%." + precision + "E", (double)n.getNumerator() / n.getDenominator());
     }
 
     /**

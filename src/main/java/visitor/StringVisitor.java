@@ -4,6 +4,8 @@ import calculator.operations.Operation;
 import calculator.numbers.MyNumber;
 import calculator.Notation;
 import calculator.numbers.RealNumber;
+import calculator.numbers.ComplexNumber;
+import calculator.numbers.RationalNumber;
 
 import java.util.stream.Stream;
 
@@ -42,6 +44,26 @@ public class StringVisitor extends Visitor {
      */
     @Override
     public void visit(RealNumber n) {
+        result = n.toString();
+    }
+
+    /**
+     * Visits a complex number node and converts it to its string representation.
+     *
+     * @param n The complex number node being visited
+     */
+    @Override
+    public void visit(ComplexNumber n) {
+        result = n.toString();
+    }
+
+    /**
+     * Visits a rational number node and converts it to its string representation.
+     *
+     * @param n The rational number node being visited
+     */
+    @Override
+    public void visit(RationalNumber n) {
         result = n.toString();
     }
 

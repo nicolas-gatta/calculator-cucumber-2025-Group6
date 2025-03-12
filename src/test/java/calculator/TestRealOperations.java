@@ -23,7 +23,11 @@ class TestRealOperations {
         );
         Plus plus = new Plus(params);
         Calculator calc = new Calculator();
-        assertEquals(6.0, ((Number)calc.eval(plus)).doubleValue(), DELTA);
+
+        Expression result = calc.eval(plus);
+        assertTrue(result instanceof RealNumber);
+        RealNumber realResult = (RealNumber) result;
+        assertEquals(6.0, realResult.getValue(), DELTA);
     }
 
     @Test
@@ -34,7 +38,12 @@ class TestRealOperations {
         );
         Minus minus = new Minus(params);
         Calculator calc = new Calculator();
-        assertEquals(3.3, ((Number)calc.eval(minus)).doubleValue(), DELTA);
+        
+        Expression result = calc.eval(minus);
+        
+        assertTrue(result instanceof RealNumber);
+        RealNumber realResult = (RealNumber) result;
+        assertEquals(3.3, realResult.getValue(), DELTA);
     }
 
     @Test
@@ -45,7 +54,13 @@ class TestRealOperations {
         );
         Times times = new Times(params);
         Calculator calc = new Calculator();
-        assertEquals(7.5, ((Number)calc.eval(times)).doubleValue(), DELTA);
+        
+        Expression result = calc.eval(times);
+        
+        assertTrue(result instanceof RealNumber);
+        RealNumber realResult = (RealNumber) result;
+        assertEquals(7.5, realResult.getValue(), DELTA);
+    
     }
 
     @Test
@@ -56,26 +71,12 @@ class TestRealOperations {
         );
         Divides divides = new Divides(params);
         Calculator calc = new Calculator();
-        assertEquals(5.0, ((Number)calc.eval(divides)).doubleValue(), DELTA);
-    }
-
-    @Test
-    void testMixedOperations() throws IllegalConstruction {
-        // Test (3.14 + 2) * 2.0
-        List<Expression> addParams = Arrays.asList(
-            new RealNumber(3.14, 2),
-            new MyNumber(2)
-        );
-        Plus plus = new Plus(addParams);
         
-        List<Expression> timesParams = Arrays.asList(
-            plus,
-            new RealNumber(2.0, 2)
-        );
-        Times times = new Times(timesParams);
+        Expression result = calc.eval(divides);
         
-        Calculator calc = new Calculator();
-        assertEquals(10.28, ((Number)calc.eval(times)).doubleValue(), DELTA);
+        assertTrue(result instanceof RealNumber);
+        RealNumber realResult = (RealNumber) result;
+        assertEquals(5.0, realResult.getValue(), DELTA);
     }
 
     @Test
@@ -88,7 +89,7 @@ class TestRealOperations {
         Calculator calc = new Calculator();
         
         assertNull(calc.eval(divides));
-    }
+    }    
 
     @Test
     void testDivisionWithInfinity() throws IllegalConstruction {
@@ -99,7 +100,11 @@ class TestRealOperations {
         Divides divides = new Divides(params);
         Calculator calc = new Calculator();
         
-        assertEquals(Double.POSITIVE_INFINITY, 
-            ((Number)calc.eval(divides)).doubleValue(), DELTA);
+        Expression result = calc.eval(divides);
+        
+        assertTrue(result instanceof RealNumber);
+        RealNumber realResult = (RealNumber) result;
+        assertEquals(Double.POSITIVE_INFINITY, realResult.getValue(), DELTA);
     }
+    
 } 

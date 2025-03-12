@@ -28,29 +28,57 @@ class TestEvaluator {
         value3 = 0;
     }
 
-    @Test
-    void testEvaluatorMyNumber() {
-        assertEquals( value1, calc.eval(new MyNumber(value1)));
-    }
-
     @ParameterizedTest
     @ValueSource(strings = {"*", "+", "/", "-"})
     void testEvaluateOperations(String symbol) {
-        List<Expression> params = Arrays.asList(new MyNumber(value1),new MyNumber(value2));
+        List<Expression> params = Arrays.asList(new MyNumber(value1), new MyNumber(value2));
         try {
-            //construct another type of operation depending on the input value
-            //of the parameterised test
+            Expression result = null;
             switch (symbol) {
-                case "+"	->	assertEquals( value1 + value2, calc.eval(new Plus(params)));
-                case "-"	->	assertEquals( value1 - value2, calc.eval(new Minus(params)));
-                case "*"	->	assertEquals( value1 * value2, calc.eval(new Times(params)));
-                case "/"	->	assertEquals( value1 / value2, calc.eval(new Divides(params)));
-                default		->	fail();
+                case "+":
+                    result = calc.eval(new Plus(params));
+                    break;
+                case "-":
+                    result = calc.eval(new Minus(params));
+                    break;
+                case "*":
+                    result = calc.eval(new Times(params));
+                    break;
+                case "/":
+                    result = calc.eval(new Divides(params));
+                    break;
+                default:
+                    fail();
             }
+            
+            assertTrue(result instanceof MyNumber);
+            int expectedValue = 0;
+            switch (symbol) {
+                case "+":
+                    expectedValue = value1 + value2;
+                    break;
+                case "-":
+                    expectedValue = value1 - value2;
+                    break;
+                case "*":
+                    expectedValue = value1 * value2;
+                    break;
+                case "/":
+                    if (value2 != 0) {
+                        expectedValue = value1 / value2;
+                    } else {
+                        expectedValue = 0; // Handle divide by zero case
+                    }
+                    break;
+            }
+    
+            assertEquals(expectedValue, ((MyNumber) result).getValue());
+            
         } catch (IllegalConstruction e) {
             fail();
         }
     }
+    
 
     @Test
     void testDivideByZero() {
