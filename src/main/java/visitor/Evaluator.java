@@ -3,7 +3,9 @@ package visitor;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RealNumber;
 import calculator.operations.*;
-
+import calculator.numbers.ComplexNumber;
+import calculator.numbers.RationalNumber;
+import calculator.Expression;
 /** Evaluation is a concrete visitor that serves to
  * compute and evaluate the results of arithmetic expressions.
  */
@@ -109,6 +111,18 @@ public class Evaluator extends Visitor {
     public void visit(RealNumber n) {
         result = n.getValue();
         computedValue = n.getValue();
+    }
+
+    @Override
+    public void visit(ComplexNumber c){
+        result = c.getReal();
+        computedValue = c.getImaginary();
+    }
+
+    @Override
+    public void visit(RationalNumber r){
+        result = r.getNumerator();
+        computedValue = r.getDenominator();
     }
 
 }
