@@ -19,9 +19,6 @@ public class Evaluator extends Visitor {
      */
     public Evaluator() {}
 
-    /** The result of the evaluation will be stored in this private variable */
-    private double computedValue;
-
     /** getter method to obtain the result of the evaluation
      *
      * @return an Expression containing the result of the evaluation

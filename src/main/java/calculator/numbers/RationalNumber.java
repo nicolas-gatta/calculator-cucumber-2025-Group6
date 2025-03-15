@@ -17,7 +17,14 @@ public class RationalNumber implements Expression {
         if (denominator == 0) {
             throw new IllegalArgumentException("Denominator cannot be zero.");
         }
-        int gcd = gcd(numerator, denominator);
+        
+        // If denominator is negative, make it positive and negate the numerator
+        if (denominator < 0) {
+            numerator = -numerator;
+            denominator = -denominator;
+        }
+        
+        int gcd = gcd(Math.abs(numerator), denominator);
         this.numerator = numerator / gcd;
         this.denominator = denominator / gcd;
     }
@@ -90,6 +97,25 @@ public class RationalNumber implements Expression {
     @Override
     public String toString() {
         return numerator + "/" + denominator;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        RationalNumber other = (RationalNumber) obj;
+        // Compare numerators and denominators after simplification
+        return this.numerator == other.numerator && this.denominator == other.denominator;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * numerator + denominator;
     }
 
      /**

@@ -1,8 +1,9 @@
-package calculator;
+package calculator.numbers;
 
 //Import Junit5 libraries for unit testing:
 import static org.junit.jupiter.api.Assertions.*;
 
+import calculator.IllegalConstruction;
 import calculator.numbers.MyNumber;
 import calculator.operations.Times;
 import org.junit.jupiter.api.*;

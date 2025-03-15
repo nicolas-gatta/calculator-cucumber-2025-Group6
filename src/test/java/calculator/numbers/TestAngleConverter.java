@@ -1,6 +1,5 @@
-package calculator;
+package calculator.numbers;
 
-import calculator.numbers.AngleConverter;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

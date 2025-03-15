@@ -1,10 +1,22 @@
-package calculator;
+package calculator.numbers;
 
-import calculator.numbers.ComplexNumber;
+import calculator.Calculator;
+import calculator.Expression;
+import calculator.IllegalConstruction;
+import calculator.Notation;
+import calculator.operations.Plus;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestComplexNumber {
+
+    Expression e;
+    Calculator c = new Calculator();
 
     @Test
     void testAddition() {
@@ -98,4 +110,44 @@ class TestComplexNumber {
         ComplexNumber sum2 = c1.add(c2.add(c3));
         assertEquals(sum1.toString(), sum2.toString());
     }
+
+    @Test
+    void testPrefixNotation() throws IllegalConstruction {
+        ComplexNumber c1 = new ComplexNumber(3, 4); // 3 + 4i
+        ComplexNumber c2 = new ComplexNumber(1, 2); // 1 + 2i
+
+        List<Expression> params = new ArrayList<>();
+        Collections.addAll(params, c1, c2);
+        e = new Plus(params, Notation.PREFIX);
+
+        assertEquals("+ (3.0 + 4.0i, 1.0 + 2.0i)", e.toString());
+    }
+
+    @Test
+    void testInfixNotation() throws IllegalConstruction {
+        ComplexNumber c1 = new ComplexNumber(3, 4); // 3 + 4i
+        ComplexNumber c2 = new ComplexNumber(1, 2); // 1 + 2i
+
+        List<Expression> params = new ArrayList<>();
+        Collections.addAll(params, c1, c2);
+        e = new Plus(params, Notation.INFIX);
+
+        assertEquals("( 3.0 + 4.0i + 1.0 + 2.0i )", e.toString());
+    }
+
+    @Test
+    void testPostfixNotation() throws IllegalConstruction {
+        ComplexNumber c1 = new ComplexNumber(3, 4); // 3 + 4i
+        ComplexNumber c2 = new ComplexNumber(1, 2); // 1 + 2i
+
+        List<Expression> params = new ArrayList<>();
+        Collections.addAll(params, c1, c2);
+        e = new Plus(params, Notation.POSTFIX);
+
+        assertEquals("(3.0 + 4.0i, 1.0 + 2.0i) +", e.toString());
+    }
+
+
+
+
 } 

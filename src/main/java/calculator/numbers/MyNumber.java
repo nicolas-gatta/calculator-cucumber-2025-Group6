@@ -4,7 +4,7 @@ import calculator.Expression;
 import calculator.Notation;
 import calculator.operations.Operation;
 import visitor.Visitor;
-import visitor.CountingVisitor;
+
 /**
  * MyNumber is a concrete class that represents arithmetic numbers,
  * which are a special kind of Expressions, just like operations are.

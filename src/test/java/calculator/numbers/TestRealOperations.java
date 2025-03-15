@@ -1,7 +1,8 @@
-package calculator;
+package calculator.numbers;
 
-import calculator.numbers.MyNumber;
-import calculator.numbers.RealNumber;
+import calculator.Calculator;
+import calculator.Expression;
+import calculator.IllegalConstruction;
 import calculator.operations.Divides;
 import calculator.operations.Minus;
 import calculator.operations.Plus;
