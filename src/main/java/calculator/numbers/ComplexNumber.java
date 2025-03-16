@@ -97,4 +97,21 @@ public class ComplexNumber implements Expression {
      * @param v The visitor object that will process this number
      */
     public void accept(Visitor v) {v.visit(this);}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        
+        ComplexNumber other = (ComplexNumber) obj;
+        // Use a small epsilon for floating point comparison
+        double epsilon = 1e-10;
+        return Math.abs(this.real - other.real) < epsilon && 
+               Math.abs(this.imaginary - other.imaginary) < epsilon;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(real) * 31 + Double.hashCode(imaginary);
+    }
 }

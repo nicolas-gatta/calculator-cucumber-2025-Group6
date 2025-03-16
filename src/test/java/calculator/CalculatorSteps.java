@@ -19,11 +19,13 @@ public class CalculatorSteps {
 	private ArrayList<Expression> params;
 	private Operation op;
 	private Calculator c;
+	private String currentOperation;
 
 	@Before
     public void resetMemoryBeforeEachScenario() {
-		params = null;
+		params = new ArrayList<>();
 		op = null;
+		currentOperation = null;
 	}
 
 	@Given("I initialise a calculator")
@@ -33,19 +35,8 @@ public class CalculatorSteps {
 
 	@Given("an integer operation {string}")
 	public void givenAnIntegerOperation(String s) {
-		// Write code here that turns the phrase above into concrete actions
-		params = new ArrayList<>(); // create an empty set of parameters to be filled in
-		try {
-			switch (s) {
-				case "+"	->	op = new Plus(params);
-				case "-"	->	op = new Minus(params);
-				case "*"	->	op = new Times(params);
-				case "/"	->	op = new Divides(params);
-				default		->	fail();
-			}
-		} catch (IllegalConstruction e) {
-			fail();
-		}
+		currentOperation = s;
+		params = new ArrayList<>();
 	}
 
 	// The following example shows how to use a DataTable provided as input.
@@ -59,7 +50,8 @@ public class CalculatorSteps {
 		// which is a list of strings, that we will manually convert to integers:
 		numbers.get(0).forEach(n -> params.add(new MyNumber(Integer.parseInt(n))));
 	    params.forEach(n -> System.out.println("value ="+ n));
-		op = null;
+		
+		createOperation();
 	}
 
 	// The string in the Given annotation shows how to use regular expressions...
@@ -73,7 +65,7 @@ public class CalculatorSteps {
 		    params.add(new MyNumber(n1));
 		    params.add(new MyNumber(n2));
 		    op = new Plus(params);}
-		catch(IllegalConstruction e) { fail(); }
+		catch(IllegalConstruction e) { fail("Failed to create Plus operation: " + e.getMessage()); }
 	}
 
 	@Then("^its (.*) notation is (.*)$")
@@ -87,26 +79,56 @@ public class CalculatorSteps {
 
 	@When("^I provide a (.*) number (\\d+)$")
 	public void whenIProvideANumber(String s, int val) {
-		//add extra parameter to the operation
-		params = new ArrayList<>();
 		params.add(new MyNumber(val));
-		op.addMoreParams(params);
+		
+		if (currentOperation != null && params.size() == 1) {
+		} 
+		else if (currentOperation != null && params.size() >= 2) {
+			createOperation();
+		}
+		else if (op != null) {
+			ArrayList<Expression> newParams = new ArrayList<>();
+			newParams.add(new MyNumber(val));
+			op.addMoreParams(newParams);
+		}
+	}
+
+	private void createOperation() {
+		if (currentOperation == null || params.isEmpty()) {
+			return;
+		}
+		
+		try {
+			switch (currentOperation) {
+				case "+"	->	op = new Plus(params);
+				case "-"	->	op = new Minus(params);
+				case "*"	->	op = new Times(params);
+				case "/"	->	op = new Divides(params);
+				default		->	fail("Unknown operation: " + currentOperation);
+			}
+		} catch (IllegalConstruction e) {
+			fail("Failed to create operation: " + e.getMessage());
+		}
 	}
 
 	@Then("^the (.*) is (\\d+)$")
 	public void thenTheOperationIs(String s, int val) {
 		try {
+			if (params == null || params.isEmpty()) {
+				fail("No parameters provided for operation");
+			}
+			
 			switch (s) {
 				case "sum"			->	op = new Plus(params);
 				case "product"		->	op = new Times(params);
 				case "quotient"		->	op = new Divides(params);
 				case "difference"	->	op = new Minus(params);
-				default -> fail();
+				default -> fail("Unknown operation type: " + s);
 			}
 			MyNumber result = (MyNumber) c.eval(op);
             assertEquals(val, result.getValue());
 		} catch (IllegalConstruction e) {
-			fail();
+			fail("Failed to create operation: " + e.getMessage());
 		}
 	}
 

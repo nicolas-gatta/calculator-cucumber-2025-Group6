@@ -25,9 +25,22 @@ import java.util.List;
 public class Main {
 
 	/**
-	 * Default constructor for Main class.
+	 * Private constructor to prevent instantiation of this utility class.
 	 */
-	public Main() {
+	private Main() {
+		// Utility class should not be instantiated
+	}
+
+	/**
+	 * Creates a list of expressions from the given parameters
+	 * 
+	 * @param expressions The expressions to add to the list
+	 * @return A list containing the provided expressions
+	 */
+	private static List<Expression> createExpressionList(Expression... expressions) {
+		List<Expression> params = new ArrayList<>();
+		Collections.addAll(params, expressions);
+		return params;
 	}
 
 	/**
@@ -42,49 +55,53 @@ public class Main {
 			
 			e = new MyNumber(8);
 			c.print(e);
-			c.eval(e);
 
-			List<Expression> params = new ArrayList<>();
-			Collections.addAll(params, new MyNumber(3), new MyNumber(4), new MyNumber(5));
-			e = new Plus(params, Notation.PREFIX);
+			// Using the helper method to create expression lists
+			e = new Plus(createExpressionList(
+				new MyNumber(3), new MyNumber(4), new MyNumber(5)), 
+				Notation.PREFIX);
 			c.printExpressionDetails(e);
-			c.eval(e);
 
-			List<Expression> params2 = new ArrayList<>();
-			Collections.addAll(params2, new MyNumber(5), new MyNumber(3));
-			e = new Minus(params2, Notation.INFIX);
+			e = new Minus(createExpressionList(
+				new MyNumber(5), new MyNumber(3)), 
+				Notation.INFIX);
 			c.print(e);
-			c.eval(e);
 
-			List<Expression> params3 = new ArrayList<>();
-			Collections.addAll(params3, new Plus(params), new Minus(params2));
+			// More complex nested expressions
+			List<Expression> params3 = createExpressionList(
+				new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5))),
+				new Minus(createExpressionList(new MyNumber(5), new MyNumber(3)))
+			);
 			e = new Times(params3);
 			c.printExpressionDetails(e);
-			c.eval(e);
 
-			List<Expression> params4 = new ArrayList<>();
-			Collections.addAll(params4, new Plus(params), new Minus(params2), new MyNumber(5));
+			List<Expression> params4 = createExpressionList(
+				new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5))),
+				new Minus(createExpressionList(new MyNumber(5), new MyNumber(3))),
+				new MyNumber(5)
+			);
 			e = new Divides(params4, Notation.POSTFIX);
 			c.print(e);
-			c.eval(e);
 
-			List<Expression> params5 = new ArrayList<>();
-			Collections.addAll(params5, new RealNumber(3.14159, 5), new RealNumber(2.71828, 5));
+			List<Expression> params5 = createExpressionList(
+				new RealNumber(3.14159, 5),
+				new RealNumber(2.71828, 5)
+			);
 			e = new Plus(params5, Notation.PREFIX);
 			c.print(e);
 			c.printExpressionDetails(e);
 			c.eval(e);
 
-			List<Expression> params6 = new ArrayList<>();
-			Collections.addAll(params6, new ComplexNumber(5, 6), new ComplexNumber(1, 2));
+			List<Expression> params6 = createExpressionList(
+				new ComplexNumber(5, 6),
+				new ComplexNumber(1, 2)
+			);
 			e = new Plus(params6, Notation.POSTFIX);
 			c.printExpressionDetails(e);
 			c.eval(e);
 
-
-
 		} catch(IllegalConstruction exception) {
-			System.out.println("Cannot create operations without parameters");
+			System.err.println("Error: " + exception.getMessage());
 		}
 	}
 
@@ -99,8 +116,10 @@ public class Main {
 			System.out.println("\n=== Real Number Operations Examples ===");
 			
 			// Basic real number operations
-			List<Expression> params = new ArrayList<>();
-			Collections.addAll(params, new RealNumber(3.14159, 5), new RealNumber(2.71828, 5));
+			List<Expression> params = createExpressionList(
+				new RealNumber(3.14159, 5),
+				new RealNumber(2.71828, 5)
+			);
 			e = new Plus(params);
 			System.out.println("Adding π and e:");
 			c.print(e);
@@ -118,8 +137,7 @@ public class Main {
 
 			// Complex calculation with mixed types
 			System.out.println("Mixed type calculation (π * e * 2):");
-			List<Expression> params2 = new ArrayList<>();
-			Collections.addAll(params2, 
+			List<Expression> params2 = createExpressionList(
 				new RealNumber(Math.PI, 6),
 				new RealNumber(Math.E, 6),
 				new MyNumber(2)
@@ -129,8 +147,10 @@ public class Main {
 
 			// Division with real numbers
 			System.out.println("Division of real numbers (1/3):");
-			List<Expression> params3 = new ArrayList<>();
-			Collections.addAll(params3, new RealNumber(1.0, 4), new RealNumber(3.0, 4));
+			List<Expression> params3 = createExpressionList(
+				new RealNumber(1.0, 4),
+				new RealNumber(3.0, 4)
+			);
 			e = new Divides(params3);
 			c.print(e);
 
@@ -217,9 +237,9 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		demonstrateIntegerOperations();
-		//demonstrateRealOperations();
-		//demonstrateRationalOperations();
-		//demonstrateComplexOperations();
+		demonstrateRealOperations();
+		demonstrateRationalOperations();
+		demonstrateComplexOperations();
 	}
 
 }

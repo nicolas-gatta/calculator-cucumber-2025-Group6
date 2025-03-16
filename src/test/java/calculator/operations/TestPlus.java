@@ -35,14 +35,16 @@ class TestPlus {
 		assertThrows(IllegalConstruction.class, () -> op = new Plus(null));
 	}
 
-	@SuppressWarnings("AssertBetweenInconvertibleTypes")
 	@Test
 	void testConstructor2() {
-		// A Times expression should not be the same as a Plus expression
 		try {
-			assertNotSame(op, new Times(new ArrayList<>()));
+			ArrayList<Expression> list = new ArrayList<>();
+			list.add(new MyNumber(5));
+			list.add(new MyNumber(2));
+			Plus p = new Plus(list, Notation.INFIX);
+			assertEquals(Notation.INFIX, p.getNotation());
 		} catch (IllegalConstruction e) {
-			fail();
+			fail("Should not throw exception with non-empty list");
 		}
 	}
 

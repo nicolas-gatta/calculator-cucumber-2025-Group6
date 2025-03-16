@@ -38,11 +38,14 @@ class TestTimes {
 
 	@Test
 	void testConstructor2() {
-		// A Plus expression should not be the same as a Times expression
 		try {
-			assertNotSame(op, new Plus(new ArrayList<>()));
+			ArrayList<Expression> list = new ArrayList<>();
+			list.add(new MyNumber(5));
+			list.add(new MyNumber(2));
+			Times t = new Times(list, Notation.INFIX);
+			assertEquals(Notation.INFIX, t.getNotation());
 		} catch (IllegalConstruction e) {
-			fail();
+			fail("Should not throw exception with non-empty list");
 		}
 	}
 

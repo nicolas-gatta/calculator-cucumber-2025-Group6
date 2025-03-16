@@ -52,16 +52,18 @@ public final class Divides extends Operation
      * @param r The second integer that should divide the first
      * @return The integer that is the result of the division
      */
-  public int op(int l, int r)
-    {
-        if (r == 0) return 0; // division by zero
-        return l / r;
+  @Override
+  public int op(int l, int r) {
+    if (r == 0) {
+        throw new ArithmeticException("Division by zero");
     }
+    return l / r;
+  }
 
     @Override
     public double opReal(double l, double r) {
         if (r == 0.0) {
-            return Double.NaN; // division by zero with real numbers
+            throw new ArithmeticException("Division by zero");
         }
         return l / r;
     }

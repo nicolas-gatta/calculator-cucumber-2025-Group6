@@ -38,11 +38,14 @@ class TestMinus {
 	@SuppressWarnings("AssertBetweenInconvertibleTypes")
 	@Test
 	void testConstructor2() {
-		// A Times expression should not be the same as a Minus expression
 		try {
-			assertNotSame(op, new Times(new ArrayList<>()));
+			ArrayList<Expression> list = new ArrayList<>();
+			list.add(new MyNumber(5));
+			list.add(new MyNumber(2));
+			Minus m = new Minus(list, Notation.INFIX);
+			assertEquals(Notation.INFIX, m.getNotation());
 		} catch (IllegalConstruction e) {
-			fail();
+			fail("Should not throw exception with non-empty list");
 		}
 	}
 

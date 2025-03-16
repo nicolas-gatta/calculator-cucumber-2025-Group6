@@ -10,10 +10,12 @@ import calculator.numbers.MyNumber;
 import org.junit.jupiter.api.*;
 import calculator.numbers.RationalNumber;	
 import calculator.numbers.ComplexNumber;
+import calculator.numbers.RealNumber;
 import visitor.StringVisitor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.lang.ArithmeticException;
 
 class TestDivides {
 
@@ -38,14 +40,17 @@ class TestDivides {
 		assertThrows(IllegalConstruction.class, () -> op = new Divides(null));
 	}
 
-	@SuppressWarnings("AssertBetweenInconvertibleTypes")
 	@Test
 	void testConstructor2() {
-		// A Times expression should not be the same as a Divides expression
 		try {
-			assertNotSame(op, new Times(new ArrayList<>()));
+
+			ArrayList<Expression> list = new ArrayList<>();
+			list.add(new MyNumber(5));
+			list.add(new MyNumber(2));
+			Divides d = new Divides(list, Notation.INFIX);
+			assertEquals(Notation.INFIX, d.getNotation());
 		} catch (IllegalConstruction e) {
-			fail();
+			fail("Should not throw exception with non-empty list");
 		}
 	}
 
@@ -96,8 +101,18 @@ class TestDivides {
 	
 	@Test
 	void testOpMethodWithZero() {
-		// Test division by zero
-		assertEquals(0, op.op(value1, 0)); // Should return 0 as per implementation
+		try {
+			ArrayList<Expression> list = new ArrayList<>();
+			list.add(new MyNumber(5));
+			list.add(new MyNumber(0));
+			Divides d = new Divides(list);
+			
+			ArithmeticException exception = assertThrows(ArithmeticException.class, 
+				() -> d.op(5, 0));
+			assertEquals("Division by zero", exception.getMessage());
+		} catch (IllegalConstruction e) {
+			fail("Should not throw exception with non-empty list");
+		}
 	}
 	
 	@Test
@@ -113,8 +128,18 @@ class TestDivides {
 	
 	@Test
 	void testOpRealMethodWithZero() {
-		// Test division by zero with real numbers
-		assertTrue(Double.isNaN(op.opReal(value1, 0.0))); // Should return NaN
+		try {
+			ArrayList<Expression> list = new ArrayList<>();
+			list.add(new RealNumber(5.0, 2));
+			list.add(new RealNumber(0.0, 2));
+			Divides d = new Divides(list);
+			
+			ArithmeticException exception = assertThrows(ArithmeticException.class, 
+				() -> d.opReal(5.0, 0.0));
+			assertEquals("Division by zero", exception.getMessage());
+		} catch (IllegalConstruction e) {
+			fail("Should not throw exception with non-empty list");
+		}
 	}
 	
 	@Test

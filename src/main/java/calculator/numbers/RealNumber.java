@@ -60,4 +60,20 @@ public class RealNumber implements Expression {
     public String toString() {
         return String.format("%." + precision + "f", value);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        
+        RealNumber other = (RealNumber) obj;
+        // Use a small epsilon for floating point comparison
+        double epsilon = 1e-10;
+        return Math.abs(this.value - other.value) < epsilon;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(value);
+    }
 }

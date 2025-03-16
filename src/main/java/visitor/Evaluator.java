@@ -32,13 +32,13 @@ public class Evaluator extends Visitor {
 
     @Override
     public void visit(Operation o) {
-        if (o.args.size() < 2) return;
+        if (o.getArgs().size() < 2) return;
     
-        o.args.get(0).accept(this);
+        o.getArgs().get(0).accept(this);
         Expression accumulator = result;
     
-        for (int i = 1; i < o.args.size(); i++) {
-            o.args.get(i).accept(this);
+        for (int i = 1; i < o.getArgs().size(); i++) {
+            o.getArgs().get(i).accept(this);
             Expression current = result;
     
             // Gestion de la division par zéro
