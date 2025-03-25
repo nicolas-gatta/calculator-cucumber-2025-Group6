@@ -3,7 +3,8 @@ package calculator.gui;
 // Enum pour les types de nombres supportés
 public enum NumberType {
     INTEGER("Integer"),
-    RATIONAL("Rational");
+    RATIONAL("Rational"),
+    REAL("Real");
     
     private final String displayName;
     

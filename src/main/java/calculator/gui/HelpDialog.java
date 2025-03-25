@@ -12,10 +12,11 @@ public class HelpDialog {
         String helpText = """
             Simple Calculator Instructions:
             
-            1. Select the number type (Integer or Rational)
+            1. Select the number type (Integer, Rational, or Real)
             2. Enter the first number:
                - For integers: just type the digits
                - For rationals: type numerator/denominator (e.g., 3/4)
+               - For reals: use decimal point (e.g., 3.14)
             3. Click an operation button (+, -, *, /)
             4. Enter the second number
             5. Click = to see the result

@@ -4,6 +4,7 @@ import calculator.Calculator;
 import calculator.Expression;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RationalNumber;
+import calculator.numbers.RealNumber;
 import calculator.operations.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,6 +34,8 @@ public class CalculatorUI {
     
     // Fraction button
     private Button fractionButton;
+    private Button decimalButton;
+    private int realPrecision = 6;
 
     public CalculatorUI() {
         calculator = new Calculator();
@@ -76,7 +79,7 @@ public class CalculatorUI {
         Label label = new Label("Number Type:");
         
         ComboBox<NumberType> typeCombo = new ComboBox<>();
-        typeCombo.getItems().addAll(NumberType.INTEGER, NumberType.RATIONAL);
+        typeCombo.getItems().addAll(NumberType.INTEGER, NumberType.RATIONAL, NumberType.REAL);
         typeCombo.setValue(currentNumberType);
         typeCombo.setOnAction(e -> {
             currentNumberType = typeCombo.getValue();
@@ -87,6 +90,7 @@ public class CalculatorUI {
         fractionButton = new Button("/");
         fractionButton.setPrefSize(40, 30);
         fractionButton.setDisable(currentNumberType != NumberType.RATIONAL);
+        fractionButton.setVisible(currentNumberType == NumberType.RATIONAL);
         fractionButton.setOnAction(e -> {
             if (currentNumberType == NumberType.RATIONAL && 
                 !currentInput.contains("/") && 
@@ -96,8 +100,25 @@ public class CalculatorUI {
             }
         });
         
+        // Create the decimal button
+        decimalButton = new Button(".");
+        decimalButton.setPrefSize(40, 30);
+        decimalButton.setDisable(currentNumberType != NumberType.REAL);
+        decimalButton.setVisible(currentNumberType == NumberType.REAL);
+        decimalButton.setOnAction(e -> {
+            if (currentNumberType == NumberType.REAL && 
+                !currentInput.contains(".")) {
+                if (currentInput.isEmpty()) {
+                    currentInput = "0.";
+                } else {
+                    currentInput += ".";
+                }
+                display.setText(currentInput);
+            }
+        });
+        
         // Add the button to the horizontal box
-        box.getChildren().addAll(label, typeCombo, fractionButton);
+        box.getChildren().addAll(label, typeCombo, fractionButton, decimalButton);
         return box;
     }
     
@@ -106,6 +127,12 @@ public class CalculatorUI {
         if (fractionButton != null) {
             fractionButton.setDisable(currentNumberType != NumberType.RATIONAL);
             fractionButton.setVisible(currentNumberType == NumberType.RATIONAL);
+        }
+        
+        // Activate/deactivate the decimal button according to the type
+        if (decimalButton != null) {
+            decimalButton.setDisable(currentNumberType != NumberType.REAL);
+            decimalButton.setVisible(currentNumberType == NumberType.REAL);
         }
         
         // Reset the display if necessary
@@ -214,6 +241,10 @@ public class CalculatorUI {
                     // If there is no "/" or incorrect format, treat as an integer
                     return new RationalNumber(Integer.parseInt(input), 1);
                     
+                case REAL:
+                    double value = Double.parseDouble(input);
+                    return new RealNumber(value, realPrecision);
+                    
                 default:
                     throw new IllegalArgumentException("Unsupported number type: " + currentNumberType);
             }
@@ -262,6 +293,9 @@ public class CalculatorUI {
             } else {
                 display.setText(rn.getNumerator() + "/" + rn.getDenominator());
             }
+        } else if (result instanceof RealNumber) {
+            RealNumber realNum = (RealNumber) result;
+            display.setText(realNum.toString());
         } else {
             display.setText(result.toString());
         }
