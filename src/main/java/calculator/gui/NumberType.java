@@ -4,7 +4,8 @@ package calculator.gui;
 public enum NumberType {
     INTEGER("Integer"),
     RATIONAL("Rational"),
-    REAL("Real");
+    REAL("Real"),
+    COMPLEX("Complex");
     
     private final String displayName;
     

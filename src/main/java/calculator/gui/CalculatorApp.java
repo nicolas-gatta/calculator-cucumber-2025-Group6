@@ -13,8 +13,8 @@ public class CalculatorApp extends Application {
         // Create the user interface
         CalculatorUI calculatorUI = new CalculatorUI();
         
-        // Configure the scene
-        Scene scene = new Scene(calculatorUI.getRoot(), 240, 300);
+        // Configure the scene with une plus grande taille
+        Scene scene = new Scene(calculatorUI.getRoot(), 400, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
