@@ -1,6 +1,18 @@
-[![](https://img.shields.io/github/v/release/University-of-Mons/calculator-cucumber-2025?label=Latest%20Release)](https://github.com/University-of-Mons/calculator-cucumber/releases/latest)
+[![](https://img.shields.io/github/v/release/nicolas-gatta/calculator-cucumber-2025-Group6?label=Latest%20Release)](https://github.com/nicolas-gatta/calculator-cucumber-2025-Group6/releases/latest)
 
-Code quality: ![Maven Build](https://github.com/University-of-Mons/calculator-cucumber-2025/actions/workflows/maven.yml/badge.svg)
+Code quality: ![Maven Build](https://github.com/nicolas-gatta/calculator-cucumber-2025-Group6/actions/workflows/maven.yml/badge.svg)
+
+CodeQL: ![Build Status](https://github.com/nicolas-gatta/calculator-cucumber-2025-Group6/actions/workflows/codeql.yml/badge.svg)
+
+Code Analysis: 
+ - PMD: ![Build Status](https://github.com/nicolas-gatta/calculator-cucumber-2025-Group6/actions/workflows/pmd.yml/badge.svg)
+ - Sonar Cloud: 
+    - [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nicolas-gatta_calculator-cucumber-2025-Group6&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=nicolas-gatta_calculator-cucumber-2025-Group6)
+    - [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=nicolas-gatta_calculator-cucumber-2025-Group6&metric=bugs)](https://sonarcloud.io/summary/new_code?id=nicolas-gatta_calculator-cucumber-2025-Group6)
+    - [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=nicolas-gatta_calculator-cucumber-2025-Group6&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=nicolas-gatta_calculator-cucumber-2025-Group6)
+    - [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nicolas-gatta_calculator-cucumber-2025-Group6&metric=coverage)](https://sonarcloud.io/summary/new_code?id=nicolas-gatta_calculator-cucumber-2025-Group6)
+    - [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=nicolas-gatta_calculator-cucumber-2025-Group6&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=nicolas-gatta_calculator-cucumber-2025-Group6)
+
 
 Test coverage: ![Coverage](.github/badges/jacoco.svg)
 ![Branches](.github/badges/branches.svg)

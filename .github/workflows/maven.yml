@@ -4,10 +4,11 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ dev ]
+    branches: 
+      - "**"
   pull_request:
-    branches: [ master ]
-
+    branches:
+      - "**"
 permissions:
   contents: read
 
