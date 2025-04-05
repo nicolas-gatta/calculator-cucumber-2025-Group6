@@ -178,7 +178,7 @@ public abstract class Operation implements Expression
 	 * @see Notation
 	 */
 	@Override
-	public final String toString() {
+	public String toString() {
 		StringVisitor sv = new StringVisitor(notation);
 		this.accept(sv);
 		return sv.getResult();
