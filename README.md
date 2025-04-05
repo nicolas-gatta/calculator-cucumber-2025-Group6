@@ -1,6 +1,10 @@
-[![](https://img.shields.io/github/v/release/University-of-Mons/calculator-cucumber-2025?label=Latest%20Release)](https://github.com/University-of-Mons/calculator-cucumber/releases/latest)
+[![](https://img.shields.io/github/v/release/nicolas-gatta/calculator-cucumber-2025-Group6?label=Latest%20Release)](https://github.com/nicolas-gatta/calculator-cucumber-2025-Group6/releases/latest)
 
-Code quality: ![Maven Build](https://github.com/University-of-Mons/calculator-cucumber-2025/actions/workflows/maven.yml/badge.svg)
+Code quality: ![Maven Build](https://github.com/nicolas-gatta/calculator-cucumber-2025-Group6/actions/workflows/maven.yml/badge.svg)
+
+Code Analysis: 
+ - PMD: ![Build Status](https://github.com/nicolas-gatta/calculator-cucumber-2025-Group6/actions/workflows/pmd.yml/badge.svg)
+ - Sonar Cloud: 
 
 Test coverage: ![Coverage](.github/badges/jacoco.svg)
 ![Branches](.github/badges/branches.svg)
