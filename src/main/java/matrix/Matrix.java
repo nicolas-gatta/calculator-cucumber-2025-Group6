@@ -1,12 +1,5 @@
 package matrix;
 
-import calculator.Expression;
-import calculator.MyNumber;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class Matrix {
 
     private final double[][] values;
@@ -95,7 +88,7 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    public Matrix multiply(MyNumber number) {
+    public Matrix multiply(double number) {
 
         int num_row = rows();
         int num_column = columns();
@@ -103,7 +96,7 @@ public class Matrix {
 
         for (int row = 0; row < num_row; row++) {
             for (int column = 0; column < num_column; column++){
-                result[row][column] += getValue(row, column) * number.getValue();
+                result[row][column] += getValue(row, column) * number;
             }
         }
         return new Matrix(result);
@@ -202,11 +195,13 @@ public class Matrix {
             throw new IllegalArgumentException("Matrix must be square to be inverted");
         }
 
-        return (cofactor().transpose());
+        if(determinant() == 0){
+            throw new IllegalArgumentException("The determinant is equal to zero, so it's impossible to calculate the inverted Matrix");
+        }
+
+        return (cofactor().transpose()).multiply(1/determinant());
 
     }
-
-
 
     public String toString() {
 
@@ -262,6 +257,7 @@ public class Matrix {
 
         for (int index_r = 0; index_r < rows.length; index_r++) {
             String[] columns = rows[index_r].replaceAll("\\[|\\]", "").split(",");
+
 
             if (num_column == -1 && columns.length != 0) {
                 num_column = columns.length;

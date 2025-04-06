@@ -3,7 +3,9 @@ package matrix;
 import java.util.*;
 
 import calculator.IllegalConstruction;
-import calculator.Operation;
+import calculator.numbers.ComplexNumber;
+import calculator.numbers.RationalNumber;
+import calculator.operations.Operation;
 import calculator.Expression;
 
 public class MatrixOperation extends Operation {
@@ -17,6 +19,21 @@ public class MatrixOperation extends Operation {
 
     @Override
     public int op(int left, int right) {
+        throw new UnsupportedOperationException("MatrixOperation doesn't support scalar evaluation.");
+    }
+
+    @Override
+    public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+        throw new UnsupportedOperationException("MatrixOperation doesn't support scalar evaluation.");
+    }
+
+    @Override
+    public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
+        throw new UnsupportedOperationException("MatrixOperation doesn't support scalar evaluation.");
+    }
+
+    @Override
+    public double opReal(double l, double r) {
         throw new UnsupportedOperationException("MatrixOperation doesn't support scalar evaluation.");
     }
 
@@ -63,4 +80,6 @@ public class MatrixOperation extends Operation {
     public String toString() {
         return "(" + args.get(0) + " " + symbol + " " + args.get(1) + ")";
     }
+
+
 }
