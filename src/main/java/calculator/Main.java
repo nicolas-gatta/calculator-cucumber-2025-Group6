@@ -5,23 +5,15 @@ import calculator.numbers.MyNumber;
 import calculator.numbers.RationalNumber;
 import calculator.numbers.RealNumber;
 import calculator.numbers.ComplexNumber;
-import calculator.operations.Divides;
-import calculator.operations.Minus;
-import calculator.operations.Plus;
-import calculator.operations.Times;
+import calculator.operations.*;
 
-import calculator.numbers.AngleConverter;
-import calculator.numbers.MyNumber;
-import calculator.numbers.RationalNumber;
-import calculator.numbers.RealNumber;
-import calculator.numbers.ComplexNumber;
 import calculator.operations.Divides;
 import calculator.operations.Minus;
 import calculator.operations.Plus;
 import calculator.operations.Times;
-import matrix.Matrix;
-import matrix.MatrixExpression;
-import matrix.MatrixOperation;
+import calculator.matrix.Matrix;
+import calculator.matrix.MatrixExpression;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +38,7 @@ public class Main {
 
 	/**
 	 * Creates a list of expressions from the given parameters
-	 * 
+	 *
 	 * @param expressions The expressions to add to the list
 	 * @return A list containing the provided expressions
 	 */
@@ -65,40 +57,40 @@ public class Main {
 
 		try {
 			System.out.println("\n=== Integer Operations Examples ===");
-			
+
 			e = new MyNumber(8);
 			c.print(e);
 
 			// Using the helper method to create expression lists
 			e = new Plus(createExpressionList(
-				new MyNumber(3), new MyNumber(4), new MyNumber(5)), 
-				Notation.PREFIX);
+					new MyNumber(3), new MyNumber(4), new MyNumber(5)),
+					Notation.PREFIX);
 			c.printExpressionDetails(e);
 
 			e = new Minus(createExpressionList(
-				new MyNumber(5), new MyNumber(3)), 
-				Notation.INFIX);
+					new MyNumber(5), new MyNumber(3)),
+					Notation.INFIX);
 			c.print(e);
 
 			// More complex nested expressions
 			List<Expression> params3 = createExpressionList(
-				new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5))),
-				new Minus(createExpressionList(new MyNumber(5), new MyNumber(3)))
+					new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5))),
+					new Minus(createExpressionList(new MyNumber(5), new MyNumber(3)))
 			);
 			e = new Times(params3);
 			c.printExpressionDetails(e);
 
 			List<Expression> params4 = createExpressionList(
-				new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5))),
-				new Minus(createExpressionList(new MyNumber(5), new MyNumber(3))),
-				new MyNumber(5)
+					new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5))),
+					new Minus(createExpressionList(new MyNumber(5), new MyNumber(3))),
+					new MyNumber(5)
 			);
 			e = new Divides(params4, Notation.POSTFIX);
 			c.print(e);
 
 			List<Expression> params5 = createExpressionList(
-				new RealNumber(3.14159, 5),
-				new RealNumber(2.71828, 5)
+					new RealNumber(3.14159, 5),
+					new RealNumber(2.71828, 5)
 			);
 			e = new Plus(params5, Notation.PREFIX);
 			c.print(e);
@@ -106,8 +98,8 @@ public class Main {
 			c.eval(e);
 
 			List<Expression> params6 = createExpressionList(
-				new ComplexNumber(5, 6),
-				new ComplexNumber(1, 2)
+					new ComplexNumber(5, 6),
+					new ComplexNumber(1, 2)
 			);
 			e = new Plus(params6, Notation.POSTFIX);
 			c.printExpressionDetails(e);
@@ -127,11 +119,11 @@ public class Main {
 
 		try {
 			System.out.println("\n=== Real Number Operations Examples ===");
-			
+
 			// Basic real number operations
 			List<Expression> params = createExpressionList(
-				new RealNumber(3.14159, 5),
-				new RealNumber(2.71828, 5)
+					new RealNumber(3.14159, 5),
+					new RealNumber(2.71828, 5)
 			);
 			e = new Plus(params);
 			System.out.println("Adding π and e:");
@@ -151,9 +143,9 @@ public class Main {
 			// Complex calculation with mixed types
 			System.out.println("Mixed type calculation (π * e * 2):");
 			List<Expression> params2 = createExpressionList(
-				new RealNumber(Math.PI, 6),
-				new RealNumber(Math.E, 6),
-				new MyNumber(2)
+					new RealNumber(Math.PI, 6),
+					new RealNumber(Math.E, 6),
+					new MyNumber(2)
 			);
 			e = new Times(params2);
 			c.print(e);
@@ -161,8 +153,8 @@ public class Main {
 			// Division with real numbers
 			System.out.println("Division of real numbers (1/3):");
 			List<Expression> params3 = createExpressionList(
-				new RealNumber(1.0, 4),
-				new RealNumber(3.0, 4)
+					new RealNumber(1.0, 4),
+					new RealNumber(3.0, 4)
 			);
 			e = new Divides(params3);
 			c.print(e);
@@ -245,7 +237,12 @@ public class Main {
 	}
 
 	public static void demonstrateMatrixOperations() {
+
 		System.out.println("\n=== Matrix Operations Examples ===");
+
+		Calculator c = new Calculator();
+		Expression e;
+
 		try {
 			Matrix A = new Matrix("[[1,2],[3,4]]");
 			Matrix B = new Matrix("[[5,6],[7,8]]");
@@ -259,53 +256,40 @@ public class Main {
 			MatrixExpression e4 = new MatrixExpression(D);
 			MatrixExpression e5 = new MatrixExpression(E);
 
-			System.out.println("A = " + e1);
-			System.out.println("B = " + e2);
-			System.out.println("C = " + e3);
-			System.out.println("D = " + e4);
-			System.out.println("E = " + e5);
+			e = new Plus(List.of(e1, e2));
+			c.print(e);
 
-			System.out.println("Det(A) = " + A.determinant());
-			System.out.println("Det(B) = " + B.determinant());
-			System.out.println("Det(C) = " + C.determinant());
-			System.out.println("Det(D) = " + D.determinant());
+			e = new Minus(List.of(e1, e2));
+			c.print(e);
 
-			MatrixOperation add = new MatrixOperation(List.of(e1, e2), "+");
-			System.out.println("A + B = " + add.compute());
+			e = new Times(List.of(e1, e2));
+			c.print(e);
 
-			MatrixOperation substract = new MatrixOperation(List.of(e1, e2), "-");
-			System.out.println("A - B = " + substract.compute());
+			e = new Times(List.of(e3, e4));
+			c.print(e);
 
-			MatrixOperation multiply = new MatrixOperation(List.of(e1, e2), "*");
-			System.out.println("A * B = " + multiply.compute());
+			e = new Times(List.of(e5, e3));
+			c.print(e);
 
-			multiply = new MatrixOperation(List.of(e3, e4), "*");
-			System.out.println("C * D = " + multiply.compute());
+			e = new MatrixTranspose(List.of(e1));
+			c.print(e);
 
-			multiply = new MatrixOperation(List.of(e5, e3), "*");
-			System.out.println("E * C = " + multiply.compute());
+			e = new MatrixIdentity(List.of(e1));
+			c.print(e);
 
-			MatrixOperation transpose = new MatrixOperation(List.of(e1), "^T");
-			System.out.println("A^T = " + transpose.compute());
+			e = new MatrixInverted(List.of(e1));
+			c.print(e);
 
-			MatrixOperation identity = new MatrixOperation(List.of(e1), "^I");
-			System.out.println("A^I = " + identity.compute());
+			e = new MatrixTranspose(List.of(e3));
+			c.print(e);
 
-			MatrixOperation inverted = new MatrixOperation(List.of(e1), "^-1");
-			System.out.println("A^-1 = " + inverted.compute());
+			e = new MatrixIdentity(List.of(e3));
+			c.print(e);
 
-			transpose = new MatrixOperation(List.of(e3), "^T");
-			System.out.println("C^T = " + transpose.compute());
-
-			identity = new MatrixOperation(List.of(e3), "^I");
-			System.out.println("C^I = " + identity.compute());
-
-			inverted = new MatrixOperation(List.of(e4), "^-1");
-			System.out.println("C^-1 = " + inverted.compute());
-
-		}catch(IllegalConstruction exception) {
+		}catch (IllegalConstruction exception){
 			System.out.println(exception);
 		}
+
 	}
 
 	/**
