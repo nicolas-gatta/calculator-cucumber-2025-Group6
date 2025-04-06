@@ -158,8 +158,24 @@ public abstract class Operation implements Expression
 	 * @see Notation
 	 */
 	@Override
-	public final String toString() {
+	public String toString() {
 		StringVisitor sv = new StringVisitor(notation);
+		this.accept(sv);
+		return sv.getResult();
+	}
+
+	/**
+	 * Converts the operation to its string representation using a StringVisitor.
+	 * The format of the string depends on the notation (PREFIX, INFIX, or POSTFIX)
+	 * that was specified when creating the operation.
+	 *
+	 * @param customNotation custom notation to use when show the operation.
+	 * @return The string representation of the operation
+	 * @see visitor.StringVisitor
+	 * @see Notation
+	 */
+	public String toString(Notation customNotation) {
+		StringVisitor sv = new StringVisitor(customNotation);
 		this.accept(sv);
 		return sv.getResult();
 	}
