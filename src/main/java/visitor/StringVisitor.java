@@ -6,6 +6,7 @@ import calculator.Notation;
 import calculator.numbers.RealNumber;
 import calculator.numbers.ComplexNumber;
 import calculator.numbers.RationalNumber;
+import calculator.matrix.MatrixExpression;
 
 import java.util.stream.Stream;
 
@@ -68,6 +69,16 @@ public class StringVisitor extends Visitor {
     }
 
     /**
+     * Visits a matrix node and converts it to its string representation.
+     *
+     * @param n The matrix node being visited
+     */
+    @Override
+    public void visit(MatrixExpression n) {
+        result = n.toString();
+    }
+
+    /**
      * Visits an operation node and converts it and its arguments to a string
      * according to the specified notation.
      * - INFIX: ( arg1 op arg2 )
@@ -84,17 +95,23 @@ public class StringVisitor extends Visitor {
             return sv.getResult();
         });
 
-        result = switch (notation) {
-            case INFIX -> "( " + 
-                s.reduce((s1, s2) -> s1 + " " + o.getSymbol() + " " + s2).get() +
-                " )";
-            case PREFIX -> o.getSymbol() + " (" + 
-                s.reduce((s1, s2) -> s1 + ", " + s2).get() +
-                ")";
-            case POSTFIX -> "(" + 
-                s.reduce((s1, s2) -> s1 + ", " + s2).get() +
-                ") " + o.getSymbol();
-        };
+        if(o.getArgs().size() == 1){
+            result = switch (notation) {
+                case INFIX, POSTFIX, PREFIX -> "( " + o.getArgs().get(0) + " )" + o.getSymbol() ;
+            };
+        }else{
+            result = switch (notation) {
+                case INFIX -> "( " +
+                        s.reduce((s1, s2) -> s1 + " " + o.getSymbol() + " " + s2).get() +
+                        " )";
+                case PREFIX -> o.getSymbol() + " (" +
+                        s.reduce((s1, s2) -> s1 + ", " + s2).get() +
+                        ")";
+                case POSTFIX -> "(" +
+                        s.reduce((s1, s2) -> s1 + ", " + s2).get() +
+                        ") " + o.getSymbol();
+            };
+        }
     }
 
     /**

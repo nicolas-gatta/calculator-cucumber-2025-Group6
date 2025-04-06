@@ -4,6 +4,7 @@ import calculator.*;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RationalNumber;
 import calculator.numbers.ComplexNumber;
+import calculator.matrix.Matrix;
 import visitor.Visitor;
 import visitor.StringVisitor;
 import calculator.IllegalConstruction;
@@ -238,6 +239,35 @@ public abstract class Operation implements Expression {
 	 * @return The result of the operation as a ComplexNumber
 	 */
 	public abstract ComplexNumber opComplex(final ComplexNumber l, final ComplexNumber r);
+
+	/**
+	 * Abstract method representing the actual binary arithmetic operation to compute
+	 * for Matrix.
+	 *
+	 * @param l The first Matrix
+	 * @param r The second Matrix
+	 * @return The result of the operation as a Matrix
+	 */
+	public abstract Matrix opMatrix(Matrix l, Matrix r);
+
+	/**
+	 * Abstract method representing the actual binary arithmetic operation to compute
+	 * for Matrix.
+	 *
+	 * @param l The first Matrix
+	 * @param r The number
+	 * @return The result of the operation as a Matrix
+	 */
+	public abstract Matrix opMatrix(Matrix l, double r);
+
+	/**
+	 * Abstract method representing the actual binary arithmetic operation to compute
+	 * for Matrix.
+	 *
+	 * @param l The Matrix
+	 * @return The result of the operation as a Matrix
+	 */
+	public abstract Matrix opMatrix(Matrix l);
 
 	/**
 	 * Checks if two double values are approximately equal.

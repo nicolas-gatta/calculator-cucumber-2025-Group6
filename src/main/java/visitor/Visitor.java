@@ -5,6 +5,9 @@ import calculator.operations.Operation;
 import calculator.numbers.RealNumber;
 import calculator.numbers.ComplexNumber;
 import calculator.numbers.RationalNumber;
+
+import calculator.matrix.MatrixExpression;
+
 /**
  * Visitor design pattern
  */
@@ -49,4 +52,11 @@ public abstract class Visitor {
       * @param n The rational number being visited
       */
      public abstract void visit(RationalNumber n);
+
+    /**
+     * The Visitor can traverse a Matrix (a subtype of Expression)
+     *
+     * @param n The matrix being visited
+     */
+    public abstract void visit(MatrixExpression n);
 }
