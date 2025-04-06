@@ -1,5 +1,8 @@
-package calculator;
+package calculator.operations;
 
+import calculator.*;
+import calculator.numbers.RationalNumber;
+import calculator.numbers.ComplexNumber;
 import java.util.List;
 
 /** This class represents the arithmetic operation "-".
@@ -18,7 +21,7 @@ public final class Minus extends Operation
    *
    * @param elist The list of Expressions to subtract
    * @throws IllegalConstruction    If an empty list of expressions if passed as parameter
-   * @see #Minus(List<Expression>,Notation)
+   * @see #Minus(List< Expression >, Notation )
    */
   public /*constructor*/ Minus(List<Expression> elist) throws IllegalConstruction {
   	this(elist, null);
@@ -48,5 +51,20 @@ public final class Minus extends Operation
      */
   public int op(int l, int r) {
   	return (l-r);
+  }
+
+  @Override
+  public double opReal(double l, double r) {
+    return l - r;
+  }
+
+  @Override
+  public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+    return l.subtract(r);
+  }
+
+  @Override
+  public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
+    return l.subtract(r);
   }
 }
