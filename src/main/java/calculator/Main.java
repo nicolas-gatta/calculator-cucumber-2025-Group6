@@ -10,6 +10,16 @@ import calculator.operations.Minus;
 import calculator.operations.Plus;
 import calculator.operations.Times;
 
+import calculator.numbers.AngleConverter;
+import calculator.numbers.MyNumber;
+import calculator.numbers.RationalNumber;
+import calculator.numbers.RealNumber;
+import calculator.numbers.ComplexNumber;
+import calculator.operations.Divides;
+import calculator.operations.Minus;
+import calculator.operations.Plus;
+import calculator.operations.Times;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

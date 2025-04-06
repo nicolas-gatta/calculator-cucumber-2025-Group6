@@ -1,5 +1,8 @@
-package calculator;
+package calculator.operations;
 
+import calculator.*;
+import calculator.numbers.RationalNumber;
+import calculator.numbers.ComplexNumber;
 import java.util.List;
 
 /** This class represents the arithmetic multiplication operation "*".
@@ -17,7 +20,7 @@ public final class Times extends Operation
    *
    * @param elist The list of Expressions to multiply
    * @throws IllegalConstruction    If an empty list of expressions if passed as parameter
-   * @see #Times(List<Expression>,Notation)
+   * @see #Times(List< Expression >, Notation )
    */
   public /*constructor*/ Times(List<Expression> elist) throws IllegalConstruction {
   	this(elist, null);
@@ -47,4 +50,19 @@ public final class Times extends Operation
    */
   public int op(int l, int r)
     { return (l*r); }
+
+  @Override
+  public double opReal(double l, double r) {
+    return l * r;
+  }
+
+  @Override
+  public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+    return l.multiply(r);
+  }
+
+  @Override
+  public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
+    return l.multiply(r);
+  }
 }

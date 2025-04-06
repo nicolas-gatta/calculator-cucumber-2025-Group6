@@ -1,5 +1,8 @@
-package calculator;
+package calculator.operations;
 
+import calculator.*;
+import calculator.numbers.RationalNumber;
+import calculator.numbers.ComplexNumber;
 import java.util.List;
 
 /** This class represents the arithmetic sum operation "+".
@@ -18,7 +21,7 @@ public final class Plus extends Operation
    *
    * @param elist The list of Expressions to add
    * @throws IllegalConstruction    If an empty list of expressions if passed as parameter
-   * @see #Plus(List<Expression>,Notation)
+   * @see #Plus(List< Expression >,Notation)
    */
   public /*constructor*/ Plus(List<Expression> elist) throws IllegalConstruction {
 	this(elist, null);
@@ -48,5 +51,20 @@ public final class Plus extends Operation
    */
   public int op(int l, int r) {
   	return (l+r);
+  }
+
+  @Override
+  public double opReal(double l, double r) {
+    return l + r;
+  }
+
+  @Override
+  public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+    return l.add(r);
+  }
+
+  @Override
+  public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
+    return l.add(r);
   }
 }

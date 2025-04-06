@@ -84,6 +84,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
+                    <argLine>-Duser.language=en -Duser.country=US</argLine>
                     <properties>
                         <configurationParameters>
                             cucumber.junit-platform.naming-strategy=long
