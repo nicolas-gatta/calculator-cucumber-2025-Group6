@@ -1,4 +1,4 @@
-package matrix;
+package calculator.matrix;
 
 import calculator.Expression;
 import visitor.Visitor;
@@ -16,7 +16,7 @@ public class MatrixExpression implements Expression {
 
     @Override
     public void accept(Visitor v) {
-
+        v.visit(this);
     }
 
     @Override

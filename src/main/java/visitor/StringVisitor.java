@@ -6,6 +6,7 @@ import calculator.Notation;
 import calculator.numbers.RealNumber;
 import calculator.numbers.ComplexNumber;
 import calculator.numbers.RationalNumber;
+import calculator.matrix.MatrixExpression;
 
 import java.util.stream.Stream;
 
@@ -64,6 +65,16 @@ public class StringVisitor extends Visitor {
      */
     @Override
     public void visit(RationalNumber n) {
+        result = n.toString();
+    }
+
+    /**
+     * Visits a matrix node and converts it to its string representation.
+     *
+     * @param n The matrix node being visited
+     */
+    @Override
+    public void visit(MatrixExpression n) {
         result = n.toString();
     }
 

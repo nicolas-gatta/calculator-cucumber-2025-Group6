@@ -6,6 +6,7 @@ import calculator.Expression;
 import calculator.numbers.RealNumber;
 import calculator.numbers.ComplexNumber;
 import calculator.numbers.RationalNumber;
+import calculator.matrix.MatrixExpression;
 
 /**
  * A visitor that counts various metrics of an expression tree:
@@ -79,7 +80,21 @@ public class CountingVisitor extends Visitor {
         operations = 0;
         depth = 0;
     }
-    
+
+    /**
+     * Visits a matrix node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param m The matrix node being visited
+     */
+    @Override
+    public void visit(MatrixExpression m) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+
 
     /**
      * Visits an operation node in the expression tree.
@@ -104,6 +119,7 @@ public class CountingVisitor extends Visitor {
         operations = 1 + totalOps;
         numbers = totalNums;
     }
+
 
     /**
      * Gets the maximum depth of the expression tree.

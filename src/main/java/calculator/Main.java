@@ -5,20 +5,15 @@ import calculator.numbers.MyNumber;
 import calculator.numbers.RationalNumber;
 import calculator.numbers.RealNumber;
 import calculator.numbers.ComplexNumber;
-import calculator.operations.Divides;
-import calculator.operations.Minus;
-import calculator.operations.Plus;
-import calculator.operations.Times;
+import calculator.operations.*;
 
-import calculator.numbers.AngleConverter;
-import calculator.numbers.MyNumber;
-import calculator.numbers.RationalNumber;
-import calculator.numbers.RealNumber;
-import calculator.numbers.ComplexNumber;
 import calculator.operations.Divides;
 import calculator.operations.Minus;
 import calculator.operations.Plus;
 import calculator.operations.Times;
+import calculator.matrix.Matrix;
+import calculator.matrix.MatrixExpression;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -241,58 +236,60 @@ public class Main {
 		System.out.println("Quotient: " + quotient); // Should print "Quotient: 2.2 + 0.4i"
 	}
 
-	public static void demonstrateMatrixOperations() throws IllegalConstruction {
+	public static void demonstrateMatrixOperations() {
 
-		Matrix A = new Matrix("[[1,2],[3,4]]");
-		Matrix B = new Matrix("[[5,6],[7,8]]");
+		System.out.println("\n=== Matrix Operations Examples ===");
 
-		MatrixExpression e1 = new MatrixExpression(A);
-		MatrixExpression e2 = new MatrixExpression(B);
+		Calculator c = new Calculator();
+		Expression e;
 
-		System.out.println("A = " + e1);
-		System.out.println("B = " + e2);
+		try {
+			Matrix A = new Matrix("[[1,2],[3,4]]");
+			Matrix B = new Matrix("[[5,6],[7,8]]");
+			Matrix C = new Matrix("[[9,10,11],[12,13,14],[15,16,17]]");
+			Matrix D = new Matrix("[[-50,80,100],[70,10,5],[12,25,80]]");
+			Matrix E = new Matrix("[[1,2,3],[4,5,6]]");
 
-		MatrixOperation add = new MatrixOperation(List.of(e1, e2), "+");
-		System.out.println("A + B = " + add.compute());
+			MatrixExpression e1 = new MatrixExpression(A);
+			MatrixExpression e2 = new MatrixExpression(B);
+			MatrixExpression e3 = new MatrixExpression(C);
+			MatrixExpression e4 = new MatrixExpression(D);
+			MatrixExpression e5 = new MatrixExpression(E);
 
-		MatrixOperation substract = new MatrixOperation(List.of(e1, e2), "-");
-		System.out.println("A - B = " + substract.compute());
+			e = new Plus(List.of(e1, e2));
+			c.print(e);
 
-		MatrixOperation multiply = new MatrixOperation(List.of(e1, e2), "*");
-		System.out.println("A * B = " + multiply.compute());
+			e = new Minus(List.of(e1, e2));
+			c.print(e);
 
-		MatrixOperation transpose = new MatrixOperation(List.of(e1), "^T");
-		System.out.println("A^T = " + transpose.compute());
+			e = new Times(List.of(e1, e2));
+			c.print(e);
 
-		MatrixOperation identity = new MatrixOperation(List.of(e1), "^I");
-		System.out.println("A^I = " + identity.compute());
-	}
+			e = new Times(List.of(e3, e4));
+			c.print(e);
 
-	public static void demonstrateMatrixOperations() throws IllegalConstruction {
+			e = new Times(List.of(e5, e3));
+			c.print(e);
 
-		Matrix A = new Matrix("[[1,2],[3,4]]");
-		Matrix B = new Matrix("[[5,6],[7,8]]");
+			e = new MatrixTranspose(List.of(e1));
+			c.print(e);
 
-		MatrixExpression e1 = new MatrixExpression(A);
-		MatrixExpression e2 = new MatrixExpression(B);
+			e = new MatrixIdentity(List.of(e1));
+			c.print(e);
 
-		System.out.println("A = " + e1);
-		System.out.println("B = " + e2);
+			e = new MatrixInverted(List.of(e1));
+			c.print(e);
 
-		MatrixOperation add = new MatrixOperation(List.of(e1, e2), "+");
-		System.out.println("A + B = " + add.compute());
+			e = new MatrixTranspose(List.of(e3));
+			c.print(e);
 
-		MatrixOperation substract = new MatrixOperation(List.of(e1, e2), "-");
-		System.out.println("A - B = " + substract.compute());
+			e = new MatrixIdentity(List.of(e3));
+			c.print(e);
 
-		MatrixOperation multiply = new MatrixOperation(List.of(e1, e2), "*");
-		System.out.println("A * B = " + multiply.compute());
+		}catch (IllegalConstruction exception){
+			System.out.println(exception);
+		}
 
-		MatrixOperation transpose = new MatrixOperation(List.of(e1), "^T");
-		System.out.println("A^T = " + transpose.compute());
-
-		MatrixOperation identity = new MatrixOperation(List.of(e1), "^I");
-		System.out.println("A^I = " + identity.compute());
 	}
 
 	/**
@@ -304,6 +301,7 @@ public class Main {
 		demonstrateRealOperations();
 		demonstrateRationalOperations();
 		demonstrateComplexOperations();
+		demonstrateMatrixOperations();
 	}
 
 }

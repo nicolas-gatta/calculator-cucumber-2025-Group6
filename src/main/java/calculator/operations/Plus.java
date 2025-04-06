@@ -3,6 +3,8 @@ package calculator.operations;
 import calculator.*;
 import calculator.numbers.RationalNumber;
 import calculator.numbers.ComplexNumber;
+import calculator.matrix.Matrix;
+
 import java.util.List;
 
 /** This class represents the arithmetic sum operation "+".
@@ -67,4 +69,19 @@ public final class Plus extends Operation
   public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
     return l.add(r);
   }
-}
+
+  @Override
+  public Matrix opMatrix(Matrix l, Matrix r) {
+   return l.add(r);
+  }
+
+  @Override
+  public Matrix opMatrix(Matrix l, double r) {
+   throw new ArithmeticException("Cannot add a scalar to a matrix");
+  }
+
+  @Override
+  public Matrix opMatrix(Matrix l) {
+   throw new ArithmeticException("Need two matrix to add");
+  }
+ }

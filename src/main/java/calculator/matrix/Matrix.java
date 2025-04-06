@@ -1,11 +1,7 @@
-package matrix;
+package calculator.matrix;
 
-import calculator.Expression;
-import calculator.MyNumber;
+import calculator.numbers.RealNumber;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class Matrix {
 
@@ -54,7 +50,7 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    public Matrix substract(Matrix other) {
+    public Matrix subtract(Matrix other) {
 
         if(rows() != other.rows() || columns()!= other.columns()){
             throw new IllegalArgumentException("Matrix must have the same number of columns and rows to execute the subtraction");
@@ -95,7 +91,7 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    public Matrix multiply(MyNumber number) {
+    public Matrix multiply(double number) {
 
         int num_row = rows();
         int num_column = columns();
@@ -103,7 +99,21 @@ public class Matrix {
 
         for (int row = 0; row < num_row; row++) {
             for (int column = 0; column < num_column; column++){
-                result[row][column] += getValue(row, column) * number.getValue();
+                result[row][column] += getValue(row, column) * number;
+            }
+        }
+        return new Matrix(result);
+    }
+
+    public Matrix divide(double number) {
+
+        int num_row = rows();
+        int num_column = columns();
+        double[][] result = new double[num_row][num_column];
+
+        for (int row = 0; row < num_row; row++) {
+            for (int column = 0; column < num_column; column++){
+                result[row][column] += getValue(row, column) * number;
             }
         }
         return new Matrix(result);

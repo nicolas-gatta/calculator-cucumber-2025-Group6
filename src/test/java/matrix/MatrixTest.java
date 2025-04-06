@@ -1,6 +1,6 @@
 package matrix;
 
-import matrix.Matrix;
+import calculator.matrix.Matrix;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
