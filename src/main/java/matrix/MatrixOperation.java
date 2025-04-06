@@ -21,20 +21,33 @@ public class MatrixOperation extends Operation {
     }
 
     public Matrix compute() {
-        if (args.size() < 1)
+        if (args.size() < 1){
             throw new IllegalArgumentException("Not enough parameters to do any operation on the matrix");
+        }
 
         Expression first = args.get(0);
 
-        if (!(first instanceof MatrixExpression))
+        if (!(first instanceof MatrixExpression)){
             throw new IllegalArgumentException("The operation can only contain matrix");
+        }
 
         Matrix result = ((MatrixExpression) first).getMatrix();
 
-        for (int i = 1; i < args.size(); i++) {
-            if (!(args.get(i) instanceof MatrixExpression))
+        if (args.size() == 1){
+            switch (symbol) {
+                case "^I" -> result = result.identity();
+                case "^T" -> result = result.transpose();
+                case "^-1" ->  result = result.inverse();
+                default -> throw new UnsupportedOperationException("Unsupported Operation : " + symbol);
+            }
+
+        }else{
+
+            Expression second = args.get(1);
+            if (!(second instanceof MatrixExpression)){
                 throw new IllegalArgumentException("All the parameters should be Matrix type");
-            Matrix other = ((MatrixExpression) args.get(i)).getMatrix();
+            }
+            Matrix other = ((MatrixExpression) second).getMatrix();
 
             switch (symbol) {
                 case "+" -> result = result.add(other);
@@ -43,7 +56,6 @@ public class MatrixOperation extends Operation {
                 default -> throw new UnsupportedOperationException("Unsupported Operation : " + symbol);
             }
         }
-
         return result;
     }
 

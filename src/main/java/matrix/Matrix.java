@@ -1,5 +1,12 @@
 package matrix;
 
+import calculator.Expression;
+import calculator.MyNumber;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Matrix {
 
     private final double[][] values;
@@ -30,6 +37,11 @@ public class Matrix {
     }
 
     public Matrix add(Matrix other) {
+
+        if(rows() != other.rows() || columns()!= other.columns()){
+            throw new IllegalArgumentException("Matrix must have the same number of columns and rows to execute the addition");
+        }
+
         int num_row = rows();
         int num_column = columns();
         double[][] result = new double[num_row][num_column];
@@ -43,6 +55,11 @@ public class Matrix {
     }
 
     public Matrix substract(Matrix other) {
+
+        if(rows() != other.rows() || columns()!= other.columns()){
+            throw new IllegalArgumentException("Matrix must have the same number of columns and rows to execute the subtraction");
+        }
+
         int num_row = rows();
         int num_column = columns();
         double[][] result = new double[num_row][num_column];
@@ -57,6 +74,11 @@ public class Matrix {
     }
 
     public Matrix multiply(Matrix other) {
+
+        if(columns() != other.rows()){
+            throw new IllegalArgumentException("Matrix A should have the same number of column as the number of row in the Matrix B");
+        }
+
         int num_row_a = rows();
         int num_column_a = columns();
         int num_column_o = other.columns();
@@ -70,6 +92,20 @@ public class Matrix {
             }
         }
 
+        return new Matrix(result);
+    }
+
+    public Matrix multiply(MyNumber number) {
+
+        int num_row = rows();
+        int num_column = columns();
+        double[][] result = new double[num_row][num_column];
+
+        for (int row = 0; row < num_row; row++) {
+            for (int column = 0; column < num_column; column++){
+                result[row][column] += getValue(row, column) * number.getValue();
+            }
+        }
         return new Matrix(result);
     }
 
@@ -99,17 +135,77 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    public Matrix cofactor()  {
+        int num_row = rows();
+        int num_column = columns();
+
+        double[][] result = new double [num_row][num_column];
+        for (int row = 0; row < num_row; row++) {
+            for (int column = 0; column < num_column; column++) {
+                result[row][column] = (row % 2 == 0 ? 1 : -1) *  (column % 2 == 0 ? 1 : -1) * createSubMatrix(row, column).determinant();
+            }
+        }
+
+        return new Matrix(result);
+    }
+
+    public Matrix createSubMatrix(int excludingRow, int excludingColumn) {
+        int numRows = rows();
+        int numCols = columns();
+
+        double[][] subMatrix = new double[numRows - 1][numCols - 1];
+
+        int real_row = 0;
+        for (int row = 0; row < numRows; row++) {
+            if (row != excludingRow){
+                int real_column = 0;
+                for (int column = 0; column < numCols; column++) {
+                    if (column != excludingColumn){
+                        subMatrix[real_row][real_column] = getValue(row, column);
+                        real_column++;
+                    }
+                }
+                real_row++;
+            }
+
+        }
+
+        return new Matrix(subMatrix);
+    }
+
+    public double determinant() {
+
+        if (rows() != columns()){
+            throw new IllegalArgumentException("matrix need to be square.");
+        }
+
+        if (rows() == 1) {
+            return getValue(0, 0);
+        }
+
+        if (rows() == 2) {
+            return (getValue(0, 0) * getValue(1, 1)) -
+                    ( getValue(0, 1) * getValue(1, 0));
+        }
+
+        double result = 0.0;
+
+        for (int column = 0; column < columns(); column++) {
+            result += (column % 2 == 0 ? 1 : -1) * getValue(0, column) * createSubMatrix(0, column).determinant();
+        }
+        return result;
+    }
+
     public Matrix inverse(){
 
         if(rows() != columns()){
             throw new IllegalArgumentException("Matrix must be square to be inverted");
         }
 
-        double result[][] = new double[columns()][rows()];
-
-        return new Matrix(result);
+        return (cofactor().transpose());
 
     }
+
 
 
     public String toString() {

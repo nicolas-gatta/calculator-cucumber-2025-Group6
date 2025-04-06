@@ -83,6 +83,12 @@ public class Main {
 			MatrixOperation multiply = new MatrixOperation(List.of(e1, e2), "*");
 			System.out.println("A * B = " + multiply.compute());
 
+			MatrixOperation transpose = new MatrixOperation(List.of(e1), "^T");
+			System.out.println("A^T = " + transpose.compute());
+
+			MatrixOperation identity = new MatrixOperation(List.of(e1), "^I");
+			System.out.println("A^I = " + identity.compute());
+
 
 
 		}
