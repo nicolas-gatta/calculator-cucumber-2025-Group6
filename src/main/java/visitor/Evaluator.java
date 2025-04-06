@@ -40,6 +40,7 @@ public class Evaluator extends Visitor {
             return;
         }
 
+        o.getArgs().get(0).accept(this);
         Expression accumulator = result;
 
         if (o.getArgs().size() == 1) {
@@ -53,8 +54,6 @@ public class Evaluator extends Visitor {
             }
 
         } else if (o.getArgs().size() >= 2) {
-            o.getArgs().get(0).accept(this);
-
 
             for (int i = 1; i < o.getArgs().size(); i++) {
                 o.getArgs().get(i).accept(this);
@@ -79,6 +78,8 @@ public class Evaluator extends Visitor {
                         accumulator = new RealNumber(accVal * currVal, ((RealNumber) accumulator).getPrecision());
                     else if (o instanceof Divides)
                         accumulator = new RealNumber(accVal / currVal, ((RealNumber) accumulator).getPrecision());
+
+                    result = accumulator;
                 }
                 // Gestion des opérations entre ComplexNumber
                 else if (accumulator instanceof ComplexNumber || current instanceof ComplexNumber) {
@@ -164,9 +165,8 @@ public class Evaluator extends Visitor {
                     }
                 }
             }
-
+            result = accumulator;
         }
-        result = accumulator;
     }
     
     

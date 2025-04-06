@@ -9,7 +9,7 @@ import calculator.numbers.RationalNumber;
 
 import java.util.List;
 
-public class MatrixTranspose extends Operation{
+public final class MatrixTranspose extends Operation{
 
     public MatrixTranspose(List<Expression> elist) throws IllegalConstruction {
         this(elist, null);

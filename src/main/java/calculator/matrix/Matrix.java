@@ -1,8 +1,5 @@
 package calculator.matrix;
 
-import calculator.numbers.RealNumber;
-
-
 public class Matrix {
 
     private final double[][] values;

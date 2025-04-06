@@ -95,17 +95,23 @@ public class StringVisitor extends Visitor {
             return sv.getResult();
         });
 
-        result = switch (notation) {
-            case INFIX -> "( " + 
-                s.reduce((s1, s2) -> s1 + " " + o.getSymbol() + " " + s2).get() +
-                " )";
-            case PREFIX -> o.getSymbol() + " (" + 
-                s.reduce((s1, s2) -> s1 + ", " + s2).get() +
-                ")";
-            case POSTFIX -> "(" + 
-                s.reduce((s1, s2) -> s1 + ", " + s2).get() +
-                ") " + o.getSymbol();
-        };
+        if(o.getArgs().size() == 1){
+            result = switch (notation) {
+                case INFIX, POSTFIX, PREFIX -> "( " + o.getArgs().get(0) + " )" + o.getSymbol() ;
+            };
+        }else{
+            result = switch (notation) {
+                case INFIX -> "( " +
+                        s.reduce((s1, s2) -> s1 + " " + o.getSymbol() + " " + s2).get() +
+                        " )";
+                case PREFIX -> o.getSymbol() + " (" +
+                        s.reduce((s1, s2) -> s1 + ", " + s2).get() +
+                        ")";
+                case POSTFIX -> "(" +
+                        s.reduce((s1, s2) -> s1 + ", " + s2).get() +
+                        ") " + o.getSymbol();
+            };
+        }
     }
 
     /**

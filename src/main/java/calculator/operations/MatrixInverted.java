@@ -9,7 +9,7 @@ import calculator.numbers.RationalNumber;
 
 import java.util.List;
 
-public class MatrixInverted extends Operation{
+public final class MatrixInverted extends Operation{
 
     public MatrixInverted(List<Expression> elist) throws IllegalConstruction {
         this(elist, null);

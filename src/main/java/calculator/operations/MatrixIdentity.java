@@ -9,7 +9,7 @@ import calculator.numbers.RationalNumber;
 
 import java.util.List;
 
-public class MatrixIdentity extends Operation{
+public final class MatrixIdentity extends Operation{
 
     public MatrixIdentity(List<Expression> elist) throws IllegalConstruction {
         this(elist, null);
