@@ -241,4 +241,8 @@ public abstract class Operation implements Expression
 	protected boolean approxEqual(double a, double b) {
 		return Math.abs(a - b) < EPSILON;
 	}
+<<<<<<< HEAD:src/main/java/calculator/operations/Operation.java
 }
+=======
+}
+>>>>>>> 9-feature-matrix-computations:src/main/java/calculator/Operation.java
