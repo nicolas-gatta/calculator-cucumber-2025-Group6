@@ -1,8 +1,12 @@
-package calculator;
+package calculator.operations;
 
+import calculator.*;
+import calculator.numbers.MyNumber;
+import calculator.numbers.RationalNumber;
+import calculator.numbers.ComplexNumber;
 import visitor.Visitor;
 import visitor.StringVisitor;
-import visitor.CountingVisitor;
+import calculator.IllegalConstruction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +25,7 @@ public abstract class Operation implements Expression
 	 * The list of expressions passed as arguments to this arithmetic operation.
 	 * This list can be empty but cannot be null.
 	 */
-	public List<Expression> args;
+	protected List<Expression> args;
 
 	/**
 	 * The character used to represent the arithmetic operation (e.g. "+", "*").
@@ -45,11 +49,13 @@ public abstract class Operation implements Expression
 	 */
 	public Notation notation = Notation.INFIX;
 
+	private static final double EPSILON = 1e-10;
+
 	/** It is not allowed to construct an operation with a null list of expressions.
 	 * Note that it is allowed to have an EMPTY list of arguments.
 	 *
 	 * @param elist	The list of expressions passed as argument to the arithmetic operation
-	 * @throws IllegalConstruction	Exception thrown if a null list of expressions is passed as argument
+	 * @throws IllegalConstruction    Exception thrown if a null list of expressions is passed as argument
 	 */
 	protected /*constructor*/ Operation(List<Expression> elist)
 			throws IllegalConstruction
@@ -64,15 +70,15 @@ public abstract class Operation implements Expression
 	 * @param n 	The notation to be used to represent the operation
 	 * @throws IllegalConstruction	Exception thrown if a null list of expressions is passed as argument
 	 */
-	protected /*constructor*/ Operation(List<Expression> elist,Notation n)
-			throws IllegalConstruction
-	{
+	protected /*constructor*/ Operation(List<Expression> elist, Notation n) throws IllegalConstruction {
 		if (elist == null) {
-			throw new IllegalConstruction(); }
-		else {
-			args = new ArrayList<>(elist);
+			throw new IllegalConstruction("Expression list cannot be null");
 		}
-		if (n!=null) notation = n;
+		if (elist.isEmpty()) {
+			throw new IllegalConstruction("Expression list cannot be empty");
+		}
+		args = new ArrayList<>(elist);
+		if (n != null) notation = n;
 	}
 
 	/**
@@ -84,6 +90,15 @@ public abstract class Operation implements Expression
   	return args;
   }
 
+  /**
+   * getter method to return the notation of an arithmetic operation.
+   *
+   * @return	The notation of the arithmetic operation.
+   */
+  public Notation getNotation() {
+    return notation;
+  }
+
 
 	/**
 	 * Abstract method representing the actual binary arithmetic operation to compute.
@@ -93,7 +108,7 @@ public abstract class Operation implements Expression
 	 * @param right second argument of the binary operation
 	 * @return result of computing the binary operation
 	 */
-	public abstract int op(int left, int right);
+	public abstract int op(final int left, final int right);
 
 	/**
 	 * Gets the symbol of this operation.
@@ -102,6 +117,14 @@ public abstract class Operation implements Expression
 	public String getSymbol() {
 		return symbol;
 	}
+
+	/**
+	 * Abstract method representing the actual binary arithmetic operation to compute
+	 * @param l	 first argument of the binary operation
+	 * @param r	second argument of the binary operation
+	 * @return	result of computing the binary operation
+	 */
+	public abstract double opReal(final double l, final double r);
 
 	/**
 	 * Add more parameters to the existing list of parameters.
@@ -126,45 +149,6 @@ public abstract class Operation implements Expression
   }
 
 	/**
-	 * Count the depth of nested expressions in this operation using a CountingVisitor.
-	 *
-	 * @return The depth of the operation and its sub-expressions
-	 * @see visitor.CountingVisitor
-	 */
-	@Override
-	public int countDepth() {
-		CountingVisitor cv = new CountingVisitor();
-		this.accept(cv);
-		return cv.getDepth();
-	}
-
-	/**
-	 * Count the number of operations in this expression using a CountingVisitor.
-	 *
-	 * @return The total number of operations in this expression
-	 * @see visitor.CountingVisitor
-	 */
-	@Override
-	public int countOps() {
-		CountingVisitor cv = new CountingVisitor();
-		this.accept(cv);
-		return cv.getOperations();
-	}
-
-	/**
-	 * Count the number of numbers in this expression using a CountingVisitor.
-	 *
-	 * @return The total number of numbers in this expression
-	 * @see visitor.CountingVisitor
-	 */
-	@Override
-	public int countNbs() {
-		CountingVisitor cv = new CountingVisitor();
-		this.accept(cv);
-		return cv.getNumbers();
-	}
-
-	/**
 	 * Converts the operation to its string representation using a StringVisitor.
 	 * The format of the string depends on the notation (PREFIX, INFIX, or POSTFIX)
 	 * that was specified when creating the operation.
@@ -176,6 +160,22 @@ public abstract class Operation implements Expression
 	@Override
 	public String toString() {
 		StringVisitor sv = new StringVisitor(notation);
+		this.accept(sv);
+		return sv.getResult();
+	}
+
+	/**
+	 * Converts the operation to its string representation using a StringVisitor.
+	 * The format of the string depends on the notation (PREFIX, INFIX, or POSTFIX)
+	 * that was specified when creating the operation.
+	 *
+	 * @param customNotation custom notation to use when show the operation.
+	 * @return The string representation of the operation
+	 * @see visitor.StringVisitor
+	 * @see Notation
+	 */
+	public String toString(Notation customNotation) {
+		StringVisitor sv = new StringVisitor(customNotation);
 		this.accept(sv);
 		return sv.getResult();
 	}
@@ -214,4 +214,31 @@ public abstract class Operation implements Expression
 		return result;
 	}
 
+	/**
+	 * Abstract method representing the actual binary arithmetic operation to compute
+	 * for rational numbers.
+	 * @param l The first RationalNumber
+	 * @param r The second RationalNumber
+	 * @return The result of the operation as a RationalNumber
+	 */
+	public abstract RationalNumber opRational(final RationalNumber l, final RationalNumber r);
+
+	/**
+	 * Abstract method representing the actual binary arithmetic operation to compute
+	 * for complex numbers.
+	 * @param l The first ComplexNumber
+	 * @param r The second ComplexNumber
+	 * @return The result of the operation as a ComplexNumber
+	 */
+	public abstract ComplexNumber opComplex(final ComplexNumber l, final ComplexNumber r);
+
+	/**
+	 * Checks if two double values are approximately equal.
+	 * @param a First value
+	 * @param b Second value
+	 * @return true if the values are approximately equal
+	 */
+	protected boolean approxEqual(double a, double b) {
+		return Math.abs(a - b) < EPSILON;
+	}
 }
