@@ -21,6 +21,10 @@ import javafx.scene.layout.ColumnConstraints;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The CalculatorUI class provides the user interface for the calculator application.
+ * It handles user input, displays results, and manages the calculator's operations.
+ */
 public class CalculatorUI {
 
     private final VBox root;
@@ -42,6 +46,10 @@ public class CalculatorUI {
     // Add a field to store the reference to the HBox
     private HBox box;
 
+    /**
+     * Constructs a new CalculatorUI.
+     * Initializes the calculator interface with all necessary components.
+     */
     public CalculatorUI() {
         calculator = new Calculator();
         
@@ -481,6 +489,11 @@ public class CalculatorUI {
         display.setText(currentInput);
     }
     
+    /**
+     * Gets the root container of the calculator UI.
+     *
+     * @return The VBox containing all UI elements
+     */
     public VBox getRoot() {
         return root;
     }

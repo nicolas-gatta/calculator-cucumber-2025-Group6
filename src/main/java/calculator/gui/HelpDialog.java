@@ -11,8 +11,24 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.geometry.Insets;
 
+/**
+ * The HelpDialog class provides a help dialog for the calculator application.
+ * It displays instructions and information about how to use the calculator.
+ */
 public class HelpDialog {
     
+    /**
+     * Constructs a new HelpDialog instance.
+     * This is a utility class with static methods only, so the constructor is private.
+     */
+    private HelpDialog() {
+        // Private constructor to prevent instantiation
+    }
+    
+    /**
+     * Shows the help dialog with instructions on how to use the calculator.
+     * The dialog includes information about number types, basic usage, and special features.
+     */
     public static void showHelp() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Calculator Help");
@@ -91,6 +107,12 @@ public class HelpDialog {
         alert.showAndWait();
     }
     
+    /**
+     * Creates a TextFlow with the specified text.
+     *
+     * @param text The text to display in the TextFlow
+     * @return A styled TextFlow containing the text
+     */
     private static TextFlow createTextFlow(String text) {
         TextFlow textFlow = new TextFlow();
         Text textNode = new Text(text);
