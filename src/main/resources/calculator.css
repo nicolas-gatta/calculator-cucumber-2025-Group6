@@ -1,0 +1,153 @@
+.root {
+    -fx-background-color: linear-gradient(to bottom, #2c3e50, #34495e);
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.button {
+    -fx-background-color: #455a64;
+    -fx-background-radius: 8;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 2);
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #546e7a;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 8, 0, 0, 3);
+    -fx-translate-y: -1px;
+}
+
+.button:pressed {
+    -fx-background-color: #37474f;
+    -fx-translate-y: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 3, 0, 0, 1);
+}
+
+#display {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-background-color: #ecf0f1;
+    -fx-background-radius: 8;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 8;
+    -fx-border-width: 2px;
+    -fx-text-fill: #2c3e50;
+    -fx-effect: innershadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);
+}
+
+#helpButton {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+#helpButton:hover {
+    -fx-background-color: #2980b9;
+}
+
+.operation-button {
+    -fx-background-color: #e67e22;
+    -fx-text-fill: white;
+}
+
+.operation-button:hover {
+    -fx-background-color: #d35400;
+}
+
+#equalsButton {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+}
+
+#equalsButton:hover {
+    -fx-background-color: #27ae60;
+}
+
+#clearButton {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+}
+
+#clearButton:hover {
+    -fx-background-color: #c0392b;
+}
+
+.type-selector-box {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+    -fx-spacing: 10;
+}
+
+.type-selector {
+    -fx-background-color: #ecf0f1;
+    -fx-background-radius: 8;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 8;
+    -fx-border-width: 2px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.special-button {
+    -fx-background-color: #9b59b6;
+    -fx-text-fill: white;
+}
+
+.special-button:hover {
+    -fx-background-color: #8e44ad;
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Help Dialog Styles */
+.help-dialog {
+    -fx-background-color: #f5f5f5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 5);
+}
+
+.help-dialog > *.button-bar > *.container {
+    -fx-background-color: #f5f5f5;
+}
+
+.help-dialog > *.label.content {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.help-dialog:header *.header-panel {
+    -fx-background-color: #3498db;
+}
+
+.help-dialog:header *.header-panel *.label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.help-dialog .button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+}
+
+.help-dialog .button:hover {
+    -fx-background-color: #2980b9;
+}
+
+/* Specific style for the +/- button to ensure text is visible */
+.special-button.negative-button {
+    -fx-font-size: 16px;
+    -fx-padding: 0 5px;
+    -fx-content-display: text-only;
+    -fx-text-overrun: clip;
+    -fx-wrap-text: false;
+} 
