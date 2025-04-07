@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.ColumnConstraints;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,54 +49,75 @@ public class CalculatorUI {
         display = new TextField();
         display.setEditable(false);
         display.setAlignment(Pos.CENTER);
-        display.setPrefHeight(50);
+        display.setPrefHeight(60);
+        display.setId("display");
         
-        // Create a horizontal box for the display and the help button
-        HBox displayBox = new HBox(5);
+        // Create a horizontal box for the display, +/- button, and the help button
+        HBox displayBox = new HBox(10);
+        displayBox.setPrefWidth(Double.MAX_VALUE);
+        displayBox.setPadding(new Insets(0, 0, 10, 0));
+        
+        // Create the +/- button with a different approach to ensure text is visible
+        Button negativeButton = new Button();
+        negativeButton.setText("+/-");  // Set text explicitly
+        negativeButton.setPrefSize(60, 60);  // Even wider
+        negativeButton.setMinWidth(60);  // Set minimum width
+        negativeButton.setMaxWidth(60);  // Set maximum width
+        negativeButton.getStyleClass().addAll("special-button", "negative-button");  // Add specific class
+        negativeButton.setOnAction(e -> toggleNegative());
         
         // Create the help button
         Button helpButton = new Button("?");
-        helpButton.setPrefSize(40, 50);
+        helpButton.setPrefSize(60, 60);
+        helpButton.setId("helpButton");
         helpButton.setOnAction(e -> HelpDialog.showHelp());
         
-        // Add the display and the help button to the horizontal box
-        displayBox.getChildren().addAll(display, helpButton);
+        // Add the display, +/- button, and the help button to the horizontal box
+        displayBox.getChildren().addAll(display, negativeButton, helpButton);
         
         // Configure the display to take all the available space
         HBox.setHgrow(display, javafx.scene.layout.Priority.ALWAYS);
         
         // Create the type selector
         box = createTypeSelector();
+        box.setPadding(new Insets(5, 0, 15, 0));
         
         // Create the numeric keyboard and operations
         GridPane buttonGrid = createButtonGrid();
+        buttonGrid.setPrefWidth(Double.MAX_VALUE);
+        buttonGrid.setPadding(new Insets(5));
         
         // Assemble the interface
-        root = new VBox(10);
-        root.setPadding(new Insets(10));
+        root = new VBox(5);
+        root.setPadding(new Insets(15));
         root.getChildren().addAll(displayBox, box, buttonGrid);
+        root.setMaxHeight(VBox.USE_PREF_SIZE);
     }
     
     private HBox createTypeSelector() {
-        HBox box = new HBox(10);
-        box.setAlignment(Pos.CENTER_LEFT);
+        HBox box = new HBox(15);
+        box.setAlignment(Pos.CENTER);
+        box.getStyleClass().add("type-selector-box");
         
-        Label label = new Label("Number Type:");
+        Label label = new Label("Type:");  // Shortened label text
+        label.setMinWidth(50);  // Reduced width
         
         ComboBox<NumberType> typeCombo = new ComboBox<>();
         typeCombo.getItems().addAll(NumberType.INTEGER, NumberType.RATIONAL, NumberType.REAL, NumberType.COMPLEX);
         typeCombo.setValue(currentNumberType);
+        typeCombo.getStyleClass().add("type-selector");
         typeCombo.setOnAction(e -> {
             currentNumberType = typeCombo.getValue();
             updateTypeSpecificButtons();
         });
         
-        // Adjust the width of the ComboBox to display the text completely
-        typeCombo.setPrefWidth(100);
+        // Increased width to show full text
+        typeCombo.setPrefWidth(150);
         
         // Fraction button for rational numbers
         fractionButton = new Button("/");
-        fractionButton.setPrefSize(40, 30);
+        fractionButton.setPrefSize(45, 35);
+        fractionButton.getStyleClass().add("special-button");
         fractionButton.setDisable(currentNumberType != NumberType.RATIONAL);
         fractionButton.setVisible(currentNumberType == NumberType.RATIONAL);
         fractionButton.setOnAction(e -> {
@@ -109,7 +131,8 @@ public class CalculatorUI {
         
         // Decimal button for real and complex numbers
         decimalButton = new Button(".");
-        decimalButton.setPrefSize(40, 30);
+        decimalButton.setPrefSize(45, 35);
+        decimalButton.getStyleClass().add("special-button");
         decimalButton.setDisable(currentNumberType != NumberType.REAL && currentNumberType != NumberType.COMPLEX);
         decimalButton.setVisible(currentNumberType == NumberType.REAL || currentNumberType == NumberType.COMPLEX);
         decimalButton.setOnAction(e -> {
@@ -126,7 +149,8 @@ public class CalculatorUI {
         
         // Imaginary button for complex numbers
         imaginaryButton = new Button("i");
-        imaginaryButton.setPrefSize(40, 30);
+        imaginaryButton.setPrefSize(45, 35);
+        imaginaryButton.getStyleClass().add("special-button");
         imaginaryButton.setDisable(currentNumberType != NumberType.COMPLEX);
         imaginaryButton.setVisible(currentNumberType == NumberType.COMPLEX);
         imaginaryButton.setOnAction(e -> {
@@ -169,14 +193,29 @@ public class CalculatorUI {
     
     private GridPane createButtonGrid() {
         GridPane grid = new GridPane();
-        grid.setHgap(5);
-        grid.setVgap(5);
+        grid.setHgap(10);  // Increased spacing
+        grid.setVgap(10);  // Increased spacing
+        grid.setAlignment(Pos.CENTER);
+        
+        // Make columns take equal space
+        ColumnConstraints column1 = new ColumnConstraints();
+        column1.setPercentWidth(25);
+        ColumnConstraints column2 = new ColumnConstraints();
+        column2.setPercentWidth(25);
+        ColumnConstraints column3 = new ColumnConstraints();
+        column3.setPercentWidth(25);
+        ColumnConstraints column4 = new ColumnConstraints();
+        column4.setPercentWidth(25);
+        
+        grid.getColumnConstraints().addAll(column1, column2, column3, column4);
         
         // Numeric buttons
         for (int i = 0; i < 10; i++) {
             final int number = i;
             Button button = new Button(Integer.toString(i));
-            button.setPrefSize(50, 50);
+            button.setPrefSize(60, 60);  // Increased size
+            button.setMaxWidth(Double.MAX_VALUE);
+            button.setMaxHeight(Double.MAX_VALUE);
             button.setOnAction(e -> handleNumberInput(number));
             
             // Place the buttons in the grid (0 at the bottom)
@@ -186,12 +225,6 @@ public class CalculatorUI {
                 grid.add(button, (i - 1) % 3, 2 - (i - 1) / 3);
             }
         }
-        
-        // Button for the negative sign
-        Button negativeButton = new Button("+/-");
-        negativeButton.setPrefSize(50, 50);
-        negativeButton.setOnAction(e -> toggleNegative());
-        grid.add(negativeButton, 0, 4);
         
         // Operation buttons
         Button plusButton = createOperationButton("+");
@@ -206,13 +239,19 @@ public class CalculatorUI {
         
         // Equal button
         Button equalsButton = new Button("=");
-        equalsButton.setPrefSize(50, 50);
+        equalsButton.setPrefSize(60, 60);  // Increased size
+        equalsButton.setMaxWidth(Double.MAX_VALUE);
+        equalsButton.setMaxHeight(Double.MAX_VALUE);
+        equalsButton.setId("equalsButton");
         equalsButton.setOnAction(e -> calculateResult());
         grid.add(equalsButton, 2, 3);
         
         // Clear button
         Button clearButton = new Button("C");
-        clearButton.setPrefSize(50, 50);
+        clearButton.setPrefSize(60, 60);  // Increased size
+        clearButton.setMaxWidth(Double.MAX_VALUE);
+        clearButton.setMaxHeight(Double.MAX_VALUE);
+        clearButton.setId("clearButton");
         clearButton.setOnAction(e -> clearCalculator());
         grid.add(clearButton, 0, 3);
         
@@ -221,7 +260,10 @@ public class CalculatorUI {
     
     private Button createOperationButton(String operation) {
         Button button = new Button(operation);
-        button.setPrefSize(50, 50);
+        button.setPrefSize(60, 60);  // Increased size
+        button.setMaxWidth(Double.MAX_VALUE);
+        button.setMaxHeight(Double.MAX_VALUE);
+        button.getStyleClass().add("operation-button");
         button.setOnAction(e -> handleOperation(operation));
         return button;
     }
