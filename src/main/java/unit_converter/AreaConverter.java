@@ -13,6 +13,5 @@ public class AreaConverter implements IUnitConverter<Double>{
     public Double convert(AreaUnitEnum from, AreaUnitEnum to, Double value){
         double inSquareMeters = value * from.toSquareMeter();
         return inSquareMeters / to.toSquareMeter();
-
     }
 }
