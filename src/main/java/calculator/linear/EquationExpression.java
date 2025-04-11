@@ -1,6 +1,7 @@
 package calculator.linear;
 
 import calculator.Expression;
+import calculator.operations.Operation;
 import visitor.Visitor;
 
 public class EquationExpression implements Expression {
@@ -17,7 +18,8 @@ public class EquationExpression implements Expression {
 
     @Override
     public void accept(Visitor v) {
-        v.visit(this);
+        equation.getLeft().accept(v);
+        equation.getRight().accept(v);
     }
 
     @Override

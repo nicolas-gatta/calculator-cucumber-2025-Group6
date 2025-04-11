@@ -326,7 +326,7 @@ public class Main {
 
 			System.out.println(linearEquationSystem);
 
-			linearEquationSystem.getNecessaryValues();
+			linearEquationSystem.getNecessaryValuesForSolving();
 
 		}catch (IllegalConstruction exception){
 			System.out.println(exception);

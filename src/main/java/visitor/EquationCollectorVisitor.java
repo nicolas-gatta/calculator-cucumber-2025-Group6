@@ -19,41 +19,39 @@ public class EquationCollectorVisitor extends Visitor {
 
 
     private final Set<String> variables = new HashSet<>();
-    private final List<MyNumber> equationValues = new ArrayList<>();
+    private final List<Expression> equationValues = new ArrayList<>();
 
     public Set<String> getVariables() {
         return variables;
     }
 
-    public List<MyNumber> getEquationValues() {
+    public List<Expression> getEquationValues() {
         return equationValues;
     }
 
     @Override
     public void visit(MyNumber n) {
-
+        equationValues.add(n);
     }
 
     @Override
     public void visit(Operation o) {
-        for (Expression e : o.getArgs()){
-            e.accept(this);
-        }
+
     }
 
     @Override
     public void visit(RealNumber n) {
-
+        equationValues.add(n);
     }
 
     @Override
     public void visit(ComplexNumber n) {
-
+        equationValues.add(n);
     }
 
     @Override
     public void visit(RationalNumber n) {
-
+        equationValues.add(n);
     }
 
     @Override
@@ -62,12 +60,12 @@ public class EquationCollectorVisitor extends Visitor {
     }
 
     @Override
-    public void visit(VariableExpression n) {
-        variables.add(n.getRight());
+    public void visit(VariableExpression v) {
+        System.out.println(v.toString());
+        variables.add(v.getRight());
     }
 
     @Override
     public void visit(EquationExpression e) {
-        equationValues.add((MyNumber) e.getEquation().getRight());
     }
 }
