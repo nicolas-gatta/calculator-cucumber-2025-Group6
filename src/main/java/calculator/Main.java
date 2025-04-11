@@ -1,5 +1,9 @@
 package calculator;
 
+import calculator.linear.Equation;
+import calculator.linear.EquationExpression;
+import calculator.linear.LinearEquationSystem;
+import calculator.linear.VariableExpression;
 import calculator.numbers.AngleConverter;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RationalNumber;
@@ -62,14 +66,10 @@ public class Main {
 			c.print(e);
 
 			// Using the helper method to create expression lists
-			e = new Plus(createExpressionList(
-					new MyNumber(3), new MyNumber(4), new MyNumber(5)),
-					Notation.PREFIX);
+			e = new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5)), Notation.PREFIX);
 			c.printExpressionDetails(e);
 
-			e = new Minus(createExpressionList(
-					new MyNumber(5), new MyNumber(3)),
-					Notation.INFIX);
+			e = new Minus(createExpressionList(new MyNumber(5), new MyNumber(3)), Notation.INFIX);
 			c.print(e);
 
 			// More complex nested expressions
@@ -85,13 +85,13 @@ public class Main {
 					new Minus(createExpressionList(new MyNumber(5), new MyNumber(3))),
 					new MyNumber(5)
 			);
+
 			e = new Divides(params4, Notation.POSTFIX);
 			c.print(e);
 
 			List<Expression> params5 = createExpressionList(
 					new RealNumber(3.14159, 5),
-					new RealNumber(2.71828, 5)
-			);
+					new RealNumber(2.71828, 5));
 			e = new Plus(params5, Notation.PREFIX);
 			c.print(e);
 			c.printExpressionDetails(e);
@@ -292,6 +292,48 @@ public class Main {
 
 	}
 
+	public static void demonstrateLinearEquation() {
+
+		System.out.println("\n=== Linear Equation Examples ===");
+
+		Calculator c = new Calculator();
+		Expression e;
+
+		try {
+
+			Expression left1 = new Plus(List.of(new VariableExpression(new MyNumber(3),"x"),
+								new VariableExpression(new MyNumber(3),"y")));
+
+			Expression right1 = new MyNumber(5);
+
+			EquationExpression equation1 = new EquationExpression(new Equation(left1, right1));
+
+			Expression left2 = new Minus(List.of(new VariableExpression(new MyNumber(3),"x"),
+					new VariableExpression(new MyNumber(4),"z")));
+
+			Expression right2 = new MyNumber(7);
+
+			EquationExpression equation2 = new EquationExpression(new Equation(left2, right2));
+
+			Expression left3 = new Plus(List.of(new VariableExpression(new MyNumber(1),"y"),
+					new VariableExpression(new MyNumber(1),"z")));
+
+			Expression right3 = new MyNumber(10);
+
+			EquationExpression equation3 = new EquationExpression(new Equation(left3, right3));
+
+			LinearEquationSystem linearEquationSystem = new LinearEquationSystem(List.of(equation1, equation2, equation3));
+
+			System.out.println(linearEquationSystem);
+
+			linearEquationSystem.getNecessaryValues();
+
+		}catch (IllegalConstruction exception){
+			System.out.println(exception);
+		}
+
+	}
+
 	/**
 	 * Main entry point of the calculator application.
 	 * @param args Command line arguments (not used)
@@ -302,6 +344,7 @@ public class Main {
 		demonstrateRationalOperations();
 		demonstrateComplexOperations();
 		demonstrateMatrixOperations();
+		demonstrateLinearEquation();
 	}
 
 }

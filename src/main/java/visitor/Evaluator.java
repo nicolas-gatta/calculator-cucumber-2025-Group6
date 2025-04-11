@@ -1,5 +1,7 @@
 package visitor;
 
+import calculator.linear.EquationExpression;
+import calculator.linear.VariableExpression;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RealNumber;
 import calculator.operations.*;
@@ -36,7 +38,7 @@ public class Evaluator extends Visitor {
     @Override
     public void visit(Operation o) {
 
-        if (o.getArgs().size() < 1){
+        if (o.getArgs().isEmpty()){
             return;
         }
 
@@ -198,6 +200,16 @@ public class Evaluator extends Visitor {
     @Override
     public void visit(MatrixExpression m){
         result = m;
+    }
+
+    @Override
+    public void visit(VariableExpression v) {
+        result = v;
+    }
+
+    @Override
+    public void visit(EquationExpression e) {
+        result = e;
     }
 
 }

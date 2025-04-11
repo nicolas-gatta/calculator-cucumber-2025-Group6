@@ -1,5 +1,7 @@
 package visitor;
 
+import calculator.linear.EquationExpression;
+import calculator.linear.VariableExpression;
 import calculator.operations.Operation;
 import calculator.numbers.MyNumber;
 import calculator.Notation;
@@ -78,6 +80,16 @@ public class StringVisitor extends Visitor {
         result = n.toString();
     }
 
+    @Override
+    public void visit(VariableExpression v) {
+        result = v.toString();
+    }
+
+    @Override
+    public void visit(EquationExpression e) {
+        result = e.toString();
+    }
+
     /**
      * Visits an operation node and converts it and its arguments to a string
      * according to the specified notation.
@@ -97,7 +109,8 @@ public class StringVisitor extends Visitor {
 
         if(o.getArgs().size() == 1){
             result = switch (notation) {
-                case INFIX, POSTFIX, PREFIX -> "( " + o.getArgs().get(0) + " )" + o.getSymbol() ;
+                case INFIX, POSTFIX -> "( " + o.getArgs().get(0) + " )" + o.getSymbol() ;
+                case PREFIX -> o.getSymbol() + "(" + o.getArgs().get(0) + " )" ;
             };
         }else{
             result = switch (notation) {

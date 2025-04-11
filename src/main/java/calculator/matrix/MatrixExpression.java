@@ -4,6 +4,7 @@ import calculator.Expression;
 import visitor.Visitor;
 
 public class MatrixExpression implements Expression {
+
     private final Matrix matrix;
 
     public MatrixExpression(Matrix matrix) {

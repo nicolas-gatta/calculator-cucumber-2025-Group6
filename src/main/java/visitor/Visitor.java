@@ -1,5 +1,7 @@
 package visitor;
 
+import calculator.linear.EquationExpression;
+import calculator.linear.VariableExpression;
 import calculator.numbers.MyNumber;
 import calculator.operations.Operation;
 import calculator.numbers.RealNumber;
@@ -59,4 +61,18 @@ public abstract class Visitor {
      * @param n The matrix being visited
      */
     public abstract void visit(MatrixExpression n);
+
+    /**
+     * The Visitor can traverse a Variable (a subtype of Expression)
+     *
+     * @param n The matrix being visited
+     */
+    public abstract void visit(VariableExpression n);
+
+    /**
+     * The Visitor can traverse an Equation (a subtype of Expression)
+     *
+     * @param n The matrix being visited
+     */
+    public abstract void visit(EquationExpression n);
 }

@@ -1,5 +1,7 @@
 package visitor;
 
+import calculator.linear.EquationExpression;
+import calculator.linear.VariableExpression;
 import calculator.numbers.MyNumber;
 import calculator.operations.Operation;
 import calculator.numbers.RealNumber;   
@@ -60,6 +62,16 @@ public class ScientificNotationVisitor extends Visitor {
     @Override
     public void visit(MatrixExpression m) {
         result = m.toString();
+    }
+
+    @Override
+    public void visit(VariableExpression v) {
+        result = v.toString();
+    }
+
+    @Override
+    public void visit(EquationExpression e) {
+        result = e.toString();
     }
 
     /**
