@@ -5,6 +5,7 @@ import calculator.IllegalConstruction;
 import calculator.Notation;
 import calculator.numbers.RationalNumber;
 import calculator.numbers.ComplexNumber;
+import calculator.matrix.Matrix;
 
 import java.util.List;
 
@@ -76,5 +77,20 @@ public final class Divides extends Operation
     @Override
     public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
         return l.divide(r);
+    }
+
+    @Override
+    public Matrix opMatrix(Matrix l, Matrix r) {
+        throw new ArithmeticException("Cannot divide two matrix");
+    }
+
+    @Override
+    public Matrix opMatrix(Matrix l, double r) {
+        return l.divide(r);
+    }
+
+    @Override
+    public Matrix opMatrix(Matrix l) {
+        throw new ArithmeticException("Need two matrix to divide");
     }
 }

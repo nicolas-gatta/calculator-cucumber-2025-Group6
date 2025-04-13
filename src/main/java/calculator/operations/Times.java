@@ -3,6 +3,8 @@ package calculator.operations;
 import calculator.*;
 import calculator.numbers.RationalNumber;
 import calculator.numbers.ComplexNumber;
+import calculator.matrix.Matrix;
+
 import java.util.List;
 
 /** This class represents the arithmetic multiplication operation "*".
@@ -64,5 +66,19 @@ public final class Times extends Operation
   @Override
   public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
     return l.multiply(r);
+  }
+
+  @Override
+  public Matrix opMatrix(Matrix l, Matrix r) {
+   return l.multiply(r);
+  }
+
+  public Matrix opMatrix(Matrix l, double r) {
+   return l.multiply(r);
+  }
+
+  @Override
+  public Matrix opMatrix(Matrix l) {
+   throw new ArithmeticException("Need two matrix to multiply");
   }
 }

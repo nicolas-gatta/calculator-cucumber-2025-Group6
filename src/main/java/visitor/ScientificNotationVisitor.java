@@ -5,6 +5,7 @@ import calculator.operations.Operation;
 import calculator.numbers.RealNumber;   
 import calculator.numbers.ComplexNumber;
 import calculator.numbers.RationalNumber;
+import calculator.matrix.MatrixExpression;
 
 /**
  * Visitor that converts numbers to scientific notation
@@ -54,6 +55,11 @@ public class ScientificNotationVisitor extends Visitor {
     @Override
     public void visit(RationalNumber n) {
         result = String.format("%." + precision + "E", (double)n.getNumerator() / n.getDenominator());
+    }
+
+    @Override
+    public void visit(MatrixExpression m) {
+        result = m.toString();
     }
 
     /**
