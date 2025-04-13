@@ -2,10 +2,12 @@ package calculator.gui;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Tag;
 
 /**
  * Test class for the NumberType enum.
  */
+@Tag("gui")
 public class NumberTypeTest {
 
     /**

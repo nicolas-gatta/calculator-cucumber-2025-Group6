@@ -1,6 +1,7 @@
 package calculator.gui;
 
 import javafx.stage.Stage;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -15,6 +16,7 @@ import static org.testfx.assertions.api.Assertions.assertThat;
  * Note: These tests don't actually launch the JavaFX application since that would require
  * a running JavaFX environment. Instead, they test the class structure.
  */
+@Tag("gui")
 @ExtendWith(ApplicationExtension.class)
 public class CalculatorAppTest {
 

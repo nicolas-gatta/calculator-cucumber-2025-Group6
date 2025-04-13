@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.junit.jupiter.api.Tag;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.testfx.assertions.api.Assertions.assertThat;
@@ -18,6 +19,7 @@ import static org.testfx.assertions.api.Assertions.assertThat;
  * Note: These tests don't actually create the UI since that would require
  * a running JavaFX environment. Instead, they test the class structure.
  */
+@Tag("gui")
 @ExtendWith(ApplicationExtension.class)
 public class CalculatorUITest {
 

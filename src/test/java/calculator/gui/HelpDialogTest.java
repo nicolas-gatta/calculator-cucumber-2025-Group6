@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.junit.jupiter.api.Tag;
 
 import java.lang.reflect.Method;
 
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Note: These tests don't actually display the dialog since that would require
  * a running JavaFX environment. Instead, they test the class structure.
  */
+@Tag("gui")
 @ExtendWith(ApplicationExtension.class)
 public class HelpDialogTest {
 
