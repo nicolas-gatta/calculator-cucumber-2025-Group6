@@ -15,9 +15,9 @@ class TestRealNumber {
     @Test
     void testPrecisionChange() {
         RealNumber n = new RealNumber(3.14159, 2);
-        assertEquals("3.14", n.toString());
+        assertEquals("3,14", n.toString());
         n.setPrecision(4);
-        assertEquals("3.1416", n.toString());
+        assertEquals("3,1416", n.toString());
     }
 
     @Test

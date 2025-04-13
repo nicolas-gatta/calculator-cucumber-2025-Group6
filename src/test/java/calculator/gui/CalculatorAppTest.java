@@ -1,64 +1,41 @@
 package calculator.gui;
 
+import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.testfx.assertions.api.Assertions.assertThat;
 
 /**
  * Test class for the CalculatorApp class.
  * Note: These tests don't actually launch the JavaFX application since that would require
  * a running JavaFX environment. Instead, they test the class structure.
  */
+@ExtendWith(ApplicationExtension.class)
 public class CalculatorAppTest {
 
-    /**
-     * Tests that the CalculatorApp class exists and can be instantiated.
-     */
+    private CalculatorApp app;
+
+    @Start
+    public void start(Stage stage) {
+        app = new CalculatorApp();
+        app.start(stage);
+    }
+
     @Test
-    public void testCalculatorAppExists() {
-        // Simply referencing the class is enough to verify it exists
-        assertNotNull(CalculatorApp.class);
-        
-        // Test that we can create an instance
-        CalculatorApp app = new CalculatorApp();
+    public void testAppInitialization(FxRobot robot) {
+        // Test that the app initializes correctly
         assertNotNull(app);
+        
+        // Test that the UI elements are present
+        assertThat(robot.lookup("#display").queryAs(javafx.scene.control.TextField.class)).isNotNull();
+        assertThat(robot.lookup("#clearButton").queryAs(javafx.scene.control.Button.class)).isNotNull();
+        assertThat(robot.lookup("#equalsButton").queryAs(javafx.scene.control.Button.class)).isNotNull();
+        assertThat(robot.lookup("#helpButton").queryAs(javafx.scene.control.Button.class)).isNotNull();
     }
     
-    /**
-     * Tests that the start method exists by using reflection.
-     * This verifies the structure of the class without calling the method.
-     */
-    @Test
-    public void testStartMethodExists() {
-        try {
-            // Check if the method exists using reflection
-            // We use javafx.stage.Stage as a string to avoid direct dependency
-            CalculatorApp.class.getDeclaredMethod("start", Class.forName("javafx.stage.Stage"));
-            // If we get here, the method exists
-            assertTrue(true);
-        } catch (NoSuchMethodException | ClassNotFoundException e) {
-            // This will be expected in a non-JavaFX environment
-            // So we'll consider this test passed if the exception is ClassNotFoundException
-            if (e instanceof ClassNotFoundException) {
-                assertTrue(true, "JavaFX classes not available in test environment, which is expected");
-            } else {
-                fail("start method should exist in CalculatorApp class");
-            }
-        }
-    }
-    
-    /**
-     * Tests that the main method exists by using reflection.
-     * This verifies the structure of the class without calling the method.
-     */
-    @Test
-    public void testMainMethodExists() {
-        try {
-            // Check if the method exists using reflection
-            CalculatorApp.class.getDeclaredMethod("main", String[].class);
-            // If we get here, the method exists
-            assertTrue(true);
-        } catch (NoSuchMethodException e) {
-            fail("main method should exist in CalculatorApp class");
-        }
-    }
 } 

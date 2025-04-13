@@ -128,6 +128,7 @@ public class CalculatorUI {
         fractionButton.getStyleClass().add("special-button");
         fractionButton.setDisable(currentNumberType != NumberType.RATIONAL);
         fractionButton.setVisible(currentNumberType == NumberType.RATIONAL);
+        fractionButton.setId("fractionButton");
         fractionButton.setOnAction(e -> {
             if (currentNumberType == NumberType.RATIONAL && 
                 !currentInput.contains("/") && 
@@ -139,6 +140,7 @@ public class CalculatorUI {
         
         // Decimal button for real and complex numbers
         decimalButton = new Button(".");
+        decimalButton.setId("decimalButton");
         decimalButton.setPrefSize(45, 35);
         decimalButton.getStyleClass().add("special-button");
         decimalButton.setDisable(currentNumberType != NumberType.REAL && currentNumberType != NumberType.COMPLEX);
@@ -239,6 +241,7 @@ public class CalculatorUI {
         Button minusButton = createOperationButton("-");
         Button multiplyButton = createOperationButton("*");
         Button divideButton = createOperationButton("/");
+        divideButton.setId("divideButton");
         
         grid.add(plusButton, 3, 0);
         grid.add(minusButton, 3, 1);
