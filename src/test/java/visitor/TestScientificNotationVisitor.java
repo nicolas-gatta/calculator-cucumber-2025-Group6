@@ -201,4 +201,66 @@ class TestScientificNotationVisitor {
         // Verify it's the US locale
         assertEquals(Locale.US, usLocale);
     }
+
+    @Test
+    void testMatrixExpression() {
+        // Créer une matrice pour le test
+        calculator.matrix.Matrix matrix = new calculator.matrix.Matrix("[[1,2],[3,4]]");
+        calculator.matrix.MatrixExpression matrixExpr = new calculator.matrix.MatrixExpression(matrix);
+        
+        // Tester la visite d'une expression matricielle
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor();
+        visitor.visit(matrixExpr);
+        
+        // Vérifier que le résultat est la représentation en chaîne de la matrice
+        assertEquals(matrixExpr.toString(), visitor.getResult());
+    }
+
+    @Test
+    void testConstructorWithDefaultPrecision() {
+        // Tester le constructeur par défaut
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor();
+        
+        // Vérifier que la précision par défaut est 6 en testant un nombre
+        MyNumber n = new MyNumber(123);
+        visitor.visit(n);
+        
+        // Le format devrait utiliser 6 chiffres significatifs
+        assertEquals("1.230000E+02", visitor.getResult());
+    }
+
+    @Test
+    void testConstructorWithCustomPrecision() {
+        // Tester le constructeur avec précision personnalisée
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor(3);
+        
+        // Vérifier que la précision est bien 3 en testant un nombre
+        MyNumber n = new MyNumber(123);
+        visitor.visit(n);
+        
+        // Le format devrait utiliser 3 chiffres significatifs
+        assertEquals("1.230E+02", visitor.getResult());
+    }
+
+    @Test
+    void testFormatWithUSLocale() {
+        // Sauvegarder la locale par défaut
+        Locale defaultLocale = Locale.getDefault();
+        try {
+            // Définir une locale qui utilise la virgule comme séparateur décimal
+            Locale.setDefault(Locale.FRANCE);
+            
+            // Créer un visiteur et tester un nombre
+            ScientificNotationVisitor visitor = new ScientificNotationVisitor(2);
+            MyNumber n = new MyNumber(123);
+            visitor.visit(n);
+            
+            // Vérifier que le format utilise le point (US_LOCALE) et non la virgule
+            assertEquals("1.23E+02", visitor.getResult());
+            
+        } finally {
+            // Restaurer la locale par défaut
+            Locale.setDefault(defaultLocale);
+        }
+    }
 } 
