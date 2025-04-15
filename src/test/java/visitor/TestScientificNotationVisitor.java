@@ -79,6 +79,30 @@ class TestScientificNotationVisitor {
     }
     
     @Test
+    void testVisitOperationSetsResultToString() throws Exception {
+        // Create an operation
+        calculator.operations.Operation op = new calculator.operations.Plus(
+            Arrays.asList(new MyNumber(1), new MyNumber(2)));
+        
+        // Create a visitor
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor();
+        
+        // Visit the operation
+        visitor.visit(op);
+        
+        // Verify the result is the operation's toString
+        assertEquals(op.toString(), visitor.getResult());
+        
+        // Also verify that the result field is set correctly using reflection
+        Field resultField = ScientificNotationVisitor.class.getDeclaredField("result");
+        resultField.setAccessible(true);
+        String resultFieldValue = (String) resultField.get(visitor);
+        
+        assertEquals(op.toString(), resultFieldValue, 
+                    "The result field should be set to the operation's toString value");
+    }
+    
+    @Test
     void testDifferentPrecisions() {
         RealNumber n = new RealNumber(Math.PI, 10);
         
@@ -204,63 +228,224 @@ class TestScientificNotationVisitor {
 
     @Test
     void testMatrixExpression() {
-        // Créer une matrice pour le test
+        // Create a matrix for the test
         calculator.matrix.Matrix matrix = new calculator.matrix.Matrix("[[1,2],[3,4]]");
         calculator.matrix.MatrixExpression matrixExpr = new calculator.matrix.MatrixExpression(matrix);
         
-        // Tester la visite d'une expression matricielle
+        // Test the visit of a matrix expression
         ScientificNotationVisitor visitor = new ScientificNotationVisitor();
         visitor.visit(matrixExpr);
         
-        // Vérifier que le résultat est la représentation en chaîne de la matrice
+        // Verify that the result is the string representation of the matrix
         assertEquals(matrixExpr.toString(), visitor.getResult());
     }
 
     @Test
     void testConstructorWithDefaultPrecision() {
-        // Tester le constructeur par défaut
+        // Test the default constructor
         ScientificNotationVisitor visitor = new ScientificNotationVisitor();
         
-        // Vérifier que la précision par défaut est 6 en testant un nombre
+        // Verify that the default precision is 6 by testing a number
         MyNumber n = new MyNumber(123);
         visitor.visit(n);
         
-        // Le format devrait utiliser 6 chiffres significatifs
+        // The format should use 6 significant digits
         assertEquals("1.230000E+02", visitor.getResult());
     }
 
     @Test
     void testConstructorWithCustomPrecision() {
-        // Tester le constructeur avec précision personnalisée
+        // Test the constructor with custom precision
         ScientificNotationVisitor visitor = new ScientificNotationVisitor(3);
         
-        // Vérifier que la précision est bien 3 en testant un nombre
+        // Verify that the precision is 3 by testing a number
         MyNumber n = new MyNumber(123);
         visitor.visit(n);
         
-        // Le format devrait utiliser 3 chiffres significatifs
+        // The format should use 3 significant digits
         assertEquals("1.230E+02", visitor.getResult());
     }
 
     @Test
     void testFormatWithUSLocale() {
-        // Sauvegarder la locale par défaut
+        // Save the default locale
         Locale defaultLocale = Locale.getDefault();
         try {
-            // Définir une locale qui utilise la virgule comme séparateur décimal
+            // Set a locale that uses a comma as the decimal separator
             Locale.setDefault(Locale.FRANCE);
             
-            // Créer un visiteur et tester un nombre
+            // Create a visitor and test a number
             ScientificNotationVisitor visitor = new ScientificNotationVisitor(2);
             MyNumber n = new MyNumber(123);
             visitor.visit(n);
             
-            // Vérifier que le format utilise le point (US_LOCALE) et non la virgule
+            // Verify that the format uses the point (US_LOCALE) and not the comma
             assertEquals("1.23E+02", visitor.getResult());
             
         } finally {
-            // Restaurer la locale par défaut
+            // Restore the default locale
             Locale.setDefault(defaultLocale);
         }
+    }
+
+    @Test
+    void testDefaultConstructorSetsPrecisionToSix() throws Exception {
+        // Create a visitor with the default constructor
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor();
+        
+        // Use reflection to access the private precision field
+        Field precisionField = ScientificNotationVisitor.class.getDeclaredField("precision");
+        precisionField.setAccessible(true);
+        
+        // Get the actual value of the precision field
+        int actualPrecision = (int) precisionField.get(visitor);
+        
+        // Verify that the default precision is 6
+        assertEquals(6, actualPrecision, "Default precision should be 6");
+    }
+
+    @Test
+    void testParameterizedConstructorSetsPrecisionCorrectly() throws Exception {
+        // Create a visitor with a specific precision
+        int expectedPrecision = 4;
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor(expectedPrecision);
+        
+        // Use reflection to access the private precision field
+        Field precisionField = ScientificNotationVisitor.class.getDeclaredField("precision");
+        precisionField.setAccessible(true);
+        
+        // Get the actual value of the precision field
+        int actualPrecision = (int) precisionField.get(visitor);
+        
+        // Verify that the precision is set to the expected value
+        assertEquals(expectedPrecision, actualPrecision, 
+                    "Precision should be set to the value provided in the constructor");
+    }
+
+    @Test
+    void testVisitMyNumberFormatsCorrectly() throws Exception {
+        // Create a visitor and a MyNumber
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor(3);
+        MyNumber n = new MyNumber(12345);
+        
+        // Visit the number
+        visitor.visit(n);
+        
+        // Get the result
+        String result = visitor.getResult();
+        
+        // Verify the result format
+        assertEquals("1.235E+04", result);
+        
+        // Also verify that the result field is set correctly using reflection
+        Field resultField = ScientificNotationVisitor.class.getDeclaredField("result");
+        resultField.setAccessible(true);
+        String resultFieldValue = (String) resultField.get(visitor);
+        
+        assertEquals("1.235E+04", resultFieldValue);
+    }
+
+    @Test
+    void testVisitRealNumberFormatsCorrectly() throws Exception {
+        // Create a visitor and a RealNumber
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor(3);
+        RealNumber n = new RealNumber(12345.678, 5);
+        
+        // Visit the number
+        visitor.visit(n);
+        
+        // Verify the result format
+        assertEquals("1.235E+04", visitor.getResult());
+        
+        // Also verify that the result field is set correctly using reflection
+        Field resultField = ScientificNotationVisitor.class.getDeclaredField("result");
+        resultField.setAccessible(true);
+        String resultFieldValue = (String) resultField.get(visitor);
+        
+        assertEquals("1.235E+04", resultFieldValue, 
+                    "The result field should be set to the formatted value");
+    }
+
+    @Test
+    void testVisitComplexNumberFormatsCorrectly() throws Exception {
+        // Create a visitor and a ComplexNumber
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor(3);
+        ComplexNumber n = new ComplexNumber(12.34, 56.78);
+        
+        // Visit the number
+        visitor.visit(n);
+        
+        // Verify the result format
+        assertEquals("1.234E+01 + 5.678E+01i", visitor.getResult());
+        
+        // Also verify that the result field is set correctly using reflection
+        Field resultField = ScientificNotationVisitor.class.getDeclaredField("result");
+        resultField.setAccessible(true);
+        String resultFieldValue = (String) resultField.get(visitor);
+        
+        assertEquals("1.234E+01 + 5.678E+01i", resultFieldValue, 
+                    "The result field should be set to the formatted complex value");
+    }
+
+    @Test
+    void testVisitRationalNumberFormatsCorrectly() throws Exception {
+        // Create a visitor and a RationalNumber
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor(3);
+        RationalNumber n = new RationalNumber(1, 3); // 0.333...
+        
+        // Visit the number
+        visitor.visit(n);
+        
+        // Verify the result format
+        assertEquals("3.333E-01", visitor.getResult());
+        
+        // Also verify that the result field is set correctly using reflection
+        Field resultField = ScientificNotationVisitor.class.getDeclaredField("result");
+        resultField.setAccessible(true);
+        String resultFieldValue = (String) resultField.get(visitor);
+        
+        assertEquals("3.333E-01", resultFieldValue, 
+                    "The result field should be set to the formatted rational value");
+    }
+
+    @Test
+    void testVisitMatrixExpressionFormatsCorrectly() throws Exception {
+        // Create a visitor and a MatrixExpression
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor();
+        calculator.matrix.Matrix matrix = new calculator.matrix.Matrix("[[1,2],[3,4]]");
+        calculator.matrix.MatrixExpression matrixExpr = new calculator.matrix.MatrixExpression(matrix);
+        
+        // Visit the matrix expression
+        visitor.visit(matrixExpr);
+        
+        // Verify the result is the matrix's toString
+        assertEquals(matrixExpr.toString(), visitor.getResult());
+        
+        // Also verify that the result field is set correctly using reflection
+        Field resultField = ScientificNotationVisitor.class.getDeclaredField("result");
+        resultField.setAccessible(true);
+        String resultFieldValue = (String) resultField.get(visitor);
+        
+        assertEquals(matrixExpr.toString(), resultFieldValue, 
+                    "The result field should be set to the matrix's toString value");
+    }
+
+    @Test
+    void testGetResultMethod() throws Exception {
+        // Create a visitor
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor();
+        
+        // Set the result field using reflection
+        Field resultField = ScientificNotationVisitor.class.getDeclaredField("result");
+        resultField.setAccessible(true);
+        String expectedResult = "Test Result";
+        resultField.set(visitor, expectedResult);
+        
+        // Call the getResult method
+        String actualResult = visitor.getResult();
+        
+        // Verify that getResult returns the value of the result field
+        assertEquals(expectedResult, actualResult, 
+                    "getResult() should return the value of the result field");
     }
 } 
