@@ -9,6 +9,8 @@ import calculator.operations.Plus;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Locale;
+import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -118,5 +120,85 @@ class TestScientificNotationVisitor {
         ScientificNotationVisitor visitor = new ScientificNotationVisitor(2);
         visitor.visit(n);
         assertEquals("0.00E+00", visitor.getResult());
+    }
+
+    @Test
+    void testLocaleIndependence() {
+        // Save the default locale
+        Locale defaultLocale = Locale.getDefault();
+        try {
+            // Set system locale to French (uses comma as decimal separator)
+            Locale.setDefault(Locale.FRANCE);
+            
+            RealNumber n = new RealNumber(1234.56, 2);
+            ScientificNotationVisitor visitor = new ScientificNotationVisitor(2);
+            visitor.visit(n);
+            
+            // Despite French locale being active, result should use US format (point, not comma)
+            assertEquals("1.23E+03", visitor.getResult());
+            
+            // Set system locale to German (also uses comma)
+            Locale.setDefault(Locale.GERMANY);
+            visitor.visit(n);
+            
+            // Should still use US format
+            assertEquals("1.23E+03", visitor.getResult());
+        } finally {
+            // Restore the default locale
+            Locale.setDefault(defaultLocale);
+        }
+    }
+    
+    @Test
+    void testComplexNumberFormatWithDifferentLocales() {
+        // Save the default locale
+        Locale defaultLocale = Locale.getDefault();
+        try {
+            // Set system locale to French
+            Locale.setDefault(Locale.FRANCE);
+            
+            ComplexNumber n = new ComplexNumber(1.23, 4.56);
+            ScientificNotationVisitor visitor = new ScientificNotationVisitor(2);
+            visitor.visit(n);
+            
+            // Should use points, not commas
+            assertEquals("1.23E+00 + 4.56E+00i", visitor.getResult());
+        } finally {
+            // Restore the default locale
+            Locale.setDefault(defaultLocale);
+        }
+    }
+    
+    @Test
+    void testRationalNumberFormatWithDifferentLocales() {
+        // Save the default locale
+        Locale defaultLocale = Locale.getDefault();
+        try {
+            // Set system locale to French
+            Locale.setDefault(Locale.FRANCE);
+            
+            RationalNumber n = new RationalNumber(1, 4); // 0.25
+            ScientificNotationVisitor visitor = new ScientificNotationVisitor(2);
+            visitor.visit(n);
+            
+            // Should use point, not comma
+            assertEquals("2.50E-01", visitor.getResult());
+        } finally {
+            // Restore the default locale
+            Locale.setDefault(defaultLocale);
+        }
+    }
+    @Test
+    void testUSLocaleConstant() throws Exception {
+        // Use reflection to access the private field
+        Field localeField = ScientificNotationVisitor.class.getDeclaredField("US_LOCALE");
+        localeField.setAccessible(true);
+        
+        // Get the value of the field from a new instance
+        ScientificNotationVisitor visitor = new ScientificNotationVisitor();
+        Locale usLocale = (Locale) localeField.get(visitor);
+        
+        // Verify it's the US locale
+        assertEquals(Locale.US, usLocale);
     }
 } 
