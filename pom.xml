@@ -115,7 +115,13 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
-                    <argLine>-Duser.language=en -Duser.country=US</argLine>
+                    <argLine>
+                        ${argLine}
+                        -Duser.language=en -Duser.country=US
+                        --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                        --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+                    </argLine>
+                    <excludedGroups>gui</excludedGroups>
                     <properties>
                         <configurationParameters>
                             cucumber.junit-platform.naming-strategy=long
@@ -137,17 +143,16 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
                 <executions>
-                    <!--configures testing coverage-->
                     <execution>
+                        <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <phase>initialize</phase>
                     </execution>
-
-                    <!--generates report in target/site/jacoco-->
                     <execution>
                         <id>report</id>
-                        <phase>test</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
@@ -191,18 +196,6 @@
                         <option>--add-opens</option>
                         <option>java.base/java.lang=ALL-UNNAMED</option>
                     </options>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
-                <configuration>
-                    <argLine>
-                        --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
-                        --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
-                    </argLine>
-                    <excludedGroups>gui</excludedGroups>
                 </configuration>
             </plugin>
         </plugins>

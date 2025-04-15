@@ -1,10 +1,19 @@
 package calculator.numbers;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Locale;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestRealNumber {
-    
+    @BeforeEach
+    void setUp() {
+        Locale.setDefault(Locale.US);
+    }
+
+
     @Test
     void testRealNumberCreation() {
         RealNumber n = new RealNumber(3.14159, 5);
