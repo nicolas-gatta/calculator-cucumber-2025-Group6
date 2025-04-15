@@ -154,6 +154,7 @@
                 <configuration>
                     <excludes>
                         <exclude>calculator/Main.class</exclude>
+                        <exclude>calculator/gui/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
