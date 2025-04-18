@@ -23,10 +23,10 @@ public class LinearEquationSystemExpression implements Expression {
         v.visit(this);
     }
 
-    public Expression getNecessaryValuesForSolving(){
+    public Expression solve(){
         EquationCollectorVisitor collector = new EquationCollectorVisitor();
         this.accept(collector);
-        return this;
+        return null;
     }
 
     @Override

@@ -13,10 +13,14 @@ public class Matrix {
         this.values = values;
     }
 
+
     public Matrix(String matrix){
         this.values = parse(matrix);
     }
 
+    public double[][] getValues(){
+        return values;
+    }
     public int rows(){
         return values.length;
     }

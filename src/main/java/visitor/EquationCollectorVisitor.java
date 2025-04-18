@@ -10,6 +10,7 @@ import calculator.numbers.MyNumber;
 import calculator.numbers.RationalNumber;
 import calculator.numbers.RealNumber;
 import calculator.operations.Operation;
+
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -18,24 +19,16 @@ import java.util.*;
 
 public class EquationCollectorVisitor extends Visitor {
 
-    private final Set<String> variables = new HashSet<>();
+    private final Set<String> allVariables = new TreeSet<>();
     private final List<Expression> equationValues = new ArrayList<>();
 
-    private Dictionary<String, MyNumber> store_variables = new Hashtable<>();
+    private Dictionary<String, MyNumber> storeVariables = new Hashtable<>();
 
-    private final List<Dictionary<String, MyNumber>> variables_values = new ArrayList<>();
+    private String previousSymbol = "";
 
-    private String previous_symbol = "";
+    private String currentSymbol = "";
 
     public EquationCollectorVisitor() {
-    }
-
-    public Set<String> getVariables() {
-        return variables;
-    }
-
-    public List<Expression> getEquationValues() {
-        return equationValues;
     }
 
     @Override
@@ -45,20 +38,23 @@ public class EquationCollectorVisitor extends Visitor {
 
     @Override
     public void visit(Operation o) {
-        System.out.println(o.getSymbol());
-        System.out.println(o.getArgs());
-        o.getArgs().get(0).accept(this);
-        if(o.countNbs() == 2){
-            if (o.getSymbol() == "-") {
+        if(o.countNbs() >= 2){
+            if(Objects.equals(o.getSymbol(), "+")){
+                o.getArgs().get(0).accept(this);
+                o.getArgs().get(1).accept(this);
+            } else if (Objects.equals(o.getSymbol(), "-")) {
                 if (o.getArgs().get(1) instanceof Operation) {
-                    previous_symbol = o.getSymbol();
+                    previousSymbol = "-";
+                    o.getArgs().get(1).accept(this);
+                    previousSymbol = "";
                 }else{
-
+                    currentSymbol = "-";
+                    o.getArgs().get(1).accept(this);
+                    currentSymbol = "";
                 }
-                o.getArgs().get(1).accept(this);
-            }else{
-                o.getArgs().get(1).accept(this);
             }
+        }else{
+            o.getArgs().get(0).accept(this);
         }
     }
 
@@ -84,29 +80,43 @@ public class EquationCollectorVisitor extends Visitor {
 
     @Override
     public void visit(VariableExpression v) {
-        variables.add(v.getRight());
-        store_variables.put(v.getRight(), v.getLeft());
+        allVariables.add(v.getRight());
+        MyNumber value = currentSymbol == "-" ? new MyNumber(v.getLeft().getValue() * -1) : v.getLeft();
+        value = previousSymbol == "-" ? new MyNumber(value.getValue() * -1) : value;
+        storeVariables.put(v.getRight(), value);
     }
 
     @Override
     public void visit(EquationExpression eq) {
-        // Collect variables from left
         eq.getEquation().getLeft().accept(this);
-
-        // Collect expression value from right
         eq.getEquation().getRight().accept(this);
     }
 
     public void visit(LinearEquationSystemExpression l){
 
+        List<Dictionary<String, MyNumber>> variablesValues = new ArrayList<>();
+        List<List<MyNumber>> matrixValues = new ArrayList<>();
+
         for (EquationExpression equation : l.getSystem()) {
             equation.accept(this);
-            variables_values.add(store_variables);
-            store_variables = new Hashtable<>();
+            variablesValues.add(storeVariables);
+            storeVariables = new Hashtable<>();
         }
 
-        System.out.println(variables_values);
-        System.out.println(this.getVariables());
-        System.out.println(this.getEquationValues());
+        for (Dictionary<String, MyNumber> dict : variablesValues) {
+            List<MyNumber> row = new ArrayList<>();
+            for (String var : allVariables) {
+                if (dict.get(var) == null) {
+                    row.add(new MyNumber(0));
+                }else{
+                    row.add(dict.get(var));
+                }
+            }
+            matrixValues.add(row);
+        }
+
+        System.out.println(matrixValues);
+        System.out.println(allVariables);
+        System.out.println(equationValues);
     }
 }

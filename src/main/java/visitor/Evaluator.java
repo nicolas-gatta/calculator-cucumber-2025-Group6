@@ -215,7 +215,7 @@ public class Evaluator extends Visitor {
 
     @Override
     public void visit(LinearEquationSystemExpression l) {
-        result = l.getNecessaryValuesForSolving();
+        result = l.solve();
     }
 
 }
