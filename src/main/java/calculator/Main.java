@@ -11,10 +11,9 @@ import calculator.operations.Divides;
 import calculator.operations.Minus;
 import calculator.operations.Plus;
 import calculator.operations.Times;
+import calculator.gui.CalculatorApp;
 import calculator.matrix.Matrix;
 import calculator.matrix.MatrixExpression;
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -293,15 +292,27 @@ public class Main {
 	}
 
 	/**
+	 * Launches the GUI application
+	 * @param args Command line arguments (not used)
+	 */
+	public static void launchGUI(String[] args) {
+		CalculatorApp.main(args);
+	}
+
+	/**
 	 * Main entry point of the calculator application.
 	 * @param args Command line arguments (not used)
 	 */
 	public static void main(String[] args) {
-		demonstrateIntegerOperations();
-		demonstrateRealOperations();
-		demonstrateRationalOperations();
-		demonstrateComplexOperations();
-		demonstrateMatrixOperations();
+		if (args.length > 0 && args[0].equals("--gui")) {
+			launchGUI(args);
+		} else {
+			// Votre code existant pour la version console
+			demonstrateIntegerOperations();
+			demonstrateRealOperations();
+			demonstrateRationalOperations();
+			demonstrateComplexOperations();
+		}
 	}
 
 }
