@@ -1,6 +1,7 @@
 package visitor;
 
 import calculator.linear.EquationExpression;
+import calculator.linear.LinearEquationSystemExpression;
 import calculator.linear.VariableExpression;
 import calculator.numbers.MyNumber;
 import calculator.operations.Operation;
@@ -72,6 +73,11 @@ public class ScientificNotationVisitor extends Visitor {
     @Override
     public void visit(EquationExpression e) {
         result = e.toString();
+    }
+
+    @Override
+    public void visit(LinearEquationSystemExpression l) {
+        result = l.toString();
     }
 
     /**

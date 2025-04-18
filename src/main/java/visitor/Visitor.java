@@ -1,6 +1,7 @@
 package visitor;
 
 import calculator.linear.EquationExpression;
+import calculator.linear.LinearEquationSystemExpression;
 import calculator.linear.VariableExpression;
 import calculator.numbers.MyNumber;
 import calculator.operations.Operation;
@@ -76,4 +77,11 @@ public abstract class Visitor {
      * @param n The matrix being visited
      */
     public abstract void visit(EquationExpression n);
+
+    /**
+     * The Visitor can traverse a linear equation (a subtype of Expression)
+     *
+     * @param l The linear equation being visited
+     */
+    public abstract void visit(LinearEquationSystemExpression l);
 }

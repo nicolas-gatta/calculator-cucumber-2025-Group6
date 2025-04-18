@@ -16,6 +16,11 @@ public class VariableExpression implements Expression {
         this.right = right;
     }
 
+    public VariableExpression(String right) {
+        this.left = new MyNumber(1);
+        this.right = right;
+    }
+
     public MyNumber getLeft() {
         return left;
     }

@@ -2,7 +2,7 @@ package calculator;
 
 import calculator.linear.Equation;
 import calculator.linear.EquationExpression;
-import calculator.linear.LinearEquationSystem;
+import calculator.linear.LinearEquationSystemExpression;
 import calculator.linear.VariableExpression;
 import calculator.numbers.AngleConverter;
 import calculator.numbers.MyNumber;
@@ -315,18 +315,20 @@ public class Main {
 
 			EquationExpression equation2 = new EquationExpression(new Equation(left2, right2));
 
-			Expression left3 = new Plus(List.of(new VariableExpression(new MyNumber(1),"y"),
-					new VariableExpression(new MyNumber(1),"z")));
+			Expression left3 = new Minus(List.of(new VariableExpression("x"), new Plus(List.of(new VariableExpression("y"),
+					new VariableExpression("z")))));
 
 			Expression right3 = new MyNumber(10);
 
 			EquationExpression equation3 = new EquationExpression(new Equation(left3, right3));
 
-			LinearEquationSystem linearEquationSystem = new LinearEquationSystem(List.of(equation1, equation2, equation3));
+			LinearEquationSystemExpression linearEquationSystem = new LinearEquationSystemExpression(List.of(equation1, equation2, equation3));
 
 			System.out.println(linearEquationSystem);
 
-			linearEquationSystem.getNecessaryValuesForSolving();
+			e = linearEquationSystem;
+
+			c.print(e);
 
 		}catch (IllegalConstruction exception){
 			System.out.println(exception);

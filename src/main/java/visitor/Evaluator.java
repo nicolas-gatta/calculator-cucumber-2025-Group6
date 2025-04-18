@@ -1,6 +1,7 @@
 package visitor;
 
 import calculator.linear.EquationExpression;
+import calculator.linear.LinearEquationSystemExpression;
 import calculator.linear.VariableExpression;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RealNumber;
@@ -210,6 +211,11 @@ public class Evaluator extends Visitor {
     @Override
     public void visit(EquationExpression e) {
         result = e;
+    }
+
+    @Override
+    public void visit(LinearEquationSystemExpression l) {
+        result = l.getNecessaryValuesForSolving();
     }
 
 }

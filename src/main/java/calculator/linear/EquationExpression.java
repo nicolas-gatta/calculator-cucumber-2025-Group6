@@ -18,8 +18,7 @@ public class EquationExpression implements Expression {
 
     @Override
     public void accept(Visitor v) {
-        equation.getLeft().accept(v);
-        equation.getRight().accept(v);
+        v.visit(this);
     }
 
     @Override
