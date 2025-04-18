@@ -1,9 +1,19 @@
 package calculator.matrix;
 
+/**
+ * Class that represents a matrix and provides various operations
+ */
 public class Matrix {
 
     private final double[][] values;
 
+
+    /**
+     * Constructs a matrix from a 2D array of values.
+     *
+     * @param values the 2D array representing matrix values
+     * @throws IllegalArgumentException if the matrix is empty or has no columns
+     */
     public Matrix(double[][] values){
 
         if (values.length == 0 || values[0].length == 0){
@@ -13,22 +23,53 @@ public class Matrix {
         this.values = values;
     }
 
+    /**
+     * Constructs a matrix from a string representation.
+     * Example: "[[1,2],[3,4]]"
+     *
+     * @param matrix the matrix in string format
+     * @throws IllegalArgumentException if the format is invalid or inconsistent
+     */
     public Matrix(String matrix){
         this.values = parse(matrix);
     }
 
+    /**
+     * The number of rows in the matrix
+     *
+     * @return the number of rows in the matrix
+     */
     public int rows(){
         return values.length;
     }
 
+    /**
+     * The number of columns in the matrix
+     *
+     * @return the number of columns in the matrix
+     */
     public int columns(){
         return values[0].length;
     }
 
+    /**
+     * Gets the value at a specific position.
+     *
+     * @param row the row index
+     * @param column the column index
+     * @return the value at (row, column)
+     */
     public double getValue(int row, int column){
         return values[row][column];
     }
 
+    /**
+     * Adds the current matrix with another matrix.
+     *
+     * @param other the matrix to add
+     * @return the result of addition
+     * @throws IllegalArgumentException if the matrices do not have the same dimensions
+     */
     public Matrix add(Matrix other) {
 
         if(rows() != other.rows() || columns()!= other.columns()){
@@ -47,6 +88,13 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    /**
+     * Substract the current matrix with another matrix.
+     *
+     * @param other the matrix to add
+     * @return the result of substraction
+     * @throws IllegalArgumentException if the matrices do not have the same dimensions
+     */
     public Matrix subtract(Matrix other) {
 
         if(rows() != other.rows() || columns()!= other.columns()){
@@ -66,6 +114,13 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    /**
+     * Multiplies the current matrix with another matrix.
+     *
+     * @param other the matrix to multiply with
+     * @return the result of matrix multiplication
+     * @throws IllegalArgumentException if the column count of this matrix doesn't match the row count of the other
+     */
     public Matrix multiply(Matrix other) {
 
         if(columns() != other.rows()){
@@ -88,6 +143,12 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    /**
+     * Multiplies each element of the matrix by a scalar.
+     *
+     * @param number the scalar multiplier
+     * @return the scaled matrix
+     */
     public Matrix multiply(double number) {
 
         int num_row = rows();
@@ -102,6 +163,13 @@ public class Matrix {
         return new Matrix(result);
     }
 
+
+    /**
+     * Divides each element of the matrix by a scalar.
+     *
+     * @param number the scalar divisor
+     * @return the scaled matrix
+     */
     public Matrix divide(double number) {
 
         int num_row = rows();
@@ -116,6 +184,12 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    /**
+     * Generates the identity of the matrix (must be square).
+     *
+     * @return the identity matrix
+     * @throws IllegalArgumentException if the matrix is not square
+     */
     public Matrix identity() {
 
         if(rows() != columns()){
@@ -130,6 +204,11 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    /**
+     * Generate the transposition of the matrix
+     *
+     * @return the transpose of the matrix
+     */
     public Matrix transpose(){
 
         double result[][] = new double[columns()][rows()];
@@ -142,6 +221,11 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    /**
+     * Calculates the cofactor matrix of the current matrix.
+     *
+     * @return the cofactor matrix
+     */
     public Matrix cofactor()  {
         int num_row = rows();
         int num_column = columns();
@@ -150,12 +234,23 @@ public class Matrix {
         for (int row = 0; row < num_row; row++) {
             for (int column = 0; column < num_column; column++) {
                 result[row][column] = (row % 2 == 0 ? 1 : -1) *  (column % 2 == 0 ? 1 : -1) * createSubMatrix(row, column).determinant();
+                if(result[row][column] == 0.0){
+                    result[row][column] = 0.0;
+                }
             }
         }
 
         return new Matrix(result);
     }
 
+
+    /**
+     * Creates a submatrix excluding the specified row and column.
+     *
+     * @param excludingRow the row to exclude
+     * @param excludingColumn the column to exclude
+     * @return the resulting submatrix
+     */
     public Matrix createSubMatrix(int excludingRow, int excludingColumn) {
         int numRows = rows();
         int numCols = columns();
@@ -180,6 +275,12 @@ public class Matrix {
         return new Matrix(subMatrix);
     }
 
+    /**
+     * Computes the determinant of the matrix (must be square).
+     *
+     * @return the determinant value
+     * @throws IllegalArgumentException if the matrix is not square
+     */
     public double determinant() {
 
         if (rows() != columns()){
@@ -203,6 +304,12 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * Calculates the inverse of the matrix (using cofactor and transpose).
+     *
+     * @return the inverse matrix
+     * @throws IllegalArgumentException if the matrix is not square
+     */
     public Matrix inverse(){
 
         if(rows() != columns()){
@@ -213,8 +320,11 @@ public class Matrix {
 
     }
 
-
-
+    /**
+     * Convert the matrix into the string representation
+     *
+     * @return a string representation of the matrix in the format [[a,b],[c,d]]
+     */
     public String toString() {
 
         StringBuilder stringBuilder = new StringBuilder("[");
