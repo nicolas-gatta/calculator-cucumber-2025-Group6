@@ -150,6 +150,9 @@ public class Matrix {
         for (int row = 0; row < num_row; row++) {
             for (int column = 0; column < num_column; column++) {
                 result[row][column] = (row % 2 == 0 ? 1 : -1) *  (column % 2 == 0 ? 1 : -1) * createSubMatrix(row, column).determinant();
+                if(result[row][column] == 0.0){
+                    result[row][column] = 0.0;
+                }
             }
         }
 
