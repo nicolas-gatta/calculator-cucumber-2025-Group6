@@ -9,6 +9,7 @@ import calculator.numbers.RealNumber;
 import calculator.numbers.ComplexNumber;
 import calculator.numbers.RationalNumber;
 import calculator.matrix.MatrixExpression;
+import java.util.Locale;
 
 /**
  * Visitor that converts numbers to scientific notation
@@ -16,6 +17,7 @@ import calculator.matrix.MatrixExpression;
 public class ScientificNotationVisitor extends Visitor {
     private String result;
     private int precision;
+    private static final Locale US_LOCALE = Locale.US; // Force US locale for tests
 
     /**
      * Creates a new ScientificNotationVisitor with default precision
@@ -34,7 +36,7 @@ public class ScientificNotationVisitor extends Visitor {
 
     @Override
     public void visit(MyNumber n) {
-        result = String.format("%." + precision + "E", (double)n.getValue());
+        result = String.format(US_LOCALE, "%." + precision + "E", (double)n.getValue());
     }
 
     @Override
@@ -45,19 +47,19 @@ public class ScientificNotationVisitor extends Visitor {
 
     @Override
     public void visit(RealNumber n) {
-        result = String.format("%." + precision + "E", n.getValue());
+        result = String.format(US_LOCALE, "%." + precision + "E", n.getValue());
     }
 
     @Override
     public void visit(ComplexNumber n) {
         double realPart = n.getReal();
         double imaginaryPart = n.getImaginary();
-        result = String.format("%." + precision + "E + %." + precision + "Ei", realPart, imaginaryPart);
+        result = String.format(US_LOCALE, "%." + precision + "E + %." + precision + "Ei", realPart, imaginaryPart);
     }
 
     @Override
     public void visit(RationalNumber n) {
-        result = String.format("%." + precision + "E", (double)n.getNumerator() / n.getDenominator());
+        result = String.format(US_LOCALE, "%." + precision + "E", (double)n.getNumerator() / n.getDenominator());
     }
 
     @Override

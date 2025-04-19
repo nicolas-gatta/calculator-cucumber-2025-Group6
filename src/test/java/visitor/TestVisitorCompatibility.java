@@ -3,14 +3,20 @@ package visitor;
 import calculator.*;
 import calculator.numbers.RealNumber;
 import calculator.operations.Plus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 class TestVisitorCompatibility {
-    
+    @BeforeEach
+    void setUp() {
+        Locale.setDefault(Locale.US);
+    }
+
     @Test
     void testEvaluatorWithRealNumbers() throws IllegalConstruction {
         List<Expression> params = Arrays.asList(
