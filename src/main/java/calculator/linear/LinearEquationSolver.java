@@ -19,11 +19,6 @@ public class LinearEquationSolver {
 
         Matrix result = invertedMatrix.multiply(b);
 
-        System.out.println(A);
-        System.out.println(invertedMatrix);
-        System.out.println(b);
-        System.out.println(variables);
-
         for (int i = 0; i < variables.size(); i++) {
 
             Equation equation = new Equation(new VariableExpression(variables.get(i)), new RealNumber(result.getValue(i, 0)));

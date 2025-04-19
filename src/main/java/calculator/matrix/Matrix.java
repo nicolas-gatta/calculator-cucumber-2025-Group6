@@ -196,7 +196,7 @@ public class Matrix {
 
         for (int row = 0; row < num_row; row++) {
             for (int column = 0; column < num_column; column++){
-                result[row][column] += getValue(row, column) * number;
+                result[row][column] += getValue(row, column) / number;
             }
         }
         return new Matrix(result);
@@ -251,7 +251,7 @@ public class Matrix {
         double[][] result = new double [num_row][num_column];
         for (int row = 0; row < num_row; row++) {
             for (int column = 0; column < num_column; column++) {
-                result[row][column] = (row % 2 == 0 ? 1 : -1) *  (column % 2 == 0 ? 1 : -1) * createSubMatrix(row, column).determinant();
+                result[row][column] = ((row % 2 == 0 ? 1 : -1) * (column % 2 == 0 ? 1 : -1)) * createSubMatrix(row, column).determinant();
                 if(result[row][column] == 0.0){
                     result[row][column] = 0.0;
                 }
@@ -311,13 +311,13 @@ public class Matrix {
 
         if (rows() == 2) {
             return (getValue(0, 0) * getValue(1, 1)) -
-                    ( getValue(0, 1) * getValue(1, 0));
+                    (getValue(1, 0) * getValue(0, 1));
         }
 
         double result = 0.0;
 
         for (int column = 0; column < columns(); column++) {
-            result += (column % 2 == 0 ? 1 : -1) * getValue(0, column) * createSubMatrix(0, column).determinant();
+            result += ((column % 2 == 0 ? 1 : -1) * getValue(0, column)) * createSubMatrix(0, column).determinant();
         }
         return result;
     }
@@ -329,6 +329,28 @@ public class Matrix {
      * @throws IllegalArgumentException if the matrix is not square
      */
     public Matrix inverse(){
+
+        if(rows() != columns()){
+            throw new IllegalArgumentException("Matrix must be square to be inverted");
+        }
+
+        double det = determinant();
+
+        if(det == 0){
+            throw new IllegalArgumentException("Matrix is not invertible because the determinant is 0");
+        }
+
+        return adjoint().multiply(1/det);
+
+    }
+
+    /**
+     * Calculates the adjoint of the matrix (using cofactor and transpose).
+     *
+     * @return the inverse matrix
+     * @throws IllegalArgumentException if the matrix is not square
+     */
+    public Matrix adjoint(){
 
         if(rows() != columns()){
             throw new IllegalArgumentException("Matrix must be square to be inverted");
