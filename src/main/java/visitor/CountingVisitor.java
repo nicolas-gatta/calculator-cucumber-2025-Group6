@@ -1,5 +1,8 @@
 package visitor;
 
+import calculator.linear.EquationExpression;
+import calculator.linear.LinearEquationSystemExpression;
+import calculator.linear.VariableExpression;
 import calculator.numbers.MyNumber;
 import calculator.operations.Operation;
 import calculator.Expression;
@@ -94,7 +97,44 @@ public class CountingVisitor extends Visitor {
         depth = 0;
     }
 
+    /**
+     * Visits a equation node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param e The equation node being visited
+     */
+    @Override
+    public void visit(EquationExpression e) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
 
+    /**
+     * Visits a variable node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param v The variable node being visited
+     */
+    @Override
+    public void visit(VariableExpression v) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+    /**
+     * Visits a linear equation System node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param l The linear equation system node being visited
+     */
+    @Override
+    public void visit(LinearEquationSystemExpression l) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
 
     /**
      * Visits an operation node in the expression tree.

@@ -7,6 +7,7 @@ import visitor.Visitor;
  * Represents a matrix as an {@link Expression} that can be visited by a {@link Visitor}.
  */
 public class MatrixExpression implements Expression {
+
     private final Matrix matrix;
 
     /**

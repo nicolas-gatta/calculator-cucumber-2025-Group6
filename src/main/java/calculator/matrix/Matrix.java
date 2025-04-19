@@ -23,6 +23,20 @@ public class Matrix {
         this.values = values;
     }
 
+    public Matrix(double[] values){
+
+        if (values.length == 0){
+            throw new IllegalArgumentException("Empty matrix not allowed !!!!");
+        }
+
+        this.values = new double[values.length][1];
+
+        for (int i = 0; i < values.length; i++) {
+            this.values[i][0] = values[i];
+        }
+    }
+
+
     /**
      * Constructs a matrix from a string representation.
      * Example: "[[1,2],[3,4]]"
@@ -34,6 +48,10 @@ public class Matrix {
         this.values = parse(matrix);
     }
 
+
+    public double[][] getValues(){
+        return values;
+    }
     /**
      * The number of rows in the matrix
      *
