@@ -17,7 +17,7 @@ class LinearEquationSolverTest {
         List<String> variables = List.of("x", "y");
         LinearEquationSystemExpression solution = LinearEquationSolver.solve(A, b, variables);
 
-        String expected = "(x = 1,6000, y = 1,6000)";
+        String expected = "(x = 1.6000, y = 1.6000)";
         assertEquals(expected, solution.toString());
     }
 
@@ -30,7 +30,7 @@ class LinearEquationSolverTest {
         List<String> variables = List.of("x", "y", "z");
         LinearEquationSystemExpression solution = LinearEquationSolver.solve(A, b, variables);
 
-        String expected = "(x = 7,9333, y = -6,2667, z = 4,2000)";
+        String expected = "(x = 7.9333, y = -6.2667, z = 4.2000)";
         assertEquals(expected, solution.toString());
     }
 
