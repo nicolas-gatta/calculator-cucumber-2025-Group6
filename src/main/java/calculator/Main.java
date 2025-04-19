@@ -1,5 +1,9 @@
 package calculator;
 
+import calculator.linear.Equation;
+import calculator.linear.EquationExpression;
+import calculator.linear.LinearEquationSystemExpression;
+import calculator.linear.VariableExpression;
 import calculator.numbers.AngleConverter;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RationalNumber;
@@ -11,10 +15,9 @@ import calculator.operations.Divides;
 import calculator.operations.Minus;
 import calculator.operations.Plus;
 import calculator.operations.Times;
+import calculator.gui.CalculatorApp;
 import calculator.matrix.Matrix;
 import calculator.matrix.MatrixExpression;
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +41,7 @@ public class Main {
 
 	/**
 	 * Creates a list of expressions from the given parameters
-	 * 
+	 *
 	 * @param expressions The expressions to add to the list
 	 * @return A list containing the provided expressions
 	 */
@@ -57,49 +60,45 @@ public class Main {
 
 		try {
 			System.out.println("\n=== Integer Operations Examples ===");
-			
+
 			e = new MyNumber(8);
 			c.print(e);
 
 			// Using the helper method to create expression lists
-			e = new Plus(createExpressionList(
-				new MyNumber(3), new MyNumber(4), new MyNumber(5)), 
-				Notation.PREFIX);
+			e = new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5)), Notation.PREFIX);
 			c.printExpressionDetails(e);
 
-			e = new Minus(createExpressionList(
-				new MyNumber(5), new MyNumber(3)), 
-				Notation.INFIX);
+			e = new Minus(createExpressionList(new MyNumber(5), new MyNumber(3)), Notation.INFIX);
 			c.print(e);
 
 			// More complex nested expressions
 			List<Expression> params3 = createExpressionList(
-				new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5))),
-				new Minus(createExpressionList(new MyNumber(5), new MyNumber(3)))
+					new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5))),
+					new Minus(createExpressionList(new MyNumber(5), new MyNumber(3)))
 			);
 			e = new Times(params3);
 			c.printExpressionDetails(e);
 
 			List<Expression> params4 = createExpressionList(
-				new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5))),
-				new Minus(createExpressionList(new MyNumber(5), new MyNumber(3))),
-				new MyNumber(5)
+					new Plus(createExpressionList(new MyNumber(3), new MyNumber(4), new MyNumber(5))),
+					new Minus(createExpressionList(new MyNumber(5), new MyNumber(3))),
+					new MyNumber(5)
 			);
+
 			e = new Divides(params4, Notation.POSTFIX);
 			c.print(e);
 
 			List<Expression> params5 = createExpressionList(
-				new RealNumber(3.14159, 5),
-				new RealNumber(2.71828, 5)
-			);
+					new RealNumber(3.14159, 5),
+					new RealNumber(2.71828, 5));
 			e = new Plus(params5, Notation.PREFIX);
 			c.print(e);
 			c.printExpressionDetails(e);
 			c.eval(e);
 
 			List<Expression> params6 = createExpressionList(
-				new ComplexNumber(5, 6),
-				new ComplexNumber(1, 2)
+					new ComplexNumber(5, 6),
+					new ComplexNumber(1, 2)
 			);
 			e = new Plus(params6, Notation.POSTFIX);
 			c.printExpressionDetails(e);
@@ -119,11 +118,11 @@ public class Main {
 
 		try {
 			System.out.println("\n=== Real Number Operations Examples ===");
-			
+
 			// Basic real number operations
 			List<Expression> params = createExpressionList(
-				new RealNumber(3.14159, 5),
-				new RealNumber(2.71828, 5)
+					new RealNumber(3.14159, 5),
+					new RealNumber(2.71828, 5)
 			);
 			e = new Plus(params);
 			System.out.println("Adding π and e:");
@@ -143,9 +142,9 @@ public class Main {
 			// Complex calculation with mixed types
 			System.out.println("Mixed type calculation (π * e * 2):");
 			List<Expression> params2 = createExpressionList(
-				new RealNumber(Math.PI, 6),
-				new RealNumber(Math.E, 6),
-				new MyNumber(2)
+					new RealNumber(Math.PI, 6),
+					new RealNumber(Math.E, 6),
+					new MyNumber(2)
 			);
 			e = new Times(params2);
 			c.print(e);
@@ -153,8 +152,8 @@ public class Main {
 			// Division with real numbers
 			System.out.println("Division of real numbers (1/3):");
 			List<Expression> params3 = createExpressionList(
-				new RealNumber(1.0, 4),
-				new RealNumber(3.0, 4)
+					new RealNumber(1.0, 4),
+					new RealNumber(3.0, 4)
 			);
 			e = new Divides(params3);
 			c.print(e);
@@ -292,16 +291,74 @@ public class Main {
 
 	}
 
+	public static void demonstrateLinearEquation() {
+
+		System.out.println("\n=== Linear Equation Examples ===");
+
+		Calculator c = new Calculator();
+		Expression e;
+
+		try {
+
+			Expression left1 = new Plus(List.of(new VariableExpression(new MyNumber(3),"x"),
+								new VariableExpression(new MyNumber(3),"y")));
+
+			Expression right1 = new MyNumber(5);
+
+			EquationExpression equation1 = new EquationExpression(new Equation(left1, right1));
+
+			Expression left2 = new Minus(List.of(new VariableExpression(new MyNumber(3),"x"),
+					new VariableExpression(new MyNumber(4),"z")));
+
+			Expression right2 = new MyNumber(7);
+
+			EquationExpression equation2 = new EquationExpression(new Equation(left2, right2));
+
+			Expression left3 = new Minus(List.of(new VariableExpression("x"), new Plus(List.of(new VariableExpression("y"),
+					new VariableExpression("z")))));
+
+			Expression right3 = new MyNumber(10);
+
+			EquationExpression equation3 = new EquationExpression(new Equation(left3, right3));
+
+			LinearEquationSystemExpression linearEquationSystem = new LinearEquationSystemExpression(List.of(equation1, equation2, equation3));
+
+			System.out.println(linearEquationSystem);
+
+			e = linearEquationSystem;
+
+			c.print(e);
+
+		}catch (IllegalConstruction exception){
+			System.out.println(exception);
+		}
+
+	}
+
+	/**
+	 * Launches the GUI application
+	 * @param args Command line arguments (not used)
+	 */
+	public static void launchGUI(String[] args) {
+		CalculatorApp.main(args);
+	}
+
 	/**
 	 * Main entry point of the calculator application.
 	 * @param args Command line arguments (not used)
 	 */
 	public static void main(String[] args) {
-		demonstrateIntegerOperations();
-		demonstrateRealOperations();
-		demonstrateRationalOperations();
-		demonstrateComplexOperations();
-		demonstrateMatrixOperations();
+		if (args.length > 0 && args[0].equals("--gui")) {
+			launchGUI(args);
+		} else {
+			// Votre code existant pour la version console
+      demonstrateIntegerOperations();
+      demonstrateRealOperations();
+      demonstrateRationalOperations();
+      demonstrateComplexOperations();
+      demonstrateMatrixOperations();
+      demonstrateLinearEquation();
+		}
 	}
 
 }
