@@ -352,12 +352,12 @@ public class Main {
 			launchGUI(args);
 		} else {
 			// Votre code existant pour la version console
-      demonstrateIntegerOperations();
-      demonstrateRealOperations();
-      demonstrateRationalOperations();
-      demonstrateComplexOperations();
-      demonstrateMatrixOperations();
-      demonstrateLinearEquation();
+			demonstrateIntegerOperations();
+			demonstrateRealOperations();
+			demonstrateRationalOperations();
+			demonstrateComplexOperations();
+			demonstrateMatrixOperations();
+			demonstrateLinearEquation();
 		}
 	}
 
