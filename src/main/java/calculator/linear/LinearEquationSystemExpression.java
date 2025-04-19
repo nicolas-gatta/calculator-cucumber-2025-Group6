@@ -23,10 +23,13 @@ public class LinearEquationSystemExpression implements Expression {
         v.visit(this);
     }
 
-    public Expression solve(){
+    public LinearEquationSystemExpression solve(){
+
         EquationCollectorVisitor collector = new EquationCollectorVisitor();
+
         this.accept(collector);
-        return null;
+
+        return LinearEquationSolver.solve(collector.getEquationSystemAsMatrix(), collector.getEquationEqualsValuesAsMatrix(), collector.getAllVariables());
     }
 
     @Override
@@ -41,7 +44,7 @@ public class LinearEquationSystemExpression implements Expression {
             }
             num++;
         }
-        sb.append(")").append("\n");
+        sb.append(")");
         return sb.toString();
     }
 

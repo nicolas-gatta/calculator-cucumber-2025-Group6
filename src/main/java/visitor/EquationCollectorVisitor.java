@@ -1,9 +1,9 @@
 package visitor;
 
-import calculator.Expression;
 import calculator.linear.EquationExpression;
 import calculator.linear.LinearEquationSystemExpression;
 import calculator.linear.VariableExpression;
+import calculator.matrix.Matrix;
 import calculator.matrix.MatrixExpression;
 import calculator.numbers.ComplexNumber;
 import calculator.numbers.MyNumber;
@@ -20,20 +20,46 @@ import java.util.*;
 public class EquationCollectorVisitor extends Visitor {
 
     private final Set<String> allVariables = new TreeSet<>();
-    private final List<Expression> equationValues = new ArrayList<>();
-
-    private Dictionary<String, MyNumber> storeVariables = new Hashtable<>();
+    private final List<Double> equationEqualsValues = new ArrayList<>();
+    private Dictionary<String, Double> storeVariables = new Hashtable<>();
+    private List<List<Double>> equationsValues = new ArrayList<>();
 
     private String previousSymbol = "";
 
     private String currentSymbol = "";
+
+    public List<String> getAllVariables() {
+        return new ArrayList<>(allVariables);
+    }
+
+    public Matrix getEquationEqualsValuesAsMatrix() {
+        int rows = equationEqualsValues.size();
+        int cols = 1;
+        double[][] data = new double[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            data[i][0] = equationEqualsValues.get(i);
+        }
+        return new Matrix(data);
+    }
+
+    public Matrix getEquationSystemAsMatrix() {
+        int rows = equationsValues.size();
+        int cols = equationsValues.get(0).size();
+        double[][] data = new double[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                data[i][j] = equationsValues.get(i).get(j);
+            }
+        }
+        return new Matrix(data);
+    }
 
     public EquationCollectorVisitor() {
     }
 
     @Override
     public void visit(MyNumber n) {
-        equationValues.add(n);
+        equationEqualsValues.add(n.getValue().doubleValue());
     }
 
     @Override
@@ -60,17 +86,17 @@ public class EquationCollectorVisitor extends Visitor {
 
     @Override
     public void visit(RealNumber n) {
-        equationValues.add(n);
+        equationEqualsValues.add(n.getValue());
     }
 
     @Override
     public void visit(ComplexNumber n) {
-        equationValues.add(n);
+        equationEqualsValues.add(n.getReal());
     }
 
     @Override
     public void visit(RationalNumber n) {
-        equationValues.add(n);
+        equationEqualsValues.add(new RealNumber(n.getNumerator()/(double)n.getDenominator()).getValue());
     }
 
     @Override
@@ -83,7 +109,7 @@ public class EquationCollectorVisitor extends Visitor {
         allVariables.add(v.getRight());
         MyNumber value = currentSymbol == "-" ? new MyNumber(v.getLeft().getValue() * -1) : v.getLeft();
         value = previousSymbol == "-" ? new MyNumber(value.getValue() * -1) : value;
-        storeVariables.put(v.getRight(), value);
+        storeVariables.put(v.getRight(), value.getValue().doubleValue());
     }
 
     @Override
@@ -94,8 +120,7 @@ public class EquationCollectorVisitor extends Visitor {
 
     public void visit(LinearEquationSystemExpression l){
 
-        List<Dictionary<String, MyNumber>> variablesValues = new ArrayList<>();
-        List<List<MyNumber>> matrixValues = new ArrayList<>();
+        List<Dictionary<String, Double>> variablesValues = new ArrayList<>();
 
         for (EquationExpression equation : l.getSystem()) {
             equation.accept(this);
@@ -103,20 +128,16 @@ public class EquationCollectorVisitor extends Visitor {
             storeVariables = new Hashtable<>();
         }
 
-        for (Dictionary<String, MyNumber> dict : variablesValues) {
-            List<MyNumber> row = new ArrayList<>();
+        for (Dictionary<String, Double> dict : variablesValues) {
+            List<Double> row = new ArrayList<>();
             for (String var : allVariables) {
                 if (dict.get(var) == null) {
-                    row.add(new MyNumber(0));
+                    row.add(0.0);
                 }else{
                     row.add(dict.get(var));
                 }
             }
-            matrixValues.add(row);
+            equationsValues.add(row);
         }
-
-        System.out.println(matrixValues);
-        System.out.println(allVariables);
-        System.out.println(equationValues);
     }
 }

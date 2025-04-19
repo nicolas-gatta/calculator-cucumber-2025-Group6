@@ -25,6 +25,14 @@ public class RealNumber implements Expression {
     }
 
     /**
+     * Constructs a new RealNumber with a specific value
+     * @param value The double value to store
+     */
+    public RealNumber(double value) {
+        this(value, 4);
+    }
+
+    /**
      * Gets the stored double value
      * @return The double value
      */

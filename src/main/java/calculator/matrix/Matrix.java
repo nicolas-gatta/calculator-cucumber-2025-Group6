@@ -13,6 +13,19 @@ public class Matrix {
         this.values = values;
     }
 
+    public Matrix(double[] values){
+
+        if (values.length == 0){
+            throw new IllegalArgumentException("Empty matrix not allowed !!!!");
+        }
+
+        this.values = new double[values.length][1];
+
+        for (int i = 0; i < values.length; i++) {
+            this.values[i][0] = values[i];
+        }
+    }
+
 
     public Matrix(String matrix){
         this.values = parse(matrix);

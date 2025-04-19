@@ -36,7 +36,7 @@ public class VariableExpression implements Expression {
 
     @Override
     public String toString() {
-        return left + right;
+        return  left.getValue() != 1 ? left + right : right;
     }
 
     @Override
