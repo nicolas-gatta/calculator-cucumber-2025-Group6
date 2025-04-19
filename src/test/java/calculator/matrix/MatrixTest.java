@@ -1,4 +1,4 @@
-package matrix;
+package calculator.matrix;
 
 import calculator.matrix.Matrix;
 import org.junit.jupiter.api.Test;

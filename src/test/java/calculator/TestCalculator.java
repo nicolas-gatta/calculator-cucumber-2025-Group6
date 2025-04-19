@@ -74,7 +74,7 @@ class TestCalculator {
     }
 
     @Test
-    void testPrint() throws IllegalConstruction {
+    void testPrint() {
         // Reset output stream before test
         outContent.reset();
         
@@ -83,7 +83,10 @@ class TestCalculator {
         calculator.print(num);
         
         String expectedOutput = "The result of evaluating expression 42\nis: 42.\n\n";
-        assertEquals(expectedOutput, outContent.toString());
+
+        String actualOutput = outContent.toString().replace("\r\n", "\n");
+
+        assertEquals(expectedOutput, actualOutput.toString());
     }
 
     @Test

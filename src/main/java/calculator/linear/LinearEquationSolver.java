@@ -5,8 +5,20 @@ import calculator.numbers.RealNumber;
 
 import java.util.*;
 
+/**
+ * Provides a static method to solve a system of linear equations represented by a matrix.
+ */
 public class LinearEquationSolver {
 
+    /**
+     * Solves a linear system Ax = b and returns it as a LinearEquationSystemExpression.
+     *
+     * @param A         the coefficient matrix
+     * @param b         the constants vector matrix
+     * @param variables the list of variable names corresponding to the columns of A
+     * @return a LinearEquationSystemExpression representing the solution
+     * @throws IllegalArgumentException if the matrix A has no unique solution
+     */
     public static LinearEquationSystemExpression solve(Matrix A, Matrix b, List<String> variables) {
 
         if (A.determinant() == 0) {
