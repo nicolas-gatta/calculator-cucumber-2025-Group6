@@ -1,0 +1,49 @@
+name: Release - Build and Publish Reports
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release-report:
+    name: Build, Test, and Attach Reports
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 23
+          cache: 'maven'
+
+      - name: Build, test, and generate reports
+        run: |
+          mvn clean verify jacoco:report javadoc:javadoc --file pom.xml
+
+      - name: Check if tests passed
+        if: ${{ failure() }}
+        run: |
+          echo "Tests failed, stopping release process."
+          exit 1
+
+      - name: Generate report archive
+        run: |
+          mkdir release-report
+          cp -r target/site/jacoco release-report/jacoco
+          cp -r target/site/apidocs release-report/javadoc
+          cp -r target/surefire-reports release-report/test-reports
+          zip -r release-report.zip release-report
+
+      - name: Upload report as GitHub release asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release-report.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
