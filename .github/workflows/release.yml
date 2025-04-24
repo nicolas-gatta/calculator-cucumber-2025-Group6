@@ -2,7 +2,7 @@ name: Release - Build and Publish Reports
 
 on:
   release:
-    types: [published]
+    types: [released]
 #  workflow_dispatch:
 #  push:
 #    branches:
