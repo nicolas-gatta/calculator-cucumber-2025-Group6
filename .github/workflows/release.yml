@@ -1,15 +1,15 @@
 name: Release - Build and Publish Reports
 
 on:
-#  release:
-#    types: [published]
+  release:
+    types: [published]
 #  workflow_dispatch:
-  push:
-    branches:
-      - "**"
-  pull_request:
-    branches:
-      - "**"
+#  push:
+#    branches:
+#      - "**"
+#  pull_request:
+#    branches:
+#      - "**"
 
 permissions:
   contents: write
@@ -47,7 +47,7 @@ jobs:
         run: |
           mkdir release-report
           cp -r target/site/jacoco release-report/jacoco
-          cp -r target/site/apidocs release-report/javadoc
+          cp -r target/reports/apidocs release-report/javadoc
           cp -r target/surefire-reports release-report/test-reports
           zip -r release-report.zip release-report
 
