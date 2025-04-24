@@ -7,9 +7,12 @@ on:
 
 permissions:
   contents: write
+  actions: write       # Necessary to cancel workflow executions
+  checks: write        # Necessary to write reports
+  pull-requests: write # Necessary to comment on PRs
 
 jobs:
-  release-report:
+  build:
     name: Build, Test, and Attach Reports
     runs-on: ubuntu-latest
 
@@ -43,8 +46,10 @@ jobs:
           zip -r release-report.zip release-report
 
       - name: Upload report as GitHub release asset
-        uses: softprops/action-gh-release@v1
-        with:
-          files: release-report.zip
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          files: release-report.zip
