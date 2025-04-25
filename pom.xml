@@ -50,6 +50,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.9.3</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
             <version>${junit-platform-suite.version}</version>
@@ -137,7 +142,6 @@
                     <mainClass>calculator.Main</mainClass>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -197,6 +201,18 @@
                         <option>java.base/java.lang=ALL-UNNAMED</option>
                     </options>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>4.9.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

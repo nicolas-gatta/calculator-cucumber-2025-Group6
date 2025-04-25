@@ -255,13 +255,13 @@ public class Main {
 			MatrixExpression e4 = new MatrixExpression(D);
 			MatrixExpression e5 = new MatrixExpression(E);
 
-			e = new Plus(List.of(e1, e2));
+			e = new Plus(List.of(e1, e2), Notation.POSTFIX);
 			c.print(e);
 
-			e = new Minus(List.of(e1, e2));
+			e = new Minus(List.of(e1, e2), Notation.PREFIX);
 			c.print(e);
 
-			e = new Times(List.of(e1, e2));
+			e = new Times(List.of(e1, e2), Notation.POSTFIX);
 			c.print(e);
 
 			e = new Times(List.of(e3, e4));

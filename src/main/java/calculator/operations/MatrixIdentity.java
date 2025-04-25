@@ -17,7 +17,7 @@ public final class MatrixIdentity extends Operation{
 
     public MatrixIdentity(List<Expression> elist, Notation n) throws IllegalConstruction {
         super(elist, n);
-        symbol = "^I";
+        symbol = "I";
         neutral = 0;
     }
 
