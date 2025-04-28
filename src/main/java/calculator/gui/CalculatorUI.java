@@ -17,6 +17,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import calculator.matrix.Matrix;
+import calculator.linear.LinearEquationSolver;
+import calculator.linear.LinearEquationSystemExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +50,20 @@ public class CalculatorUI {
 
     // Add a field to store the reference to the HBox
     private HBox box;
+
+    // Linear system components
+    private VBox linearSystemPanel;
+    private GridPane equationGrid;
+    private int numEquations = 2;
+    private int numVariables = 2;
+    private List<List<TextField>> coefficientFields;
+    private List<TextField> constantFields;
+    private List<String> variableNames;
+
+    // Add a field to store the calculator content container
+    private VBox calculatorContent;
+    // Add a field to store the button grid
+    private GridPane buttonGrid;
 
     /**
      * Constructs a new CalculatorUI.
@@ -91,14 +110,22 @@ public class CalculatorUI {
         box.setPadding(new Insets(5, 0, 15, 0));
         
         // Create the numeric keyboard and operations
-        GridPane buttonGrid = createButtonGrid();
+        buttonGrid = createButtonGrid();
         buttonGrid.setPrefWidth(Double.MAX_VALUE);
         buttonGrid.setPadding(new Insets(5));
+        
+        // Create linear system panel
+        linearSystemPanel = createLinearSystemPanel();
+        linearSystemPanel.setVisible(false);
+        
+        // Create a container for the calculator content that will switch between modes
+        calculatorContent = new VBox();
+        calculatorContent.getChildren().add(buttonGrid);
         
         // Assemble the interface
         root = new VBox(5);
         root.setPadding(new Insets(15));
-        root.getChildren().addAll(displayBox, box, buttonGrid);
+        root.getChildren().addAll(displayBox, box, calculatorContent);
         root.setMaxHeight(VBox.USE_PREF_SIZE);
     }
     
@@ -111,7 +138,8 @@ public class CalculatorUI {
         label.setMinWidth(50);  // Reduced width
         
         ComboBox<NumberType> typeCombo = new ComboBox<>();
-        typeCombo.getItems().addAll(NumberType.INTEGER, NumberType.RATIONAL, NumberType.REAL, NumberType.COMPLEX);
+        typeCombo.getItems().addAll(NumberType.INTEGER, NumberType.RATIONAL, NumberType.REAL, 
+                                   NumberType.COMPLEX, NumberType.LINEAR_SYSTEM);
         typeCombo.setValue(currentNumberType);
         typeCombo.getStyleClass().add("type-selector");
         typeCombo.setOnAction(e -> {
@@ -178,6 +206,7 @@ public class CalculatorUI {
         boolean isRational = currentNumberType == NumberType.RATIONAL;
         boolean isReal = currentNumberType == NumberType.REAL;
         boolean isComplex = currentNumberType == NumberType.COMPLEX;
+        boolean isLinearSystem = currentNumberType == NumberType.LINEAR_SYSTEM;
         
         // Enable/disable the specific buttons according to the type
         if (fractionButton != null) {
@@ -193,6 +222,19 @@ public class CalculatorUI {
         if (imaginaryButton != null) {
             imaginaryButton.setDisable(!isComplex);
             imaginaryButton.setVisible(isComplex);
+        }
+        
+        // Switch between calculator modes
+        if (isLinearSystem) {
+            // Remove the button grid and add the linear system panel to the calculator content
+            calculatorContent.getChildren().clear();
+            calculatorContent.getChildren().add(linearSystemPanel);
+            linearSystemPanel.setVisible(true);
+        } else {
+            // Remove the linear system panel and add the button grid to the calculator content
+            calculatorContent.getChildren().clear();
+            calculatorContent.getChildren().add(buttonGrid);
+            linearSystemPanel.setVisible(false);
         }
         
         // Reset the display if necessary
@@ -490,6 +532,217 @@ public class CalculatorUI {
             currentInput = "-" + currentInput;
         }
         display.setText(currentInput);
+    }
+    
+    private VBox createLinearSystemPanel() {
+        VBox panel = new VBox(10);
+        panel.setPadding(new Insets(10));
+        panel.setAlignment(Pos.CENTER);
+        
+        // Controls for number of equations and variables
+        HBox controlsBox = new HBox(15);
+        controlsBox.setAlignment(Pos.CENTER);
+        
+        Label eqLabel = new Label("Equations:");
+        ComboBox<Integer> eqCombo = new ComboBox<>();
+        for (int i = 2; i <= 5; i++) {
+            eqCombo.getItems().add(i);
+        }
+        eqCombo.setValue(numEquations);
+        eqCombo.setOnAction(e -> {
+            numEquations = eqCombo.getValue();
+            updateEquationGrid();
+        });
+        
+        Label varLabel = new Label("Variables:");
+        ComboBox<Integer> varCombo = new ComboBox<>();
+        for (int i = 2; i <= 5; i++) {
+            varCombo.getItems().add(i);
+        }
+        varCombo.setValue(numVariables);
+        varCombo.setOnAction(e -> {
+            numVariables = varCombo.getValue();
+            updateEquationGrid();
+        });
+        
+        controlsBox.getChildren().addAll(eqLabel, eqCombo, varLabel, varCombo);
+        
+        // Create the equation grid
+        equationGrid = new GridPane();
+        equationGrid.setHgap(10);
+        equationGrid.setVgap(10);
+        equationGrid.setAlignment(Pos.CENTER);
+        
+        // Initialize coefficient fields
+        coefficientFields = new ArrayList<>();
+        constantFields = new ArrayList<>();
+        variableNames = new ArrayList<>();
+        
+        // Generate default variable names (x, y, z, w, v)
+        String[] defaultVars = {"x", "y", "z", "w", "v"};
+        for (int i = 0; i < 5; i++) {
+            variableNames.add(defaultVars[i]);
+        }
+        
+        // Create initial grid
+        updateEquationGrid();
+        
+        // Solve button
+        Button solveButton = new Button("Solve");
+        solveButton.setPrefSize(100, 40);
+        solveButton.setOnAction(e -> solveLinearSystem());
+        
+        // Clear button
+        Button clearButton = new Button("Clear");
+        clearButton.setPrefSize(100, 40);
+        clearButton.setOnAction(e -> clearLinearSystem());
+        
+        HBox buttonBox = new HBox(20);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.getChildren().addAll(solveButton, clearButton);
+        
+        panel.getChildren().addAll(controlsBox, equationGrid, buttonBox);
+        return panel;
+    }
+    
+    private void updateEquationGrid() {
+        equationGrid.getChildren().clear();
+        
+        // Update coefficient fields lists
+        coefficientFields.clear();
+        constantFields.clear();
+        
+        // Add column headers (variable names)
+        for (int j = 0; j < numVariables; j++) {
+            Label varLabel = new Label(variableNames.get(j));
+            varLabel.setFont(Font.font("Segoe UI", FontWeight.BOLD, 14));
+            equationGrid.add(varLabel, j*2, 0);  // Multiplié par 2 pour laisser de l'espace pour les opérateurs
+        }
+        
+        // Add equals sign and constant column header
+        Label equalsLabel = new Label("=");
+        equalsLabel.setFont(Font.font("Segoe UI", FontWeight.BOLD, 14));
+        equationGrid.add(equalsLabel, numVariables*2, 0);
+        
+        Label constLabel = new Label("Constant");
+        constLabel.setFont(Font.font("Segoe UI", FontWeight.BOLD, 14));
+        equationGrid.add(constLabel, numVariables*2 + 1, 0);
+        
+        // Create the grid of text fields
+        for (int i = 0; i < numEquations; i++) {
+            List<TextField> rowFields = new ArrayList<>();
+            
+            for (int j = 0; j < numVariables; j++) {
+                TextField field = new TextField();
+                field.setPrefWidth(70);
+                field.setMinWidth(70);
+                field.setPrefHeight(30);  // Fixed height
+                field.setMinHeight(30);   // Minimum height
+                field.setMaxHeight(30);   // Maximum height
+                field.setPadding(new Insets(0, 5, 0, 5));  // Horizontal padding only
+                field.setAlignment(Pos.CENTER);
+                
+                // Use inline CSS to ensure the cursor is visible
+                field.setStyle("-fx-background-insets: 0; -fx-padding: 0 5 0 5; -fx-background-radius: 0;");
+                
+                equationGrid.add(field, j*2, i + 1);  // Multiplied by 2 to leave space for operators
+                rowFields.add(field);
+                
+                // Add coefficient label if not the last variable
+                if (j < numVariables - 1) {
+                    Label plusLabel = new Label("+");
+                    plusLabel.setFont(Font.font("Segoe UI", 14));
+                    GridPane.setHalignment(plusLabel, javafx.geometry.HPos.CENTER);
+                    equationGrid.add(plusLabel, j*2 + 1, i + 1);
+                }
+            }
+            
+            coefficientFields.add(rowFields);
+            
+            // Add equals sign
+            Label eqLabel = new Label("=");
+            eqLabel.setFont(Font.font("Segoe UI", 14));
+            GridPane.setHalignment(eqLabel, javafx.geometry.HPos.CENTER);
+            equationGrid.add(eqLabel, numVariables*2, i + 1);
+            
+            // Add constant field
+            TextField constField = new TextField();
+            constField.setPrefWidth(70);
+            constField.setMinWidth(70);
+            constField.setPrefHeight(30);  // Height of the constant field
+            constField.setMinHeight(30);   // Minimum height of the constant field
+            constField.setMaxHeight(30);   // Maximum height of the constant field
+            constField.setPadding(new Insets(0, 5, 0, 5));  // Padding horizontal uniquement
+            constField.setAlignment(Pos.CENTER);
+            
+            // Use inline CSS to ensure the cursor is visible
+            constField.setStyle("-fx-background-insets: 0; -fx-padding: 0 5 0 5; -fx-background-radius: 0;");
+            
+            equationGrid.add(constField, numVariables*2 + 1, i + 1);
+            constantFields.add(constField);
+        }
+        
+        // Adjust the grid spacing
+        equationGrid.setHgap(5);  // Reduced horizontal spacing
+        equationGrid.setVgap(10); // Maintained vertical spacing
+    }
+    
+    private void solveLinearSystem() {
+        try {
+            // Create matrices for the linear system
+            double[][] coefficients = new double[numEquations][numVariables];
+            double[][] constants = new double[numEquations][1];
+            
+            // Fill the coefficient matrix
+            for (int i = 0; i < numEquations; i++) {
+                for (int j = 0; j < numVariables; j++) {
+                    String value = coefficientFields.get(i).get(j).getText().trim();
+                    if (value.isEmpty()) {
+                        coefficients[i][j] = 0;
+                    } else {
+                        coefficients[i][j] = Double.parseDouble(value);
+                    }
+                }
+                
+                // Fill the constants vector
+                String value = constantFields.get(i).getText().trim();
+                if (value.isEmpty()) {
+                    constants[i][0] = 0;
+                } else {
+                    constants[i][0] = Double.parseDouble(value);
+                }
+            }
+            
+            // Create Matrix objects
+            Matrix A = new Matrix(coefficients);
+            Matrix b = new Matrix(constants);
+            
+            // Solve the system
+            LinearEquationSystemExpression solution = LinearEquationSolver.solve(A, b, variableNames.subList(0, numVariables));
+            
+            // Display the result
+            display.setText(solution.toString());
+            
+        } catch (Exception e) {
+            display.setText("Error: " + e.getMessage());
+        }
+    }
+    
+    private void clearLinearSystem() {
+        // Clear all coefficient fields
+        for (List<TextField> row : coefficientFields) {
+            for (TextField field : row) {
+                field.clear();
+            }
+        }
+        
+        // Clear all constant fields
+        for (TextField field : constantFields) {
+            field.clear();
+        }
+        
+        // Clear the display
+        display.setText("");
     }
     
     /**
