@@ -24,8 +24,6 @@ variableNumber: number VARIABLE ;
 equation: expr '=' expr;
 linearEquation: 'solve' '(' equation (',' equation)* ')';
 
-
-
 // Entry point
 expr: op = operator '(' expr (',' expr)* ')'    # PrefixOperationExpr
     | '(' expr (',' expr)* ')' op = operator    # PostOperationExpr
