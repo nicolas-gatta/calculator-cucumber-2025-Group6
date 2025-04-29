@@ -28,7 +28,12 @@ public enum NumberType {
     /**
      * Represents linear equation systems.
      */
-    LINEAR_SYSTEM("Linear System");
+    LINEAR_SYSTEM("Linear System"),
+    
+    /**
+     * Represents matrices for matrix operations.
+     */
+    MATRIX("Matrix");
     
     private final String displayName;
     

@@ -53,7 +53,8 @@ public class HelpDialog {
             "• Rational: Fractions (e.g., 3/4, -5/2)\n" +
             "• Real: Decimal numbers (e.g., 3.14, -0.5)\n" +
             "• Complex: Numbers with real and imaginary parts (e.g., 3+4i, 5i)\n" +
-            "• Linear System: Systems of linear equations"
+            "• Linear System: Systems of linear equations\n" +
+            "• Matrix: Matrix operations (addition, multiplication, etc.)"
         );
         
         // Basic usage section
@@ -80,7 +81,8 @@ public class HelpDialog {
             "• / button (Rational): Add fraction separator\n" +
             "• . button (Real/Complex): Add decimal point\n" +
             "• i button (Complex): Add imaginary unit\n" +
-            "• Linear System: Select number of equations and variables, enter coefficients, and click Solve"
+            "• Linear System: Select number of equations and variables, enter coefficients, and click Solve\n" +
+            "• Matrix: Select matrix dimensions, enter values, and perform operations like addition, multiplication, determinant, inverse, and transpose"
         );
         
         // Add all elements to the content box

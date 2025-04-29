@@ -22,6 +22,7 @@ import javafx.scene.text.FontWeight;
 import calculator.matrix.Matrix;
 import calculator.linear.LinearEquationSolver;
 import calculator.linear.LinearEquationSystemExpression;
+import javafx.scene.control.TextInputDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,16 @@ public class CalculatorUI {
     private VBox calculatorContent;
     // Add a field to store the button grid
     private GridPane buttonGrid;
+
+    // Matrix components
+    private VBox matrixPanel;
+    private GridPane matrixGrid;
+    private int matrixRows = 2;
+    private int matrixCols = 2;
+    private List<List<TextField>> matrixFields;
+    private Matrix currentMatrix;
+    private Matrix secondMatrix;
+    private boolean isSecondMatrix = false;
 
     /**
      * Constructs a new CalculatorUI.
@@ -118,6 +129,10 @@ public class CalculatorUI {
         linearSystemPanel = createLinearSystemPanel();
         linearSystemPanel.setVisible(false);
         
+        // Create matrix panel
+        matrixPanel = createMatrixPanel();
+        matrixPanel.setVisible(false);
+        
         // Create a container for the calculator content that will switch between modes
         calculatorContent = new VBox();
         calculatorContent.getChildren().add(buttonGrid);
@@ -139,7 +154,7 @@ public class CalculatorUI {
         
         ComboBox<NumberType> typeCombo = new ComboBox<>();
         typeCombo.getItems().addAll(NumberType.INTEGER, NumberType.RATIONAL, NumberType.REAL, 
-                                   NumberType.COMPLEX, NumberType.LINEAR_SYSTEM);
+                                   NumberType.COMPLEX, NumberType.LINEAR_SYSTEM, NumberType.MATRIX);
         typeCombo.setValue(currentNumberType);
         typeCombo.getStyleClass().add("type-selector");
         typeCombo.setOnAction(e -> {
@@ -207,6 +222,7 @@ public class CalculatorUI {
         boolean isReal = currentNumberType == NumberType.REAL;
         boolean isComplex = currentNumberType == NumberType.COMPLEX;
         boolean isLinearSystem = currentNumberType == NumberType.LINEAR_SYSTEM;
+        boolean isMatrix = currentNumberType == NumberType.MATRIX;
         
         // Enable/disable the specific buttons according to the type
         if (fractionButton != null) {
@@ -225,16 +241,21 @@ public class CalculatorUI {
         }
         
         // Switch between calculator modes
+        calculatorContent.getChildren().clear();
         if (isLinearSystem) {
-            // Remove the button grid and add the linear system panel to the calculator content
-            calculatorContent.getChildren().clear();
             calculatorContent.getChildren().add(linearSystemPanel);
             linearSystemPanel.setVisible(true);
+            matrixPanel.setVisible(false);
+        } else if (isMatrix) {
+            calculatorContent.getChildren().add(matrixPanel);
+            matrixPanel.setVisible(true);
+            linearSystemPanel.setVisible(false);
+            isSecondMatrix = false;
+            display.setText("");
         } else {
-            // Remove the linear system panel and add the button grid to the calculator content
-            calculatorContent.getChildren().clear();
             calculatorContent.getChildren().add(buttonGrid);
             linearSystemPanel.setVisible(false);
+            matrixPanel.setVisible(false);
         }
         
         // Reset the display if necessary
@@ -743,6 +764,517 @@ public class CalculatorUI {
         
         // Clear the display
         display.setText("");
+    }
+    
+    private VBox createMatrixPanel() {
+        VBox panel = new VBox(10);
+        panel.setPadding(new Insets(10));
+        panel.setAlignment(Pos.CENTER);
+        
+        // Controls for matrix dimensions
+        HBox controlsBox = new HBox(15);
+        controlsBox.setAlignment(Pos.CENTER);
+        
+        Label rowsLabel = new Label("Rows:");
+        ComboBox<Integer> rowsCombo = new ComboBox<>();
+        for (int i = 1; i <= 5; i++) {
+            rowsCombo.getItems().add(i);
+        }
+        rowsCombo.setValue(matrixRows);
+        rowsCombo.setOnAction(e -> {
+            matrixRows = rowsCombo.getValue();
+            updateMatrixGrid();
+        });
+        
+        Label colsLabel = new Label("Columns:");
+        ComboBox<Integer> colsCombo = new ComboBox<>();
+        for (int i = 1; i <= 5; i++) {
+            colsCombo.getItems().add(i);
+        }
+        colsCombo.setValue(matrixCols);
+        colsCombo.setOnAction(e -> {
+            matrixCols = colsCombo.getValue();
+            updateMatrixGrid();
+        });
+        
+        controlsBox.getChildren().addAll(rowsLabel, rowsCombo, colsLabel, colsCombo);
+        
+        // Create the matrix grid
+        matrixGrid = new GridPane();
+        matrixGrid.setHgap(5);
+        matrixGrid.setVgap(5);
+        matrixGrid.setAlignment(Pos.CENTER);
+        
+        // Initialize matrix fields
+        matrixFields = new ArrayList<>();
+        
+        // Create initial grid
+        updateMatrixGrid();
+        
+        // First row of operation buttons (basic operations)
+        HBox basicOpBox = new HBox(10);
+        basicOpBox.setAlignment(Pos.CENTER);
+        
+        Button addButton = new Button("+");
+        addButton.setPrefSize(60, 40);
+        addButton.setOnAction(e -> prepareMatrixOperation("add"));
+        
+        Button subtractButton = new Button("-");
+        subtractButton.setPrefSize(60, 40);
+        subtractButton.setOnAction(e -> prepareMatrixOperation("subtract"));
+        
+        Button multiplyButton = new Button("×");
+        multiplyButton.setPrefSize(60, 40);
+        multiplyButton.setOnAction(e -> prepareMatrixOperation("multiply"));
+        
+        Button scalarButton = new Button("Scalar");
+        scalarButton.setPrefSize(80, 40);
+        scalarButton.setOnAction(e -> {
+            // Prompt for scalar value
+            TextInputDialog dialog = new TextInputDialog("1.0");
+            dialog.setTitle("Scalar Multiplication");
+            dialog.setHeaderText("Enter scalar value:");
+            dialog.setContentText("Value:");
+            
+            dialog.showAndWait().ifPresent(value -> {
+                try {
+                    double scalar = Double.parseDouble(value);
+                    calculateScalarMultiply(scalar);
+                } catch (NumberFormatException ex) {
+                    display.setText("Error: Invalid number format");
+                }
+            });
+        });
+        
+        basicOpBox.getChildren().addAll(addButton, subtractButton, multiplyButton, scalarButton);
+        
+        // Second row of operation buttons (advanced operations)
+        HBox advancedOpBox = new HBox(10);
+        advancedOpBox.setAlignment(Pos.CENTER);
+        
+        Button identityButton = new Button("Identity");
+        identityButton.setPrefSize(100, 40);
+        identityButton.setOnAction(e -> calculateIdentity());
+        
+        Button transposeButton = new Button("Transpose");
+        transposeButton.setPrefSize(110, 40);
+        transposeButton.setOnAction(e -> calculateTranspose());
+        
+        Button cofactorButton = new Button("Cofactor");
+        cofactorButton.setPrefSize(100, 40);
+        cofactorButton.setOnAction(e -> calculateCofactor());
+        
+        advancedOpBox.getChildren().addAll(identityButton, transposeButton, cofactorButton);
+        
+        // Third row of operation buttons (more advanced operations)
+        HBox moreAdvancedOpBox = new HBox(10);
+        moreAdvancedOpBox.setAlignment(Pos.CENTER);
+        
+        Button determinantButton = new Button("Det");
+        determinantButton.setPrefSize(60, 40);
+        determinantButton.setOnAction(e -> calculateDeterminant());
+        
+        Button inverseButton = new Button("Inverse");
+        inverseButton.setPrefSize(100, 40);
+        inverseButton.setOnAction(e -> calculateInverse());
+        
+        Button adjointButton = new Button("Adjoint");
+        adjointButton.setPrefSize(100, 40);
+        adjointButton.setOnAction(e -> calculateAdjoint());
+        
+        moreAdvancedOpBox.getChildren().addAll(determinantButton, inverseButton, adjointButton);
+        
+        // Action buttons
+        HBox actionBox = new HBox(20);
+        actionBox.setAlignment(Pos.CENTER);
+        
+        Button calculateButton = new Button("Calculate");
+        calculateButton.setPrefSize(100, 40);
+        calculateButton.setOnAction(e -> performMatrixOperation());
+        
+        Button clearButton = new Button("Clear");
+        clearButton.setPrefSize(100, 40);
+        clearButton.setOnAction(e -> clearMatrix());
+        
+        actionBox.getChildren().addAll(calculateButton, clearButton);
+        
+        panel.getChildren().addAll(controlsBox, matrixGrid, basicOpBox, advancedOpBox, moreAdvancedOpBox, actionBox);
+        return panel;
+    }
+    
+    private void updateMatrixGrid() {
+        matrixGrid.getChildren().clear();
+        
+        // Update matrix fields list
+        matrixFields.clear();
+        
+        // Create the grid of text fields
+        for (int i = 0; i < matrixRows; i++) {
+            List<TextField> rowFields = new ArrayList<>();
+            
+            for (int j = 0; j < matrixCols; j++) {
+                TextField field = new TextField();
+                field.setPrefWidth(60);
+                field.setMinWidth(60);
+                field.setPrefHeight(30);
+                field.setMinHeight(30);
+                field.setMaxHeight(30);
+                field.setPadding(new Insets(0, 5, 0, 5));
+                field.setAlignment(Pos.CENTER);
+                
+                // Use inline CSS to ensure the cursor is visible
+                field.setStyle("-fx-background-insets: 0; -fx-padding: 0 5 0 5; -fx-background-radius: 0;");
+                
+                matrixGrid.add(field, j, i);
+                rowFields.add(field);
+            }
+            
+            matrixFields.add(rowFields);
+        }
+    }
+    
+    private void prepareMatrixOperation(String operation) {
+        try {
+            // Create the first matrix
+            double[][] values = new double[matrixRows][matrixCols];
+            
+            for (int i = 0; i < matrixRows; i++) {
+                for (int j = 0; j < matrixCols; j++) {
+                    String value = matrixFields.get(i).get(j).getText().trim();
+                    if (value.isEmpty()) {
+                        values[i][j] = 0;
+                    } else {
+                        values[i][j] = Double.parseDouble(value);
+                    }
+                }
+            }
+            
+            currentMatrix = new Matrix(values);
+            display.setText("Enter second matrix for " + operation);
+            isSecondMatrix = true;
+            
+            // Store the operation
+            currentOperation = operation;
+            
+            // Clear the grid for the second matrix
+            clearMatrixFields();
+            
+        } catch (Exception e) {
+            display.setText("Error: " + e.getMessage());
+        }
+    }
+    
+    private void performMatrixOperation() {
+        if (!isSecondMatrix) {
+            display.setText("Please select an operation first");
+            return;
+        }
+        
+        try {
+            // Create the second matrix
+            double[][] values = new double[matrixRows][matrixCols];
+            
+            for (int i = 0; i < matrixRows; i++) {
+                for (int j = 0; j < matrixCols; j++) {
+                    String value = matrixFields.get(i).get(j).getText().trim();
+                    if (value.isEmpty()) {
+                        values[i][j] = 0;
+                    } else {
+                        values[i][j] = Double.parseDouble(value);
+                    }
+                }
+            }
+            
+            secondMatrix = new Matrix(values);
+            
+            // Perform the operation
+            Matrix result = null;
+            
+            switch (currentOperation) {
+                case "add":
+                    result = currentMatrix.add(secondMatrix);
+                    break;
+                case "subtract":
+                    result = currentMatrix.subtract(secondMatrix);
+                    break;
+                case "multiply":
+                    result = currentMatrix.multiply(secondMatrix);
+                    break;
+                default:
+                    display.setText("Unknown operation");
+                    return;
+            }
+            
+            // Display the result
+            display.setText(result.toString());
+            
+            // Fill the grid with the result
+            fillMatrixWithResult(result);
+            
+            // Reset for next operation
+            isSecondMatrix = false;
+            
+        } catch (Exception e) {
+            display.setText("Error: " + e.getMessage());
+        }
+    }
+    
+    private void calculateDeterminant() {
+        try {
+            // Create the matrix
+            double[][] values = new double[matrixRows][matrixCols];
+            
+            for (int i = 0; i < matrixRows; i++) {
+                for (int j = 0; j < matrixCols; j++) {
+                    String value = matrixFields.get(i).get(j).getText().trim();
+                    if (value.isEmpty()) {
+                        values[i][j] = 0;
+                    } else {
+                        values[i][j] = Double.parseDouble(value);
+                    }
+                }
+            }
+            
+            Matrix matrix = new Matrix(values);
+            
+            // Calculate determinant
+            double det = matrix.determinant();
+            
+            // Display the result
+            display.setText("Determinant: " + det);
+            
+        } catch (Exception e) {
+            display.setText("Error: " + e.getMessage());
+        }
+    }
+    
+    private void calculateInverse() {
+        try {
+            // Create the matrix
+            double[][] values = new double[matrixRows][matrixCols];
+            
+            for (int i = 0; i < matrixRows; i++) {
+                for (int j = 0; j < matrixCols; j++) {
+                    String value = matrixFields.get(i).get(j).getText().trim();
+                    if (value.isEmpty()) {
+                        values[i][j] = 0;
+                    } else {
+                        values[i][j] = Double.parseDouble(value);
+                    }
+                }
+            }
+            
+            Matrix matrix = new Matrix(values);
+            
+            // Calculate inverse
+            Matrix inverse = matrix.inverse();
+            
+            // Display the result
+            display.setText(inverse.toString());
+            
+            // Fill the grid with the result
+            fillMatrixWithResult(inverse);
+            
+        } catch (Exception e) {
+            display.setText("Error: " + e.getMessage());
+        }
+    }
+    
+    private void calculateTranspose() {
+        try {
+            // Create the matrix
+            double[][] values = new double[matrixRows][matrixCols];
+            
+            for (int i = 0; i < matrixRows; i++) {
+                for (int j = 0; j < matrixCols; j++) {
+                    String value = matrixFields.get(i).get(j).getText().trim();
+                    if (value.isEmpty()) {
+                        values[i][j] = 0;
+                    } else {
+                        values[i][j] = Double.parseDouble(value);
+                    }
+                }
+            }
+            
+            Matrix matrix = new Matrix(values);
+            
+            // Calculate transpose
+            Matrix transpose = matrix.transpose();
+            
+            // Display the result
+            display.setText(transpose.toString());
+            
+            // Update dimensions for the result
+            matrixRows = transpose.rows();
+            matrixCols = transpose.columns();
+            
+            // Update the grid
+            updateMatrixGrid();
+            
+            // Fill the grid with the result
+            fillMatrixWithResult(transpose);
+            
+        } catch (Exception e) {
+            display.setText("Error: " + e.getMessage());
+        }
+    }
+    
+    private void calculateScalarMultiply(double scalar) {
+        try {
+            // Create the matrix
+            double[][] values = new double[matrixRows][matrixCols];
+            
+            for (int i = 0; i < matrixRows; i++) {
+                for (int j = 0; j < matrixCols; j++) {
+                    String value = matrixFields.get(i).get(j).getText().trim();
+                    if (value.isEmpty()) {
+                        values[i][j] = 0;
+                    } else {
+                        values[i][j] = Double.parseDouble(value);
+                    }
+                }
+            }
+            
+            Matrix matrix = new Matrix(values);
+            
+            // Calculate scalar multiplication
+            Matrix result = matrix.multiply(scalar);
+            
+            // Display the result
+            display.setText(result.toString());
+            
+            // Fill the grid with the result
+            fillMatrixWithResult(result);
+            
+        } catch (Exception e) {
+            display.setText("Error: " + e.getMessage());
+        }
+    }
+    
+    private void calculateIdentity() {
+        try {
+            // Create the matrix
+            double[][] values = new double[matrixRows][matrixCols];
+            
+            for (int i = 0; i < matrixRows; i++) {
+                for (int j = 0; j < matrixCols; j++) {
+                    String value = matrixFields.get(i).get(j).getText().trim();
+                    if (value.isEmpty()) {
+                        values[i][j] = 0;
+                    } else {
+                        values[i][j] = Double.parseDouble(value);
+                    }
+                }
+            }
+            
+            Matrix matrix = new Matrix(values);
+            
+            // Calculate identity
+            Matrix identity = matrix.identity();
+            
+            // Display the result
+            display.setText(identity.toString());
+            
+            // Fill the grid with the result
+            fillMatrixWithResult(identity);
+            
+        } catch (Exception e) {
+            display.setText("Error: " + e.getMessage());
+        }
+    }
+    
+    private void calculateCofactor() {
+        try {
+            // Create the matrix
+            double[][] values = new double[matrixRows][matrixCols];
+            
+            for (int i = 0; i < matrixRows; i++) {
+                for (int j = 0; j < matrixCols; j++) {
+                    String value = matrixFields.get(i).get(j).getText().trim();
+                    if (value.isEmpty()) {
+                        values[i][j] = 0;
+                    } else {
+                        values[i][j] = Double.parseDouble(value);
+                    }
+                }
+            }
+            
+            Matrix matrix = new Matrix(values);
+            
+            // Calculate cofactor
+            Matrix cofactor = matrix.cofactor();
+            
+            // Display the result
+            display.setText(cofactor.toString());
+            
+            // Fill the grid with the result
+            fillMatrixWithResult(cofactor);
+            
+        } catch (Exception e) {
+            display.setText("Error: " + e.getMessage());
+        }
+    }
+    
+    private void calculateAdjoint() {
+        try {
+            // Create the matrix
+            double[][] values = new double[matrixRows][matrixCols];
+            
+            for (int i = 0; i < matrixRows; i++) {
+                for (int j = 0; j < matrixCols; j++) {
+                    String value = matrixFields.get(i).get(j).getText().trim();
+                    if (value.isEmpty()) {
+                        values[i][j] = 0;
+                    } else {
+                        values[i][j] = Double.parseDouble(value);
+                    }
+                }
+            }
+            
+            Matrix matrix = new Matrix(values);
+            
+            // Calculate adjoint
+            Matrix adjoint = matrix.adjoint();
+            
+            // Display the result
+            display.setText(adjoint.toString());
+            
+            // Fill the grid with the result
+            fillMatrixWithResult(adjoint);
+            
+        } catch (Exception e) {
+            display.setText("Error: " + e.getMessage());
+        }
+    }
+    
+    private void fillMatrixWithResult(Matrix result) {
+        // Check if we need to update the grid dimensions
+        if (result.rows() != matrixRows || result.columns() != matrixCols) {
+            matrixRows = result.rows();
+            matrixCols = result.columns();
+            updateMatrixGrid();
+        }
+        
+        // Fill the fields with the result values
+        for (int i = 0; i < result.rows(); i++) {
+            for (int j = 0; j < result.columns(); j++) {
+                matrixFields.get(i).get(j).setText(String.valueOf(result.getValue(i, j)));
+            }
+        }
+    }
+    
+    private void clearMatrix() {
+        clearMatrixFields();
+        display.setText("");
+        isSecondMatrix = false;
+    }
+    
+    private void clearMatrixFields() {
+        for (List<TextField> row : matrixFields) {
+            for (TextField field : row) {
+                field.clear();
+            }
+        }
     }
     
     /**
