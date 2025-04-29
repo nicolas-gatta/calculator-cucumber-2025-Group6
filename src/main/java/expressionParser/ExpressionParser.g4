@@ -4,6 +4,7 @@ grammar ExpressionParser;
 INT     : [0-9]+;
 REAL    : INT '.' [0-9]+;
 RATIONAL: INT '/' INT;
+VARIABLE: [a-hj-zA-HJ-Z]; // All letters except i and I are for imaginary number
 
 WS: [ \t\r\n]+ -> skip ;
 
@@ -14,6 +15,17 @@ operator : '+' | '-' | '*' | '/';
 number: RATIONAL | REAL | INT;
 complex: '(' number ('+'|'-') number 'i' ')';
 
+// Matrix
+matrix: '[' row (',' row)* ']';
+row: '[' number (',' number)* ']';
+
+// Linear Equation
+variableNumber: number VARIABLE ;
+equation: expr '=' expr;
+linearEquation: 'solve' '(' equation (',' equation)* ')';
+
+
+
 // Entry point
 expr: op = operator '(' expr (',' expr)* ')'    # PrefixOperationExpr
     | '(' expr (',' expr)* ')' op = operator    # PostOperationExpr
@@ -21,4 +33,7 @@ expr: op = operator '(' expr (',' expr)* ')'    # PrefixOperationExpr
     | '(' expr ')'                              # ParensExpr
     | number                                    # NumberExpr
     | complex                                   # ComplexExpr
+    | matrix                                    # MatrixExpr
+    | variableNumber                            # VarExpr
+    | linearEquation                            # LinearExpr
     ;
