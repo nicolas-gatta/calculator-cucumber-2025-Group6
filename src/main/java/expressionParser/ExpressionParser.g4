@@ -1,20 +1,24 @@
 grammar ExpressionParser;
 
-// Entry point
-expr: expr op=('*'|'/') expr   # MulDivExpr
-    | expr op=('+'|'-') expr   # AddSubExpr
-    | '(' expr ')'             # ParensExpr
-    | complex                  # ComplexExpr
-    | number                   # NumberExpr
-    ;
+// Tokens
+INT     : [0-9]+;
+REAL    : INT '.' [0-9]+;
+RATIONAL: INT '/' INT;
+
+WS: [ \t\r\n]+ -> skip ;
+
+// Operator
+operator : '+' | '-' | '*' | '/';
 
 // Numbers
 number: RATIONAL | REAL | INT;
-complex : '(' number ('+'|'-') number 'i' ')' ;
+complex: '(' number ('+'|'-') number 'i' ')';
 
-// Tokens
-RATIONAL: INT '/' INT ;
-REAL    : INT '.' [0-9]+ ;
-INT     : [0-9]+ ;
-
-WS : [ \t\r\n]+ -> skip ;
+// Entry point
+expr: op = operator '(' expr (',' expr)* ')'    # PrefixOperationExpr
+    | '(' expr (',' expr)* ')' op = operator    # PostOperationExpr
+    | expr op = operator expr                   # InfixOperationExpr
+    | '(' expr ')'                              # ParensExpr
+    | number                                    # NumberExpr
+    | complex                                   # ComplexExpr
+    ;
