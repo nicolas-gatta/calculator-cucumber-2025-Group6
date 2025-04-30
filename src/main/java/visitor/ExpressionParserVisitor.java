@@ -19,8 +19,19 @@ import expressionParser.ExpressionParserParser;
 
 import java.util.List;
 
+/**
+ * Visitor implementation for parsing mathematical expressions represented by
+ * the ANTLR-generated parse tree of the {@code ExpressionParser.g4} grammar.
+ *
+ * <p>This visitor traverses the parse tree and converts it into an abstract syntax tree
+ * of {@link Expression} objects, including support for basic arithmetic, matrices,
+ * complex numbers, variables, and equations.</p>
+ */
 public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Expression> {
 
+    /**
+     * Converts a number context into the appropriate {@link Expression} subclass.
+     */
     private Expression numberConverter(ExpressionParserParser.NumberContext number) {
         if (number.RATIONAL() != null) {
             String[] parts = number.RATIONAL().getText().split("/");
@@ -34,6 +45,9 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         }
     }
 
+    /**
+     * Converts a number context into a {@link RealNumber}.
+     */
     private RealNumber numberToRealConverter(ExpressionParserParser.NumberContext number) {
         if (number.RATIONAL() != null) {
             String[] parts = number.RATIONAL().getText().split("/");
@@ -47,10 +61,16 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         }
     }
 
+    /**
+     * Builds a binary operation expression using two operands and an operator.
+     */
     private Expression operationExpr(Expression left, Expression right, String op, Notation notation) {
         return operationListExpr(List.of(left, right), op, notation);
     }
 
+    /**
+     * Builds an operation expression from a list of expressions and an operator.
+     */
     private Expression operationListExpr(List<Expression> expressionList, String op, Notation notation) {
         try{
             return switch (op) {
@@ -66,16 +86,25 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         return null;
     }
 
+    /**
+     * Starting point if there is parenthesis
+     */
     @Override
     public Expression visitParensExpr(ExpressionParserParser.ParensExprContext ctx) {
         return this.visit(ctx.expr());
     }
 
+    /**
+     * Build the number using the correct class Expression
+     */
     @Override
     public Expression visitNumberExpr(ExpressionParserParser.NumberExprContext ctx) {
         return numberConverter(ctx.number());
     }
 
+    /**
+     * Starting point if there is parenthesis
+     */
     @Override
     public Expression visitComplexExpr(ExpressionParserParser.ComplexExprContext ctx) {
         double real = numberToRealConverter(ctx.complex().number()).getValue();
@@ -84,6 +113,9 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         return new ComplexNumber(real, imaginary);
     }
 
+    /**
+     * Build the operation following the infix rule
+     */
     @Override
     public Expression visitInfixOperationExpr(ExpressionParserParser.InfixOperationExprContext ctx) {
         Expression left = visit(ctx.expr(0));
@@ -92,6 +124,9 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         return operationExpr(left, right, op, Notation.INFIX);
     }
 
+    /**
+     * Build the operation following the prefix rule
+     */
     @Override
     public Expression visitPrefixOperationExpr(ExpressionParserParser.PrefixOperationExprContext ctx) {
         String op = ctx.op.getText();
@@ -111,6 +146,9 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         return operationExpr(left, right, op, Notation.PREFIX);
     }
 
+    /**
+     * Build the operation following the postfix rule
+     */
     @Override
     public Expression visitPostOperationExpr(ExpressionParserParser.PostOperationExprContext ctx){
         String op = ctx.op.getText();
@@ -129,6 +167,9 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         return operationExpr(left, right, op, Notation.POSTFIX);
     }
 
+    /**
+     * Build the number variable using the correct class Expression
+     */
     @Override
     public Expression visitVarExpr(ExpressionParserParser.VarExprContext ctx) {
         String variable = ctx.variableNumber().VARIABLE().getText();
@@ -141,16 +182,25 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         return new VariableExpression(number, variable);
     }
 
+    /**
+     * Build the matrix using the correct class Expression
+     */
     @Override
     public Expression visitMatrixExpr(ExpressionParserParser.MatrixExprContext ctx) {
         return new MatrixExpression(new Matrix(ctx.getText()));
     }
 
+    /**
+     * Build the matrix using the correct class Expression (Mostly for matrix with transpose, identity and inverted)
+     */
     @Override
     public Expression visitMatrix(ExpressionParserParser.MatrixContext ctx) {
         return new MatrixExpression(new Matrix(ctx.getText()));
     }
 
+    /**
+     * Build the operation related to the matrix using the correct class Expression
+     */
     private Expression matrixOperator(Expression matrix, String op, Notation notation) {
         try{
             return switch (op) {
@@ -165,21 +215,33 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         return null;
     }
 
+    /**
+     * Build the operation related to the matrix following the prefix rule (Mostly for matrix with transpose, identity and inverted)
+     */
     @Override
     public Expression visitMatrixPrefix(ExpressionParserParser.MatrixPrefixContext ctx) {
         return matrixOperator(visit(ctx.matrix()), ctx.matrixOperator().getText(), Notation.PREFIX);
     }
 
+    /**
+     * Build the operation related to the matrix following the postfix rule (Mostly for matrix with transpose, identity and inverted)
+     */
     @Override
     public Expression visitMatrixPostfix(ExpressionParserParser.MatrixPostfixContext ctx) {
         return matrixOperator(visit(ctx.matrix()), ctx.matrixOperator().getText(), Notation.POSTFIX);
     }
 
+    /**
+     * Starting point for the matrix
+     */
     @Override
     public Expression visitMatrixFunctionExpr(ExpressionParserParser.MatrixFunctionExprContext ctx) {
         return this.visit(ctx.matrixFunction());
     }
 
+    /**
+     * Build the equation that will later compose the Linear Equation System
+     */
     @Override
     public Expression visitEquation(ExpressionParserParser.EquationContext ctx) {
         Expression left = visit(ctx.expr(0));
@@ -187,7 +249,9 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         return new EquationExpression(new Equation(left, right));
     }
 
-
+    /**
+     * Build the linear Esuation System
+     */
     @Override
     public Expression visitLinearExpr(ExpressionParserParser.LinearExprContext ctx) {
         List<EquationExpression> equations = ctx.linearEquation().equation().stream()
