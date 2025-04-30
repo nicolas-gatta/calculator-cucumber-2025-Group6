@@ -1,4 +1,5 @@
 import "./Screen.css";
+import PropTypes from "prop-types";
 
 const Screen = ({ value }) => {
     return (
@@ -7,5 +8,9 @@ const Screen = ({ value }) => {
         </div>
     );
 };
+
+Screen.propTypes = {
+    value: PropTypes.string.isRequired
+}
 
 export default Screen;

@@ -68,7 +68,7 @@ const Calculator = () => {
                 btnHead.flat().map((btn, i) => {
                     return (
                         <Button
-                            key={i}
+                            key={btn.value}
                             className={btn.className}
                             value={btn.value}
                             onClick={() => {
@@ -86,7 +86,7 @@ const Calculator = () => {
         <TypeBar> <Dropdown title={"Type"} options={typesNumber} selectedOption={selectedType} onChange={(value) => setSelectedType(value)}/>
             {getSpecialButtons().map((btn, i) => (
                 <Button
-                    key={i}
+                    key={btn.value}
                     className={btn.className}
                     value={btn.value}
                     onClick={() => {
@@ -102,7 +102,7 @@ const Calculator = () => {
                 btnValues.flat().map((btn, i) => {
                     return (
                         <Button
-                            key={i}
+                            key={btn.value}
                             className={btn.className}
                             value={btn.value}
                             onClick={() => {

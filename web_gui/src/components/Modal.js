@@ -1,7 +1,8 @@
 import "./Modal.css";
+import PropTypes from "prop-types"
 
 const Modal = ({ isOpen, onClose, children, title }) => {
-    if (!isOpen) return null; // Si pas ouvert, ne rend rien
+    if (!isOpen) return null;
 
     return (
         <div className="modal-overlay">
@@ -18,6 +19,13 @@ const Modal = ({ isOpen, onClose, children, title }) => {
             </div>
         </div>
     );
+};
+
+Modal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+    title: PropTypes.string.isRequired,
 };
 
 export default Modal;

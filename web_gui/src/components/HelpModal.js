@@ -1,5 +1,6 @@
 import "./HelpModal.css"
 import Modal from "./Modal";
+import PropTypes from "prop-types";
 
 const HelpModal = ({isOpen, onClose}) => {
     if (!isOpen) return null;
@@ -45,5 +46,10 @@ const HelpModal = ({isOpen, onClose}) => {
         </Modal>
     )
 };
+
+HelpModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired
+}
 
 export default HelpModal;

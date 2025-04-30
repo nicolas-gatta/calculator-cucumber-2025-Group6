@@ -1,4 +1,5 @@
 import "./Dropdown.css";
+import PropTypes from "prop-types";
 
 const Dropdown = ({ title, options, selectedOption, onChange}) => {
     return (
@@ -6,7 +7,7 @@ const Dropdown = ({ title, options, selectedOption, onChange}) => {
             <label className={"dropdown-label"}>{title} :</label>
             <select className={"dropdown-select"} value={selectedOption} onChange={(e) => onChange(e.target.value)}>
                 {options.map((opt, index) => (
-                    <option key={index} value={opt.value}>
+                    <option key={opt.value} value={opt.value}>
                         {opt.label}
                     </option>
                 ))}
@@ -14,5 +15,17 @@ const Dropdown = ({ title, options, selectedOption, onChange}) => {
         </div>
     );
 };
+
+Dropdown.propTypes = {
+    title: PropTypes.string.isRequired,
+    options: PropTypes.arrayOf(
+        PropTypes.shape({
+            value: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+    selectedOption: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+}
 
 export default Dropdown;
