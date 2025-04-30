@@ -23,9 +23,14 @@ import calculator.matrix.Matrix;
 import calculator.linear.LinearEquationSolver;
 import calculator.linear.LinearEquationSystemExpression;
 import javafx.scene.control.TextInputDialog;
-
+import unit_converter.*;
+import unit_converter.enums.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * The CalculatorUI class provides the user interface for the calculator application.
@@ -75,6 +80,16 @@ public class CalculatorUI {
     private Matrix currentMatrix;
     private Matrix secondMatrix;
     private boolean isSecondMatrix = false;
+
+    // Unit converter components
+    private VBox unitConverterPanel;
+    private ComboBox<String> conversionTypeCombo;
+    private ComboBox<String> fromUnitCombo;
+    private ComboBox<String> toUnitCombo;
+    private TextField valueField;
+    private TextField resultField;
+    private Map<String, List<String>> unitsByType;
+    private Map<String, IUnitConverter<Double>> convertersByType;
 
     /**
      * Constructs a new CalculatorUI.
@@ -133,6 +148,10 @@ public class CalculatorUI {
         matrixPanel = createMatrixPanel();
         matrixPanel.setVisible(false);
         
+        // Create unit converter panel
+        unitConverterPanel = createUnitConverterPanel();
+        unitConverterPanel.setVisible(false);
+        
         // Create a container for the calculator content that will switch between modes
         calculatorContent = new VBox();
         calculatorContent.getChildren().add(buttonGrid);
@@ -154,7 +173,8 @@ public class CalculatorUI {
         
         ComboBox<NumberType> typeCombo = new ComboBox<>();
         typeCombo.getItems().addAll(NumberType.INTEGER, NumberType.RATIONAL, NumberType.REAL, 
-                                   NumberType.COMPLEX, NumberType.LINEAR_SYSTEM, NumberType.MATRIX);
+                                   NumberType.COMPLEX, NumberType.LINEAR_SYSTEM, NumberType.MATRIX,
+                                   NumberType.UNIT_CONVERTER);
         typeCombo.setValue(currentNumberType);
         typeCombo.getStyleClass().add("type-selector");
         typeCombo.setOnAction(e -> {
@@ -223,6 +243,7 @@ public class CalculatorUI {
         boolean isComplex = currentNumberType == NumberType.COMPLEX;
         boolean isLinearSystem = currentNumberType == NumberType.LINEAR_SYSTEM;
         boolean isMatrix = currentNumberType == NumberType.MATRIX;
+        boolean isUnitConverter = currentNumberType == NumberType.UNIT_CONVERTER;
         
         // Enable/disable the specific buttons according to the type
         if (fractionButton != null) {
@@ -246,16 +267,25 @@ public class CalculatorUI {
             calculatorContent.getChildren().add(linearSystemPanel);
             linearSystemPanel.setVisible(true);
             matrixPanel.setVisible(false);
+            unitConverterPanel.setVisible(false);
         } else if (isMatrix) {
             calculatorContent.getChildren().add(matrixPanel);
             matrixPanel.setVisible(true);
             linearSystemPanel.setVisible(false);
+            unitConverterPanel.setVisible(false);
             isSecondMatrix = false;
+            display.setText("");
+        } else if (isUnitConverter) {
+            calculatorContent.getChildren().add(unitConverterPanel);
+            unitConverterPanel.setVisible(true);
+            linearSystemPanel.setVisible(false);
+            matrixPanel.setVisible(false);
             display.setText("");
         } else {
             calculatorContent.getChildren().add(buttonGrid);
             linearSystemPanel.setVisible(false);
             matrixPanel.setVisible(false);
+            unitConverterPanel.setVisible(false);
         }
         
         // Reset the display if necessary
@@ -1274,6 +1304,251 @@ public class CalculatorUI {
             for (TextField field : row) {
                 field.clear();
             }
+        }
+    }
+    
+    private VBox createUnitConverterPanel() {
+        // Initialize converters and unit lists
+        initializeUnitConverters();
+        
+        VBox panel = new VBox(15);
+        panel.setPadding(new Insets(10));
+        panel.setAlignment(Pos.CENTER);
+        
+        // Conversion type selector
+        HBox typeBox = new HBox(10);
+        typeBox.setAlignment(Pos.CENTER);
+        
+        Label typeLabel = new Label("Conversion Type:");
+        typeLabel.setFont(Font.font("Segoe UI", FontWeight.BOLD, 14));
+        
+        conversionTypeCombo = new ComboBox<>();
+        conversionTypeCombo.getItems().addAll(unitsByType.keySet());
+        conversionTypeCombo.setPrefWidth(200);
+        conversionTypeCombo.setValue("Length");
+        conversionTypeCombo.setOnAction(e -> updateUnitCombos());
+        
+        typeBox.getChildren().addAll(typeLabel, conversionTypeCombo);
+        
+        // From unit selector
+        HBox fromBox = new HBox(10);
+        fromBox.setAlignment(Pos.CENTER);
+        
+        Label fromLabel = new Label("From:");
+        fromLabel.setFont(Font.font("Segoe UI", 14));
+        
+        fromUnitCombo = new ComboBox<>();
+        fromUnitCombo.setPrefWidth(200);
+        
+        fromBox.getChildren().addAll(fromLabel, fromUnitCombo);
+        
+        // To unit selector
+        HBox toBox = new HBox(10);
+        toBox.setAlignment(Pos.CENTER);
+        
+        Label toLabel = new Label("To:");
+        toLabel.setFont(Font.font("Segoe UI", 14));
+        
+        toUnitCombo = new ComboBox<>();
+        toUnitCombo.setPrefWidth(200);
+        
+        toBox.getChildren().addAll(toLabel, toUnitCombo);
+        
+        // Value input
+        HBox valueBox = new HBox(10);
+        valueBox.setAlignment(Pos.CENTER);
+        
+        Label valueLabel = new Label("Value:");
+        valueLabel.setFont(Font.font("Segoe UI", 14));
+        
+        valueField = new TextField();
+        valueField.setPrefWidth(200);
+        valueField.setAlignment(Pos.CENTER_RIGHT);
+        
+        valueBox.getChildren().addAll(valueLabel, valueField);
+        
+        // Result display
+        HBox resultBox = new HBox(10);
+        resultBox.setAlignment(Pos.CENTER);
+        
+        Label resultLabel = new Label("Result:");
+        resultLabel.setFont(Font.font("Segoe UI", 14));
+        
+        resultField = new TextField();
+        resultField.setPrefWidth(200);
+        resultField.setEditable(false);
+        resultField.setAlignment(Pos.CENTER_RIGHT);
+        
+        resultBox.getChildren().addAll(resultLabel, resultField);
+        
+        // Action buttons
+        HBox actionBox = new HBox(20);
+        actionBox.setAlignment(Pos.CENTER);
+        
+        Button convertButton = new Button("Convert");
+        convertButton.setPrefSize(100, 40);
+        convertButton.setOnAction(e -> performConversion());
+        
+        Button clearButton = new Button("Clear");
+        clearButton.setPrefSize(100, 40);
+        clearButton.setOnAction(e -> {
+            valueField.clear();
+            resultField.clear();
+        });
+        
+        actionBox.getChildren().addAll(convertButton, clearButton);
+        
+        // Add all components to the panel
+        panel.getChildren().addAll(typeBox, fromBox, toBox, valueBox, resultBox, actionBox);
+        
+        // Initialize unit combos
+        updateUnitCombos();
+        
+        return panel;
+    }
+    
+    private void initializeUnitConverters() {
+        // Initialize maps
+        unitsByType = new HashMap<>();
+        convertersByType = new HashMap<>();
+        
+        // Length units
+        List<String> lengthUnits = Arrays.stream(LengthUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Length", lengthUnits);
+        convertersByType.put("Length", new LengthConverter());
+        
+        // Area units
+        List<String> areaUnits = Arrays.stream(AreaUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Area", areaUnits);
+        convertersByType.put("Area", new AreaConverter());
+        
+        // Volume units
+        List<String> volumeUnits = Arrays.stream(VolumeUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Volume", volumeUnits);
+        convertersByType.put("Volume", new VolumeConverter());
+        
+        // Mass units (assuming you have a MassUnitEnum)
+        // unitsByType.put("Mass", massUnits);
+        // convertersByType.put("Mass", new MassConverter());
+        
+        // Temperature units
+        List<String> tempUnits = Arrays.stream(TemperatureUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Temperature", tempUnits);
+        convertersByType.put("Temperature", new TemperatureConverter());
+        
+        // Time units
+        List<String> timeUnits = Arrays.stream(TimeUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Time", timeUnits);
+        convertersByType.put("Time", new TimeConverter());
+        
+        // Speed units
+        List<String> speedUnits = Arrays.stream(SpeedUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Speed", speedUnits);
+        convertersByType.put("Speed", new SpeedConverter());
+        
+        // Pressure units
+        List<String> pressureUnits = Arrays.stream(PressureUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Pressure", pressureUnits);
+        convertersByType.put("Pressure", new PressureConverter());
+        
+        // Energy units
+        List<String> energyUnits = Arrays.stream(EnergyUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Energy", energyUnits);
+        convertersByType.put("Energy", new EnergyConverter());
+        
+        // Force units
+        List<String> forceUnits = Arrays.stream(ForceUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Force", forceUnits);
+        convertersByType.put("Force", new ForceConverter());
+        
+        // Density units
+        List<String> densityUnits = Arrays.stream(DensityUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Density", densityUnits);
+        convertersByType.put("Density", new DensityConverter());
+        
+        // Currency units
+        List<String> currencyUnits = Arrays.stream(CurrencyUnitEnum.values())
+                .map(unit -> unit.name().replace("_", " "))
+                .collect(Collectors.toList());
+        unitsByType.put("Currency", currencyUnits);
+        convertersByType.put("Currency", new CurrencyConverter());
+    }
+    
+    private void updateUnitCombos() {
+        String selectedType = conversionTypeCombo.getValue();
+        List<String> units = unitsByType.get(selectedType);
+        
+        fromUnitCombo.getItems().clear();
+        toUnitCombo.getItems().clear();
+        
+        fromUnitCombo.getItems().addAll(units);
+        toUnitCombo.getItems().addAll(units);
+        
+        if (!units.isEmpty()) {
+            fromUnitCombo.setValue(units.get(0));
+            toUnitCombo.setValue(units.size() > 1 ? units.get(1) : units.get(0));
+        }
+        
+        // Clear the fields
+        valueField.clear();
+        resultField.clear();
+    }
+    
+    private void performConversion() {
+        try {
+            String conversionType = conversionTypeCombo.getValue();
+            String fromUnit = fromUnitCombo.getValue().replace(" ", "_");
+            String toUnit = toUnitCombo.getValue().replace(" ", "_");
+            
+            if (valueField.getText().isEmpty()) {
+                resultField.setText("Please enter a value");
+                return;
+            }
+            
+            double value = Double.parseDouble(valueField.getText());
+            
+            IUnitConverter<Double> converter = convertersByType.get(conversionType);
+            double result = converter.convert(fromUnit, toUnit, value);
+            
+            // Format the result based on its magnitude
+            String formattedResult;
+            if (Math.abs(result) < 0.0001 || Math.abs(result) > 10000) {
+                formattedResult = String.format("%.6e", result);
+            } else {
+                formattedResult = String.format("%.6f", result);
+                // Remove trailing zeros
+                formattedResult = formattedResult.replaceAll("0+$", "0");
+                if (formattedResult.endsWith(".0")) {
+                    formattedResult = formattedResult.substring(0, formattedResult.length() - 2);
+                }
+            }
+            
+            resultField.setText(formattedResult);
+            
+        } catch (NumberFormatException e) {
+            resultField.setText("Invalid number format");
+        } catch (Exception e) {
+            resultField.setText("Error: " + e.getMessage());
         }
     }
     

@@ -33,7 +33,12 @@ public enum NumberType {
     /**
      * Represents matrices for matrix operations.
      */
-    MATRIX("Matrix");
+    MATRIX("Matrix"),
+    
+    /**
+     * Represents unit conversions.
+     */
+    UNIT_CONVERTER("Unit Converter");
     
     private final String displayName;
     
