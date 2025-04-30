@@ -1339,6 +1339,7 @@ public class CalculatorUI {
         
         fromUnitCombo = new ComboBox<>();
         fromUnitCombo.setPrefWidth(200);
+        fromUnitCombo.setOnAction(e -> performConversion());
         
         fromBox.getChildren().addAll(fromLabel, fromUnitCombo);
         
@@ -1351,6 +1352,7 @@ public class CalculatorUI {
         
         toUnitCombo = new ComboBox<>();
         toUnitCombo.setPrefWidth(200);
+        toUnitCombo.setOnAction(e -> performConversion());
         
         toBox.getChildren().addAll(toLabel, toUnitCombo);
         
@@ -1364,6 +1366,11 @@ public class CalculatorUI {
         valueField = new TextField();
         valueField.setPrefWidth(200);
         valueField.setAlignment(Pos.CENTER_RIGHT);
+        
+        // Add listener for instant conversion when text changes
+        valueField.textProperty().addListener((observable, oldValue, newValue) -> {
+            performConversion();
+        });
         
         valueBox.getChildren().addAll(valueLabel, valueField);
         
@@ -1381,13 +1388,9 @@ public class CalculatorUI {
         
         resultBox.getChildren().addAll(resultLabel, resultField);
         
-        // Action buttons
+        // Action buttons - now only Clear button
         HBox actionBox = new HBox(20);
         actionBox.setAlignment(Pos.CENTER);
-        
-        Button convertButton = new Button("Convert");
-        convertButton.setPrefSize(100, 40);
-        convertButton.setOnAction(e -> performConversion());
         
         Button clearButton = new Button("Clear");
         clearButton.setPrefSize(100, 40);
@@ -1396,7 +1399,7 @@ public class CalculatorUI {
             resultField.clear();
         });
         
-        actionBox.getChildren().addAll(convertButton, clearButton);
+        actionBox.getChildren().add(clearButton);
         
         // Add all components to the panel
         panel.getChildren().addAll(typeBox, fromBox, toBox, valueBox, resultBox, actionBox);
@@ -1521,7 +1524,7 @@ public class CalculatorUI {
             String toUnit = toUnitCombo.getValue().replace(" ", "_");
             
             if (valueField.getText().isEmpty()) {
-                resultField.setText("Please enter a value");
+                resultField.setText("");
                 return;
             }
             
@@ -1546,7 +1549,10 @@ public class CalculatorUI {
             resultField.setText(formattedResult);
             
         } catch (NumberFormatException e) {
-            resultField.setText("Invalid number format");
+            // Don't show error while user is typing
+            if (!valueField.getText().isEmpty()) {
+                resultField.setText("Invalid number format");
+            }
         } catch (Exception e) {
             resultField.setText("Error: " + e.getMessage());
         }
