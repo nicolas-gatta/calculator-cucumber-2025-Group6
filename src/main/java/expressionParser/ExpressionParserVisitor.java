@@ -47,6 +47,41 @@ public interface ExpressionParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRow(ExpressionParserParser.RowContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Transpose}
+	 * labeled alternative in {@link ExpressionParserParser#matrixOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTranspose(ExpressionParserParser.TransposeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Identity}
+	 * labeled alternative in {@link ExpressionParserParser#matrixOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentity(ExpressionParserParser.IdentityContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Inverted}
+	 * labeled alternative in {@link ExpressionParserParser#matrixOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInverted(ExpressionParserParser.InvertedContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MatrixPostfix}
+	 * labeled alternative in {@link ExpressionParserParser#matrixFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatrixPostfix(ExpressionParserParser.MatrixPostfixContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MatrixPrefix}
+	 * labeled alternative in {@link ExpressionParserParser#matrixFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatrixPrefix(ExpressionParserParser.MatrixPrefixContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ExpressionParserParser#variableNumber}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -71,6 +106,13 @@ public interface ExpressionParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInfixOperationExpr(ExpressionParserParser.InfixOperationExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MatrixFunctionExpr}
+	 * labeled alternative in {@link ExpressionParserParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatrixFunctionExpr(ExpressionParserParser.MatrixFunctionExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code PostOperationExpr}
 	 * labeled alternative in {@link ExpressionParserParser#expr}.

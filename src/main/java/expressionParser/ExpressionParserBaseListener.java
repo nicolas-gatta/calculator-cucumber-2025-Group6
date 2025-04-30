@@ -89,6 +89,66 @@ public class ExpressionParserBaseListener implements ExpressionParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTranspose(ExpressionParserParser.TransposeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTranspose(ExpressionParserParser.TransposeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentity(ExpressionParserParser.IdentityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentity(ExpressionParserParser.IdentityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInverted(ExpressionParserParser.InvertedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInverted(ExpressionParserParser.InvertedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMatrixPostfix(ExpressionParserParser.MatrixPostfixContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMatrixPostfix(ExpressionParserParser.MatrixPostfixContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMatrixPrefix(ExpressionParserParser.MatrixPrefixContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMatrixPrefix(ExpressionParserParser.MatrixPrefixContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVariableNumber(ExpressionParserParser.VariableNumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -132,6 +192,18 @@ public class ExpressionParserBaseListener implements ExpressionParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInfixOperationExpr(ExpressionParserParser.InfixOperationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMatrixFunctionExpr(ExpressionParserParser.MatrixFunctionExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMatrixFunctionExpr(ExpressionParserParser.MatrixFunctionExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

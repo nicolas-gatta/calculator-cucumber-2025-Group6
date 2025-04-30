@@ -68,6 +68,66 @@ public interface ExpressionParserListener extends ParseTreeListener {
 	 */
 	void exitRow(ExpressionParserParser.RowContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Transpose}
+	 * labeled alternative in {@link ExpressionParserParser#matrixOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterTranspose(ExpressionParserParser.TransposeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Transpose}
+	 * labeled alternative in {@link ExpressionParserParser#matrixOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitTranspose(ExpressionParserParser.TransposeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Identity}
+	 * labeled alternative in {@link ExpressionParserParser#matrixOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentity(ExpressionParserParser.IdentityContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Identity}
+	 * labeled alternative in {@link ExpressionParserParser#matrixOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentity(ExpressionParserParser.IdentityContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Inverted}
+	 * labeled alternative in {@link ExpressionParserParser#matrixOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterInverted(ExpressionParserParser.InvertedContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Inverted}
+	 * labeled alternative in {@link ExpressionParserParser#matrixOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitInverted(ExpressionParserParser.InvertedContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MatrixPostfix}
+	 * labeled alternative in {@link ExpressionParserParser#matrixFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatrixPostfix(ExpressionParserParser.MatrixPostfixContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MatrixPostfix}
+	 * labeled alternative in {@link ExpressionParserParser#matrixFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatrixPostfix(ExpressionParserParser.MatrixPostfixContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MatrixPrefix}
+	 * labeled alternative in {@link ExpressionParserParser#matrixFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatrixPrefix(ExpressionParserParser.MatrixPrefixContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MatrixPrefix}
+	 * labeled alternative in {@link ExpressionParserParser#matrixFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatrixPrefix(ExpressionParserParser.MatrixPrefixContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ExpressionParserParser#variableNumber}.
 	 * @param ctx the parse tree
 	 */
@@ -109,6 +169,18 @@ public interface ExpressionParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInfixOperationExpr(ExpressionParserParser.InfixOperationExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MatrixFunctionExpr}
+	 * labeled alternative in {@link ExpressionParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatrixFunctionExpr(ExpressionParserParser.MatrixFunctionExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MatrixFunctionExpr}
+	 * labeled alternative in {@link ExpressionParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatrixFunctionExpr(ExpressionParserParser.MatrixFunctionExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code PostOperationExpr}
 	 * labeled alternative in {@link ExpressionParserParser#expr}.

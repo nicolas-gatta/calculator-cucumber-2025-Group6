@@ -20,6 +20,13 @@ complex: '('? number op = ('+'|'-') imaginary ')'?;
 matrix: '[' row (',' row)* ']';
 row: '[' number (',' number)* ']';
 
+matrixOperator: ('^T' | 'T^')   # Transpose
+              | ('^I' | 'I^')   # Identity
+              | ('^-1' | '-1^') # Inverted;
+
+matrixFunction: '(' matrix ')' matrixOperator # MatrixPostfix
+              | matrixOperator'(' matrix ')'  # MatrixPrefix;
+
 // Linear Equation
 variableNumber: number? VARIABLE ;
 equation: expr op = '=' expr;
@@ -35,4 +42,5 @@ expr: op = operator '(' expr (',' expr)* ')'    # PrefixOperationExpr
     | matrix                                    # MatrixExpr
     | variableNumber                            # VarExpr
     | linearEquation                            # LinearExpr
+    | matrixFunction                            # MatrixFunctionExpr
     ;
