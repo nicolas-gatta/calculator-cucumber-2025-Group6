@@ -65,7 +65,7 @@ const Calculator = () => {
     return <Wrapper>
         <Head><Screen value={"0"}/>
             {
-                btnHead.flat().map((btn, i) => {
+                btnHead.flat().map((btn) => {
                     return (
                         <Button
                             key={btn.value}
@@ -84,7 +84,7 @@ const Calculator = () => {
             }
         </Head>
         <TypeBar> <Dropdown title={"Type"} options={typesNumber} selectedOption={selectedType} onChange={(value) => setSelectedType(value)}/>
-            {getSpecialButtons().map((btn, i) => (
+            {getSpecialButtons().map((btn) => (
                 <Button
                     key={btn.value}
                     className={btn.className}
@@ -99,7 +99,7 @@ const Calculator = () => {
 
         <ButtonBox>
             {
-                btnValues.flat().map((btn, i) => {
+                btnValues.flat().map((btn) => {
                     return (
                         <Button
                             key={btn.value}
