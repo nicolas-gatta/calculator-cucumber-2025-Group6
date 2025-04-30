@@ -7,7 +7,6 @@ import calculator.linear.LinearEquationSystemExpression;
 import calculator.linear.VariableExpression;
 import calculator.numbers.MyNumber;
 import calculator.operations.Minus;
-import calculator.operations.Operation;
 import calculator.operations.Plus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
