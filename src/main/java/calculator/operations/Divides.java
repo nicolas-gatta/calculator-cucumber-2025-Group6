@@ -1,4 +1,11 @@
-package calculator;
+package calculator.operations;
+
+import calculator.Expression;
+import calculator.IllegalConstruction;
+import calculator.Notation;
+import calculator.numbers.RationalNumber;
+import calculator.numbers.ComplexNumber;
+import calculator.matrix.Matrix;
 
 import java.util.List;
 
@@ -18,7 +25,7 @@ public final class Divides extends Operation
    *
    * @param elist The list of Expressions to divide
    * @throws IllegalConstruction    If an empty list of expressions if passed as parameter
-   * @see #Divides(List<Expression>,Notation)
+   * @see #Divides(List< Expression >, Notation )
    */
   public /*constructor*/ Divides(List<Expression> elist) throws IllegalConstruction {
 	this(elist, null);
@@ -46,6 +53,44 @@ public final class Divides extends Operation
      * @param r The second integer that should divide the first
      * @return The integer that is the result of the division
      */
-  public int op(int l, int r)
-    { return (l/r); }
+  @Override
+  public int op(int l, int r) {
+    if (r == 0) {
+        throw new ArithmeticException("Division by zero");
+    }
+    return l / r;
+  }
+
+    @Override
+    public double opReal(double l, double r) {
+        if (r == 0.0) {
+            throw new ArithmeticException("Division by zero");
+        }
+        return l / r;
+    }
+
+    @Override
+    public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+        return l.divide(r);
+    }
+
+    @Override
+    public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
+        return l.divide(r);
+    }
+
+    @Override
+    public Matrix opMatrix(Matrix l, Matrix r) {
+        throw new ArithmeticException("Cannot divide two matrix");
+    }
+
+    @Override
+    public Matrix opMatrix(Matrix l, double r) {
+        return l.divide(r);
+    }
+
+    @Override
+    public Matrix opMatrix(Matrix l) {
+        throw new ArithmeticException("Need two matrix to divide");
+    }
 }

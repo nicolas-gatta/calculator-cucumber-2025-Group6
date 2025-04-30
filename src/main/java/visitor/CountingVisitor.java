@@ -1,8 +1,15 @@
 package visitor;
 
-import calculator.MyNumber;
-import calculator.Operation;
+import calculator.linear.EquationExpression;
+import calculator.linear.LinearEquationSystemExpression;
+import calculator.linear.VariableExpression;
+import calculator.numbers.MyNumber;
+import calculator.operations.Operation;
 import calculator.Expression;
+import calculator.numbers.RealNumber;
+import calculator.numbers.ComplexNumber;
+import calculator.numbers.RationalNumber;
+import calculator.matrix.MatrixExpression;
 
 /**
  * A visitor that counts various metrics of an expression tree:
@@ -39,6 +46,97 @@ public class CountingVisitor extends Visitor {
     }
 
     /**
+     * Visits a real number node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param n The real number node being visited
+     */
+    @Override
+    public void visit(RealNumber n) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+    /**
+     * Visits a complex number node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param n The complex number node being visited
+     */
+    @Override
+    public void visit(ComplexNumber n) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+    /** 
+     * Visits a rational number node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param n The rational number node being visited
+     */
+    @Override
+    public void visit(RationalNumber n) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+    /**
+     * Visits a matrix node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param m The matrix node being visited
+     */
+    @Override
+    public void visit(MatrixExpression m) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+    /**
+     * Visits a equation node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param e The equation node being visited
+     */
+    @Override
+    public void visit(EquationExpression e) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+    /**
+     * Visits a variable node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param v The variable node being visited
+     */
+    @Override
+    public void visit(VariableExpression v) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+    /**
+     * Visits a linear equation System node in the expression tree.
+     * Sets the counters for a leaf node: 1 number, 0 operations, depth 0.
+     *
+     * @param l The linear equation system node being visited
+     */
+    @Override
+    public void visit(LinearEquationSystemExpression l) {
+        numbers = 1;
+        operations = 0;
+        depth = 0;
+    }
+
+    /**
      * Visits an operation node in the expression tree.
      * Recursively visits all arguments and accumulates their metrics.
      *
@@ -61,6 +159,7 @@ public class CountingVisitor extends Visitor {
         operations = 1 + totalOps;
         numbers = totalNums;
     }
+
 
     /**
      * Gets the maximum depth of the expression tree.

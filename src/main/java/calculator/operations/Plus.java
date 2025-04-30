@@ -1,4 +1,9 @@
-package calculator;
+package calculator.operations;
+
+import calculator.*;
+import calculator.numbers.RationalNumber;
+import calculator.numbers.ComplexNumber;
+import calculator.matrix.Matrix;
 
 import java.util.List;
 
@@ -18,7 +23,7 @@ public final class Plus extends Operation
    *
    * @param elist The list of Expressions to add
    * @throws IllegalConstruction    If an empty list of expressions if passed as parameter
-   * @see #Plus(List<Expression>,Notation)
+   * @see #Plus(List< Expression >,Notation)
    */
   public /*constructor*/ Plus(List<Expression> elist) throws IllegalConstruction {
 	this(elist, null);
@@ -49,4 +54,34 @@ public final class Plus extends Operation
   public int op(int l, int r) {
   	return (l+r);
   }
-}
+
+  @Override
+  public double opReal(double l, double r) {
+    return l + r;
+  }
+
+  @Override
+  public RationalNumber opRational(RationalNumber l, RationalNumber r) {
+    return l.add(r);
+  }
+
+  @Override
+  public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
+    return l.add(r);
+  }
+
+  @Override
+  public Matrix opMatrix(Matrix l, Matrix r) {
+   return l.add(r);
+  }
+
+  @Override
+  public Matrix opMatrix(Matrix l, double r) {
+   throw new ArithmeticException("Cannot add a scalar to a matrix");
+  }
+
+  @Override
+  public Matrix opMatrix(Matrix l) {
+   throw new ArithmeticException("Need two matrix to add");
+  }
+ }

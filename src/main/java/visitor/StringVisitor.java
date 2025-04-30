@@ -1,8 +1,15 @@
 package visitor;
 
-import calculator.Operation;
-import calculator.MyNumber;
+import calculator.linear.EquationExpression;
+import calculator.linear.LinearEquationSystemExpression;
+import calculator.linear.VariableExpression;
+import calculator.operations.Operation;
+import calculator.numbers.MyNumber;
 import calculator.Notation;
+import calculator.numbers.RealNumber;
+import calculator.numbers.ComplexNumber;
+import calculator.numbers.RationalNumber;
+import calculator.matrix.MatrixExpression;
 
 import java.util.stream.Stream;
 
@@ -35,6 +42,61 @@ public class StringVisitor extends Visitor {
     }
 
     /**
+     * Visits a real number node and converts it to its string representation.
+     *
+     * @param n The real number node being visited
+     */
+    @Override
+    public void visit(RealNumber n) {
+        result = n.toString();
+    }
+
+    /**
+     * Visits a complex number node and converts it to its string representation.
+     *
+     * @param n The complex number node being visited
+     */
+    @Override
+    public void visit(ComplexNumber n) {
+        result = n.toString();
+    }
+
+    /**
+     * Visits a rational number node and converts it to its string representation.
+     *
+     * @param n The rational number node being visited
+     */
+    @Override
+    public void visit(RationalNumber n) {
+        result = n.toString();
+    }
+
+    /**
+     * Visits a matrix node and converts it to its string representation.
+     *
+     * @param n The matrix node being visited
+     */
+    @Override
+    public void visit(MatrixExpression n) {
+        result = n.toString();
+    }
+
+    @Override
+    public void visit(VariableExpression v) {
+        result = v.toString();
+    }
+
+    @Override
+    public void visit(EquationExpression e) {
+        result = e.toString();
+    }
+
+    @Override
+    public void visit(LinearEquationSystemExpression l) {
+        result = l.toString();
+    }
+
+    /**
      * Visits an operation node and converts it and its arguments to a string
      * according to the specified notation.
      * - INFIX: ( arg1 op arg2 )
@@ -51,17 +113,24 @@ public class StringVisitor extends Visitor {
             return sv.getResult();
         });
 
-        result = switch (notation) {
-            case INFIX -> "( " + 
-                s.reduce((s1, s2) -> s1 + " " + o.getSymbol() + " " + s2).get() +
-                " )";
-            case PREFIX -> o.getSymbol() + " (" + 
-                s.reduce((s1, s2) -> s1 + ", " + s2).get() +
-                ")";
-            case POSTFIX -> "(" + 
-                s.reduce((s1, s2) -> s1 + ", " + s2).get() +
-                ") " + o.getSymbol();
-        };
+        if(o.getArgs().size() == 1){
+            result = switch (notation) {
+                case INFIX, POSTFIX -> "( " + o.getArgs().get(0) + " )" + o.getSymbol() ;
+                case PREFIX -> o.getSymbol() + "(" + o.getArgs().get(0) + " )" ;
+            };
+        }else{
+            result = switch (notation) {
+                case INFIX -> "( " +
+                        s.reduce((s1, s2) -> s1 + " " + o.getSymbol() + " " + s2).get() +
+                        " )";
+                case PREFIX -> o.getSymbol() + " (" +
+                        s.reduce((s1, s2) -> s1 + ", " + s2).get() +
+                        ")";
+                case POSTFIX -> "(" +
+                        s.reduce((s1, s2) -> s1 + ", " + s2).get() +
+                        ") " + o.getSymbol();
+            };
+        }
     }
 
     /**
