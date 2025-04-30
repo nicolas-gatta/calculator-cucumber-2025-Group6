@@ -357,6 +357,24 @@ public class Main {
 		e = StringParser.parse("[[1,2,3],[4,5,6]] + [[1,2,3],[4,5,6]]");
 		c.print(e);
 
+		e = StringParser.parse("([[1,2,3],[4,5,6]])^T");
+		c.print(e);
+
+		e = StringParser.parse("T^([[1,2,3],[4,5,6]])");
+		c.print(e);
+
+		e = StringParser.parse("([[1,2],[4,5]])^I");
+		c.print(e);
+
+		e = StringParser.parse("I^([[1,2],[4,5]])");
+		c.print(e);
+
+		e = StringParser.parse("([[1,2,3],[4,5,6],[7,8,50]])^-1");
+		c.print(e);
+
+		e = StringParser.parse("-1^([[1,2,3],[4,5,6],[7,8,50]])");
+		c.print(e);
+
 		e = StringParser.parse("solve(( 3x + 3y ) = 5, ( 3x - 4z ) = 7, ( x - ( y + z ) ) = 10))");
 		c.print(e);
 
@@ -364,6 +382,15 @@ public class Main {
 		c.print(e);
 
 		e = StringParser.parse("(50+20i)");
+		c.print(e);
+
+		e = StringParser.parse("1");
+		c.print(e);
+
+		e = StringParser.parse("1/2");
+		c.print(e);
+
+		e = StringParser.parse("50.0");
 		c.print(e);
 	}
 
@@ -393,5 +420,4 @@ public class Main {
 			demonstrateExpressionParser();
 		}
 	}
-
 }

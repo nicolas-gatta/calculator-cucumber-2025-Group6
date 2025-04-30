@@ -147,6 +147,40 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
     }
 
     @Override
+    public Expression visitMatrix(ExpressionParserParser.MatrixContext ctx) {
+        return new MatrixExpression(new Matrix(ctx.getText()));
+    }
+
+    private Expression matrixOperator(Expression matrix, String op, Notation notation) {
+        try{
+            return switch (op) {
+                case "T^", "^T" -> new MatrixTranspose(List.of(matrix), notation);
+                case "I^", "^I" -> new MatrixIdentity(List.of(matrix), notation);
+                case "-1^", "^-1" -> new MatrixInverted(List.of(matrix), notation);
+                default -> throw new RuntimeException("Unknown operator: " + op);
+            };
+        }catch (IllegalConstruction e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Expression visitMatrixPrefix(ExpressionParserParser.MatrixPrefixContext ctx) {
+        return matrixOperator(visit(ctx.matrix()), ctx.matrixOperator().getText(), Notation.PREFIX);
+    }
+
+    @Override
+    public Expression visitMatrixPostfix(ExpressionParserParser.MatrixPostfixContext ctx) {
+        return matrixOperator(visit(ctx.matrix()), ctx.matrixOperator().getText(), Notation.POSTFIX);
+    }
+
+    @Override
+    public Expression visitMatrixFunctionExpr(ExpressionParserParser.MatrixFunctionExprContext ctx) {
+        return this.visit(ctx.matrixFunction());
+    }
+
+    @Override
     public Expression visitEquation(ExpressionParserParser.EquationContext ctx) {
         Expression left = visit(ctx.expr(0));
         Expression right = visit(ctx.expr(1));
