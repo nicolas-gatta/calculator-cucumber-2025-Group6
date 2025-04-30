@@ -24,12 +24,12 @@ matrixOperator: ('^T' | 'T^')   # Transpose
               | ('^I' | 'I^')   # Identity
               | ('^-1' | '-1^') # Inverted;
 
-matrixFunction: '(' matrix ')' matrixOperator # MatrixPostfix
-              | matrixOperator'(' matrix ')'  # MatrixPrefix;
+matrixFunction: '('? matrix ')'? matrixOperator # MatrixPostfix
+              | matrixOperator'('? matrix ')'?  # MatrixPrefix;
 
 // Linear Equation
 variableNumber: number? VARIABLE ;
-equation: expr op = '=' expr;
+equation: '('? expr op = '=' expr ')'? ;
 linearEquation: 'solve' '(' equation (',' equation)* ')';
 
 // Entry point

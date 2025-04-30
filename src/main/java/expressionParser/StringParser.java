@@ -18,8 +18,6 @@ public class StringParser {
 
         ExpressionParserVisitor visitor = new ExpressionParserVisitor();
 
-        Expression expression = visitor.visit(tree);
-
-        return expression;
+        return visitor.visit(tree);
     }
 }
