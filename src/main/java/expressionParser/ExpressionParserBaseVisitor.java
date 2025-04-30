@@ -32,6 +32,13 @@ public class ExpressionParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitImaginary(ExpressionParserParser.ImaginaryContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitComplex(ExpressionParserParser.ComplexContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

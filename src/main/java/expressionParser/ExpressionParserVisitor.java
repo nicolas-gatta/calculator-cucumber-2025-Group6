@@ -23,6 +23,12 @@ public interface ExpressionParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNumber(ExpressionParserParser.NumberContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ExpressionParserParser#imaginary}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImaginary(ExpressionParserParser.ImaginaryContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ExpressionParserParser#complex}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

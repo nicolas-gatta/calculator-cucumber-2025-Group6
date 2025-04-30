@@ -41,6 +41,18 @@ public class ExpressionParserBaseListener implements ExpressionParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterImaginary(ExpressionParserParser.ImaginaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImaginary(ExpressionParserParser.ImaginaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterComplex(ExpressionParserParser.ComplexContext ctx) { }
 	/**
 	 * {@inheritDoc}

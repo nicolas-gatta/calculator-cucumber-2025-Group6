@@ -13,15 +13,16 @@ operator : '+' | '-' | '*' | '/';
 
 // Numbers
 number: RATIONAL | REAL | INT;
-complex: '(' number ('+'|'-') number 'i' ')';
+imaginary: number 'i';
+complex: '('? number op = ('+'|'-') imaginary ')'?;
 
 // Matrix
 matrix: '[' row (',' row)* ']';
 row: '[' number (',' number)* ']';
 
 // Linear Equation
-variableNumber: number VARIABLE ;
-equation: expr '=' expr;
+variableNumber: number? VARIABLE ;
+equation: expr op = '=' expr;
 linearEquation: 'solve' '(' equation (',' equation)* ')';
 
 // Entry point
