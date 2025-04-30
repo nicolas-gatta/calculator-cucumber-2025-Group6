@@ -342,10 +342,28 @@ public class Main {
 		System.out.println("\n=== Expression Parser Examples ===");
 
 		Calculator c = new Calculator();
+
 		Expression e;
 
 		e = StringParser.parse("(1+2+5)/5.5");
+		c.print(e);
 
+		e = StringParser.parse("/(+(1,2,5),5.5)");
+		c.print(e);
+
+		e = StringParser.parse("((1,2,5,3)+,5.5)/");
+		c.print(e);
+
+		e = StringParser.parse("[[1,2,3],[4,5,6]] + [[1,2,3],[4,5,6]]");
+		c.print(e);
+
+		e = StringParser.parse("solve(( 3x + 3y ) = 5, ( 3x - 4z ) = 7, ( x - ( y + z ) ) = 10))");
+		c.print(e);
+
+		e = StringParser.parse("1/2 + 5");
+		c.print(e);
+
+		e = StringParser.parse("(50+20i)");
 		c.print(e);
 	}
 
@@ -366,12 +384,12 @@ public class Main {
 			launchGUI(args);
 		} else {
 			// Votre code existant pour la version console
-//			demonstrateIntegerOperations();
-//			demonstrateRealOperations();
-//			demonstrateRationalOperations();
-//			demonstrateComplexOperations();
-//			demonstrateMatrixOperations();
-//			demonstrateLinearEquation();
+			demonstrateIntegerOperations();
+			demonstrateRealOperations();
+			demonstrateRationalOperations();
+			demonstrateComplexOperations();
+			demonstrateMatrixOperations();
+			demonstrateLinearEquation();
 			demonstrateExpressionParser();
 		}
 	}
