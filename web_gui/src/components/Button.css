@@ -1,6 +1,6 @@
 button {
     border: none;
-    background-color: rgb(80, 60, 209);
+    background-color: #5A6771;
     font-size: 24px;
     color: rgb(255, 255, 255);
     font-weight: bold;
@@ -10,14 +10,56 @@ button {
 }
 
 button:hover {
-    background-color: rgb(61, 43, 184);
+    background-color: #6B7783;
+
 }
 
 .equals {
-    grid-column: 3 / 5;
-    background-color: rgb(243, 61, 29);
+    background-color: limegreen;
 }
 
 .equals:hover {
-    background-color: rgb(228, 39, 15);
+    background-color: lightgreen;
+}
+
+.operation {
+    background-color: darkorange;
+}
+
+.operation:hover {
+    background-color: orange;
+}
+
+.cBtn{
+    background-color: red;
+}
+
+.cBtn:hover {
+    background-color: orangered;
+}
+
+.helpBtn{
+    width: 100px;
+    height: 100px;
+    background-color: #3498db;
+}
+
+.otherBtn{
+    width: 100px;
+    height: 100px;
+    background-color: #8e44ad;
+}
+
+.otherBtn:hover{
+    background-color: #9b59b6;
+}
+
+.specialBtn{
+    width: 80px;
+    height: 60px;
+    background-color: #8e44ad;
+}
+
+.specialBtn:hover{
+    background-color: #9b59b6;
 }
