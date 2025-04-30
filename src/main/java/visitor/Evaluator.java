@@ -36,6 +36,19 @@ public class Evaluator extends Visitor {
         return result;
     }
 
+    private RealNumber getRealNumber(Expression e) {
+        if (e instanceof RealNumber r) {
+            return r;
+        }
+        if (e instanceof MyNumber n) {
+            return new RealNumber(n.getValue());
+        }
+        if (e instanceof RationalNumber rn) {
+            return new RealNumber(rn.getValue());
+        }
+        return null;
+    }
+
     @Override
     public void visit(Operation o) {
 
@@ -85,7 +98,7 @@ public class Evaluator extends Visitor {
                     result = accumulator;
                 }
                 // Gestion des opérations entre ComplexNumber
-                else if (accumulator instanceof ComplexNumber || current instanceof ComplexNumber) {
+                else if (accumulator instanceof ComplexNumber && current instanceof ComplexNumber) {
                     ComplexNumber accComp = (ComplexNumber) accumulator;
                     ComplexNumber currComp = (ComplexNumber) current;
 
@@ -99,7 +112,7 @@ public class Evaluator extends Visitor {
                         accumulator = accComp.divide(currComp);
                 }
                 // Gestion des opérations entre RationalNumber
-                else if (accumulator instanceof RationalNumber || current instanceof RationalNumber) {
+                else if (accumulator instanceof RationalNumber && current instanceof RationalNumber) {
                     RationalNumber accRat = (RationalNumber) accumulator;
                     RationalNumber currRat = (RationalNumber) current;
 
@@ -131,6 +144,28 @@ public class Evaluator extends Visitor {
                         accumulator = new MyNumber(accVal / currVal);
                     }
                 }
+                else if (accumulator instanceof MyNumber || current instanceof MyNumber ||
+                        accumulator instanceof RealNumber || current instanceof RealNumber ||
+                        accumulator instanceof RationalNumber || current instanceof RationalNumber) {
+
+                    double accVal = getRealNumber(accumulator).getValue();
+                    double currVal = getRealNumber(current).getValue();
+
+                    if (o instanceof Plus)
+                        accumulator = new RealNumber(accVal + currVal);
+                    else if (o instanceof Minus)
+                        accumulator = new RealNumber(accVal - currVal);
+                    else if (o instanceof Times)
+                        accumulator = new RealNumber(accVal * currVal);
+                    else if (o instanceof Divides) {
+                        if (currVal == 0) {
+                            result = null;
+                            return;
+                        }
+                        accumulator = new RealNumber(accVal / currVal);
+                    }
+                }
+
 
                 // Gestion des opérations entre MyNumber
                 else if (accumulator instanceof MatrixExpression && current instanceof MatrixExpression) {

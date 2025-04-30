@@ -1,6 +1,7 @@
 package calculator.linear;
 
 import calculator.numbers.MyNumber;
+import calculator.numbers.RealNumber;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,12 +17,12 @@ class VariableExpressionTest {
 
     @Test
     public void testGetters() {
-        MyNumber coeff = new MyNumber(3);
+        RealNumber coeff = new RealNumber(3);
         VariableExpression var = new VariableExpression(coeff, "x");
 
         assertEquals(coeff, var.getLeft());
         assertEquals("x", var.getRight());
-        assertEquals("3x", var.toString());
+        assertEquals("3.0000x", var.toString());
     }
 
     @Test

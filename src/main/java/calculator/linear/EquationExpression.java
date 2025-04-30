@@ -1,7 +1,6 @@
 package calculator.linear;
 
 import calculator.Expression;
-import calculator.operations.Operation;
 import visitor.Visitor;
 
 /**

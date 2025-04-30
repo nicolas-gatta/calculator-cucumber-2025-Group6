@@ -54,14 +54,6 @@ public class EquationCollectorVisitor extends Visitor {
         return new Matrix(data);
     }
 
-    public EquationCollectorVisitor() {
-    }
-
-    @Override
-    public void visit(MyNumber n) {
-        equationEqualsValues.add(n.getValue().doubleValue());
-    }
-
     @Override
     public void visit(Operation o) {
         if(o.countNbs() >= 2){
@@ -85,31 +77,36 @@ public class EquationCollectorVisitor extends Visitor {
     }
 
     @Override
+    public void visit(MyNumber n) {
+        equationEqualsValues.add(n.getValue().doubleValue());
+    }
+
+    @Override
     public void visit(RealNumber n) {
         equationEqualsValues.add(n.getValue());
     }
 
     @Override
     public void visit(ComplexNumber n) {
-        equationEqualsValues.add(n.getReal());
+        throw new IllegalArgumentException("Linear Equation does not support Complex Number");
     }
 
     @Override
     public void visit(RationalNumber n) {
-        equationEqualsValues.add(new RealNumber(n.getNumerator()/(double)n.getDenominator()).getValue());
+        equationEqualsValues.add(n.getValue());
     }
 
     @Override
     public void visit(MatrixExpression n) {
-
+        throw new IllegalArgumentException("Linear Equation does not support matrix operations");
     }
 
     @Override
     public void visit(VariableExpression v) {
         allVariables.add(v.getRight());
-        MyNumber value = currentSymbol == "-" ? new MyNumber(v.getLeft().getValue() * -1) : v.getLeft();
-        value = previousSymbol == "-" ? new MyNumber(value.getValue() * -1) : value;
-        storeVariables.put(v.getRight(), value.getValue().doubleValue());
+        double value = Objects.equals(currentSymbol, "-") ? v.getLeft().getValue() * -1 : v.getLeft().getValue();
+        value = Objects.equals(previousSymbol, "-") ? value * -1 : value;
+        storeVariables.put(v.getRight(), value);
     }
 
     @Override

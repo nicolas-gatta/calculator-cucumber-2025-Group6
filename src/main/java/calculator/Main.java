@@ -25,6 +25,8 @@ import calculator.operations.Times;
 import calculator.gui.CalculatorApp;
 import calculator.matrix.Matrix;
 import calculator.matrix.MatrixExpression;
+import expressionParser.StringParser;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -270,13 +272,13 @@ public class Main {
 			MatrixExpression e4 = new MatrixExpression(D);
 			MatrixExpression e5 = new MatrixExpression(E);
 
-			e = new Plus(List.of(e1, e2));
+			e = new Plus(List.of(e1, e2), Notation.POSTFIX);
 			c.print(e);
 
-			e = new Minus(List.of(e1, e2));
+			e = new Minus(List.of(e1, e2), Notation.PREFIX);
 			c.print(e);
 
-			e = new Times(List.of(e1, e2));
+			e = new Times(List.of(e1, e2), Notation.POSTFIX);
 			c.print(e);
 
 			e = new Times(List.of(e3, e4));
@@ -350,6 +352,63 @@ public class Main {
 
 	}
 
+	public static void demonstrateExpressionParser() {
+
+		System.out.println("\n=== Expression Parser Examples ===");
+
+		Calculator c = new Calculator();
+
+		Expression e;
+
+		e = StringParser.parse("(1+2+5)/5.5");
+		c.print(e);
+
+		e = StringParser.parse("/(+(1,2,5),5.5)");
+		c.print(e);
+
+		e = StringParser.parse("((1,2,5,3)+,5.5)/");
+		c.print(e);
+
+		e = StringParser.parse("[[1,2,3],[4,5,6]] + [[1,2,3],[4,5,6]]");
+		c.print(e);
+
+		e = StringParser.parse("([[1,2,3],[4,5,6]])^T");
+		c.print(e);
+
+		e = StringParser.parse("T^([[1,2,3],[4,5,6]])");
+		c.print(e);
+
+		e = StringParser.parse("([[1,2],[4,5]])^I");
+		c.print(e);
+
+		e = StringParser.parse("I^([[1,2],[4,5]])");
+		c.print(e);
+
+		e = StringParser.parse("([[1,2,3],[4,5,6],[7,8,50]])^-1");
+		c.print(e);
+
+		e = StringParser.parse("-1^([[1,2,3],[4,5,6],[7,8,50]])");
+		c.print(e);
+
+		e = StringParser.parse("solve(( 3x + 3y ) = 5, ( 3x - 4z ) = 7, ( x - ( y + z ) ) = 10))");
+		c.print(e);
+
+		e = StringParser.parse("1/2 + 5");
+		c.print(e);
+
+		e = StringParser.parse("(50+20i)");
+		c.print(e);
+
+		e = StringParser.parse("1");
+		c.print(e);
+
+		e = StringParser.parse("1/2");
+		c.print(e);
+
+		e = StringParser.parse("50.0");
+		c.print(e);
+	}
+
 	/**
 	 * Launches the GUI application
 	 * @param args Command line arguments (not used)
@@ -373,7 +432,7 @@ public class Main {
 			demonstrateComplexOperations();
 			demonstrateMatrixOperations();
 			demonstrateLinearEquation();
+			demonstrateExpressionParser();
 		}
 	}
-
 }

@@ -2,6 +2,8 @@ package calculator.linear;
 
 import calculator.Expression;
 import calculator.numbers.MyNumber;
+import calculator.numbers.RationalNumber;
+import calculator.numbers.RealNumber;
 import visitor.Visitor;
 
 import java.util.Objects;
@@ -11,7 +13,7 @@ import java.util.Objects;
  */
 public class VariableExpression implements Expression {
 
-    private final MyNumber left;
+    private final RealNumber left;
     private final String right;
 
     /**
@@ -20,8 +22,23 @@ public class VariableExpression implements Expression {
      * @param left  the numeric coefficient
      * @param right the variable name
      */
-    public VariableExpression(MyNumber left, String right) {
-        this.left = left;
+    public VariableExpression(Expression left, String right) {
+        if(left instanceof MyNumber m) {
+            this.left = new RealNumber(m.getValue());
+        }
+
+        else if(left instanceof RealNumber r) {
+            this.left = r;
+        }
+
+        else if(left instanceof RationalNumber rn) {
+            this.left = new RealNumber(rn.getValue());
+        }
+
+        else{
+            throw new IllegalArgumentException("The Variable Expression only accepts MyNumbers, RealNumber or RationalNumber");
+        }
+
         this.right = right;
     }
 
@@ -31,8 +48,7 @@ public class VariableExpression implements Expression {
      * @param right the variable name
      */
     public VariableExpression(String right) {
-        this.left = new MyNumber(1);
-        this.right = right;
+        this(new RealNumber(1), right);
     }
 
     /**
@@ -40,7 +56,7 @@ public class VariableExpression implements Expression {
      *
      * @return the numeric coefficient
      */
-    public MyNumber getLeft() {
+    public RealNumber getLeft() {
         return left;
     }
 

@@ -66,7 +66,7 @@ public class RealNumber implements Expression {
 
     @Override
     public String toString() {
-        return String.format("%." + precision + "f", value);
+        return String.format("%." + precision + "f", value).replace(",",".");
     }
 
     @Override

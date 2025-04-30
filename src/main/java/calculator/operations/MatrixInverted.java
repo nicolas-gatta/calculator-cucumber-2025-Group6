@@ -17,7 +17,7 @@ public final class MatrixInverted extends Operation{
 
     public MatrixInverted(List<Expression> elist, Notation n) throws IllegalConstruction {
         super(elist, n);
-        symbol = "^-1";
+        symbol = "-1";
         neutral = 0;
     }
 
