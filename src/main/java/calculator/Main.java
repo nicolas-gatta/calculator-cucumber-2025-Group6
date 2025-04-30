@@ -18,6 +18,8 @@ import calculator.operations.Times;
 import calculator.gui.CalculatorApp;
 import calculator.matrix.Matrix;
 import calculator.matrix.MatrixExpression;
+import expressionParser.StringParser;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -335,6 +337,18 @@ public class Main {
 
 	}
 
+	public static void demonstrateExpressionParser() {
+
+		System.out.println("\n=== Expression Parser Examples ===");
+
+		Calculator c = new Calculator();
+		Expression e;
+
+		e = StringParser.parse("(1+2+5)/5.5");
+
+		c.print(e);
+	}
+
 	/**
 	 * Launches the GUI application
 	 * @param args Command line arguments (not used)
@@ -352,12 +366,13 @@ public class Main {
 			launchGUI(args);
 		} else {
 			// Votre code existant pour la version console
-			demonstrateIntegerOperations();
-			demonstrateRealOperations();
-			demonstrateRationalOperations();
-			demonstrateComplexOperations();
-			demonstrateMatrixOperations();
-			demonstrateLinearEquation();
+//			demonstrateIntegerOperations();
+//			demonstrateRealOperations();
+//			demonstrateRationalOperations();
+//			demonstrateComplexOperations();
+//			demonstrateMatrixOperations();
+//			demonstrateLinearEquation();
+			demonstrateExpressionParser();
 		}
 	}
 
