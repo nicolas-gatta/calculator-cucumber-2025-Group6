@@ -151,3 +151,9 @@
     -fx-text-overrun: clip;
     -fx-wrap-text: false;
 } 
+
+.equation-field {
+    -fx-background-insets: 0;
+    -fx-padding: 5px;
+    -fx-background-radius: 0;
+}
