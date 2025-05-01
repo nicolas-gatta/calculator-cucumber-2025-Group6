@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import expressionParser.StringParser;
+import javafx.scene.Node;
+import javafx.scene.control.ListCell;
 
 /**
  * The CalculatorUI class provides the user interface for the calculator application.
@@ -91,6 +94,15 @@ public class CalculatorUI {
     private Map<String, List<String>> unitsByType;
     private Map<String, IUnitConverter<?>> convertersByType;
 
+    // Add a flag to track parser mode
+    private boolean parserMode = false;
+
+    // Add a reference to the type combo box
+    private ComboBox<NumberType> typeCombo;
+
+    // Add a field to store the number type when entering parser mode
+    private NumberType savedNumberType;
+
     /**
      * Constructs a new CalculatorUI.
      * Initializes the calculator interface with all necessary components.
@@ -100,10 +112,16 @@ public class CalculatorUI {
         
         // Create the display
         display = new TextField();
-        display.setEditable(false);
+        display.setEditable(true);  // Make the display editable
         display.setAlignment(Pos.CENTER);
         display.setPrefHeight(60);
         display.setId("display");
+        
+        // Add a click listener to the display
+        display.setOnMouseClicked(e -> {
+            // When display is clicked, enter parser mode
+            enterParserMode();
+        });
         
         // Create a horizontal box for the display, +/- button, and the help button
         HBox displayBox = new HBox(10);
@@ -171,7 +189,7 @@ public class CalculatorUI {
         Label label = new Label("Type:");  // Shortened label text
         label.setMinWidth(50);  // Reduced width
         
-        ComboBox<NumberType> typeCombo = new ComboBox<>();
+        typeCombo = new ComboBox<>();
         typeCombo.getItems().addAll(NumberType.INTEGER, NumberType.RATIONAL, NumberType.REAL, 
                                    NumberType.COMPLEX, NumberType.LINEAR_SYSTEM, NumberType.MATRIX,
                                    NumberType.UNIT_CONVERTER);
@@ -514,6 +532,32 @@ public class CalculatorUI {
     }
     
     private void calculateResult() {
+        // If in parser mode
+        if (parserMode) {
+            try {
+                // Parse the expression from the display
+                Expression parsedExpression = StringParser.parse(display.getText());
+                
+                // Evaluate the parsed expression
+                Expression result = calculator.eval(parsedExpression);
+                
+                // Display the result
+                display.setText(result.toString());
+                
+                // Reset the calculator state
+                firstOperand = null;
+                currentOperation = null;
+                
+                // Stay in parser mode to allow chaining calculations
+                
+            } catch (Exception ex) {
+                // If parsing fails, show error message
+                display.setText("Error: Invalid expression");
+            }
+            return;
+        }
+        
+        // Original calculation logic for button-based input
         if (firstOperand != null && !currentInput.isEmpty() && currentOperation != null) {
             try {
                 Expression secondOperand = parseInput(currentInput);
@@ -569,6 +613,11 @@ public class CalculatorUI {
         currentOperation = null;
         firstOperand = null;
         display.setText("");
+        
+        // If in parser mode, exit it
+        if (parserMode) {
+            exitParserMode();
+        }
     }
     
     // Method to toggle between positive and negative
@@ -1576,6 +1625,72 @@ public class CalculatorUI {
         } catch (Exception e) {
             resultField.setText("Error: " + e.getMessage());
         }
+    }
+    
+    // Method to enter parser mode
+    private void enterParserMode() {
+        parserMode = true;
+        currentInput = "";
+        
+        // Save current number type
+        savedNumberType = currentNumberType;
+        
+        // Disable type selector and show "Parser Mode"
+        typeCombo.setDisable(true);
+        
+        // Create a custom cell factory to display "Parser Mode" text
+        typeCombo.setButtonCell(new ListCell<NumberType>() {
+            @Override
+            protected void updateItem(NumberType item, boolean empty) {
+                super.updateItem(item, empty);
+                setText("Parser Mode");
+            }
+        });
+        
+        // Disable all buttons except equals and clear
+        disableButtonsExceptEqualsAndClear(true);
+        
+        // Change display style to indicate parser mode
+        display.setStyle("-fx-background-color: #f0f8ff;"); // Light blue background
+    }
+
+    // Method to exit parser mode
+    private void exitParserMode() {
+        parserMode = false;
+        
+        // Re-enable type selector and restore original number type
+        typeCombo.setDisable(false);
+        
+        // Restore the default cell factory
+        typeCombo.setButtonCell(null);
+        typeCombo.setValue(savedNumberType);
+        
+        // Re-enable all buttons
+        disableButtonsExceptEqualsAndClear(false);
+        
+        // Reset display style
+        display.setStyle("");
+    }
+
+    // Method to disable/enable buttons
+    private void disableButtonsExceptEqualsAndClear(boolean disable) {
+        // Disable/enable all buttons in the button grid
+        for (Node node : buttonGrid.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                String id = button.getId();
+                
+                // Skip equals and clear buttons (check for null ID first)
+                if (id == null || (!id.equals("equalsButton") && !id.equals("clearButton"))) {
+                    button.setDisable(disable);
+                }
+            }
+        }
+        
+        // Also disable/enable type-specific buttons
+        if (fractionButton != null) fractionButton.setDisable(disable);
+        if (decimalButton != null) decimalButton.setDisable(disable);
+        if (imaginaryButton != null) imaginaryButton.setDisable(disable);
     }
     
     /**
