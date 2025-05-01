@@ -89,7 +89,7 @@ public class CalculatorUI {
     private TextField valueField;
     private TextField resultField;
     private Map<String, List<String>> unitsByType;
-    private Map<String, IUnitConverter<Double>> convertersByType;
+    private Map<String, IUnitConverter<?>> convertersByType;
 
     /**
      * Constructs a new CalculatorUI.
@@ -1495,6 +1495,13 @@ public class CalculatorUI {
                 .collect(Collectors.toList());
         unitsByType.put("Currency", currencyUnits);
         convertersByType.put("Currency", new CurrencyConverter());
+        
+        // Number System conversion
+        List<String> numberSystems = Arrays.stream(NumberSystemEnum.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+        unitsByType.put("Number System", numberSystems);
+        convertersByType.put("Number System", new NumberSystemConverter());
     }
     
     private void updateUnitCombos() {
@@ -1528,28 +1535,41 @@ public class CalculatorUI {
                 return;
             }
             
-            double value = Double.parseDouble(valueField.getText());
+            // Get the appropriate converter
+            IUnitConverter<?> converter = convertersByType.get(conversionType);
             
-            IUnitConverter<Double> converter = convertersByType.get(conversionType);
-            double result = converter.convert(fromUnit, toUnit, value);
-            
-            // Format the result based on its magnitude
-            String formattedResult;
-            if (Math.abs(result) < 0.0001 || Math.abs(result) > 10000) {
-                formattedResult = String.format("%.6e", result);
-            } else {
-                formattedResult = String.format("%.6f", result);
-                // Remove trailing zeros
-                formattedResult = formattedResult.replaceAll("0+$", "0");
-                if (formattedResult.endsWith(".0")) {
-                    formattedResult = formattedResult.substring(0, formattedResult.length() - 2);
+            // Handle different types of conversions differently
+            if (conversionType.equals("Number System")) {
+                // Handle number system conversions differently
+                if (converter instanceof IUnitConverter) {
+                    String result = ((IUnitConverter<String>) converter).convert(
+                        fromUnit, toUnit, valueField.getText());
+                    resultField.setText(result);
                 }
+            } else {
+                // Handle numeric conversions as before
+                double value = Double.parseDouble(valueField.getText());
+                
+                double result = ((IUnitConverter<Double>) converter).convert(
+                    fromUnit, toUnit, value);
+                
+                // Format the result based on its magnitude
+                String formattedResult;
+                if (Math.abs(result) < 0.0001 || Math.abs(result) > 10000) {
+                    formattedResult = String.format("%.6e", result);
+                } else {
+                    formattedResult = String.format("%.6f", result);
+                    // Delete trailing zeros
+                    formattedResult = formattedResult.replaceAll("0+$", "0");
+                    if (formattedResult.endsWith(".0")) {
+                        formattedResult = formattedResult.substring(0, formattedResult.length() - 2);
+                    }
+                }
+                
+                resultField.setText(formattedResult);
             }
             
-            resultField.setText(formattedResult);
-            
         } catch (NumberFormatException e) {
-            // Don't show error while user is typing
             if (!valueField.getText().isEmpty()) {
                 resultField.setText("Invalid number format");
             }
