@@ -9,10 +9,9 @@ import Head from "./Head";
 import TypeBar from "./TypeBar";
 import HelpModal from "./HelpModal";
 
-
 import "./Calculator.css"
 
-const btnHead = [{value: "+/-", className: "otherBtn"}, {value: "?", className: "helpBtn"}, {}, {}]
+const btnHead = [{value: "+/-", className: "otherBtn"}, {value: "?", className: "helpBtn"}]
 
 const btnValues = [
     [{value: "7", className: ""}, {value: "8", className: ""}, {value: "9", className: ""}, {value:"+", className: "operation"}],
@@ -28,91 +27,142 @@ const typesNumber = [
     {value: "COMPLEX", label: "Complex"},
 ];
 
-const realBtn = [
-    {value: ".", className: "specialBtn"}
-];
-
-const rationalBtn = [
-    {value: "/", className: "specialBtn"}
-];
-
-const complexBtn = [
-    {value: ".", className: "specialBtn"},
-    {value: "i", className: "specialBtn"}
-];
+const specialButtonsByType = {
+    REAL: [{ value: ".", className: "specialBtn" }],
+    RATIONAL: [{ value: "/", className: "specialBtn" }],
+    COMPLEX: [{ value: ".", className: "specialBtn" }, { value: "i", className: "specialBtn" }],
+};
 
 const Calculator = () => {
     const [selectedType, setSelectedType] = useState("INTEGER"); // ← stocke le type sélectionné
     const [isHelpOpen, setIsHelpOpen] = useState(false);
+    const [firstOperand, setFirstOperand] = useState("");
+    const [currentInput, setCurrentInput] = useState("");
+    const [operator, setOperator] = useState("");
+    const [isResultDisplayed, setIsResultDisplayed] = useState(false);
 
     const openHelpModal = () => setIsHelpOpen(true);
     const closeHelpModal = () => setIsHelpOpen(false);
 
-    // Fonction pour déterminer les boutons spéciaux à afficher
-    const getSpecialButtons = () => {
-        switch (selectedType) {
-            case "REAL":
-                return realBtn;
-            case "RATIONAL":
-                return rationalBtn;
-            case "COMPLEX":
-                return complexBtn;
-            default:
-                return []; // INTEGER => pas de bouton spécial
+    const updateInput = (value) => {
+        if (isResultDisplayed) {
+            setCurrentInput(value);
+            setIsResultDisplayed(false);
+        } else {
+            setCurrentInput((prev) => prev + value);
         }
     };
 
-    return <Wrapper>
-        <Head><Screen value={"0"}/>
-            {
-                btnHead.flat().map((btn) => {
-                    return (
-                        <Button
-                            key={btn.value}
-                            className={btn.className}
-                            value={btn.value}
-                            onClick={() => {
-                                if (btn.value === "?") {
-                                    openHelpModal(); // ← ouvre la modal
-                                } else {
-                                    console.log(`${btn.value} clicked!`);
-                                }
-                            }}
-                        />
-                    );
-                })
+    const handleSpecialButtonClick = (value) => {
+        if (value === "/" && selectedType === "RATIONAL" && !currentInput.includes("/") && currentInput !== "") {
+            setCurrentInput((prev) => prev + "/");
+        } else if (value === "." && !currentInput.includes(".") && (selectedType === "REAL" || selectedType === "COMPLEX")) {
+            setCurrentInput((prev) => prev + (prev === "" ? "0." : "."));
+        } else if (value === "i" && selectedType === "COMPLEX" && !currentInput.includes("i")) {
+            setCurrentInput((prev) => prev + "i");
+        }
+    };
+
+
+    const handleButtonClick = (value) => {
+        if (!isNaN(value)) {
+            updateInput(value);
+        }else{
+            switch (value) {
+                case "=":
+                    setIsResultDisplayed(true);
+                    calculate();
+                    break;
+                case "C":
+                    clear();
+                    break;
+                case "+": case "-": case "*": case "/":
+                    if (firstOperand && currentInput) {
+                        calculate().then(() => {
+                            setOperator(value);
+                        });
+                    }
+                    setFirstOperand(currentInput);
+                    setOperator(value);
+                    setCurrentInput("");
+                    break;
+                default:
+                    updateInput(value);
             }
+        }
+
+
+    };
+
+    const calculate = async () => {
+        if (firstOperand && operator && currentInput) {
+            try {
+                const response = await fetch("/api/calculate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        firstOperand: firstOperand,
+                        operator: operator,
+                        secondOperand: currentInput,
+                        numberType: selectedType,
+                    }),
+                });
+
+                const result = await response.text();
+                setFirstOperand(result); // Pour un calcul en chaîne
+                setCurrentInput("");
+                setOperator("");
+            } catch (error) {
+                console.error("Erreur lors de l’appel API :", error);
+            }
+        }
+    };
+
+    const clear = () => {
+        setFirstOperand("");
+        setCurrentInput("");
+        setOperator("");
+        setIsResultDisplayed(false);
+    };
+
+    const getSpecialButtons = () => specialButtonsByType[selectedType] || [];
+
+
+    return <Wrapper>
+        <Head><Screen value={currentInput || firstOperand || "0"} />
+            {btnHead.map((btn) => (
+                <Button
+                    key={btn.value}
+                    className={btn.className}
+                    value={btn.value}
+                    onClick={() => btn.value === "?" ? openHelpModal() : null}
+                />
+            ))}
         </Head>
-        <TypeBar> <Dropdown title={"Type"} options={typesNumber} selectedOption={selectedType} onChange={(value) => setSelectedType(value)}/>
+        <TypeBar> <Dropdown title={"Type"} options={typesNumber} selectedOption={selectedType}
+                            onChange={(value) => setSelectedType(value)}
+                            disabled={firstOperand !== "" || operator !== "" || currentInput !== ""}/>
             {getSpecialButtons().map((btn) => (
                 <Button
                     key={btn.value}
                     className={btn.className}
                     value={btn.value}
-                    onClick={() => {
-                        console.log(`${btn.value} clicked!`);
-                    }}
+                    onClick={() => handleSpecialButtonClick(btn.value)}
                 />
             ))}
         </TypeBar>
 
-
         <ButtonBox>
-            {
-                btnValues.flat().map((btn) => {
-                    return (
-                        <Button
-                            key={btn.value}
-                            className={btn.className}
-                            value={btn.value}
-                            onClick={() => {
-                                console.log(`${btn.value} clicked!`);
-                            }}
-                        />
-                    );
-                })
-            }
+            {btnValues.flat().map((btn) => (
+                <Button
+                    key={btn.value}
+                    className={btn.className}
+                    value={btn.value}
+                    onClick={() => handleButtonClick(btn.value)}
+                />
+            ))}
         </ButtonBox>
+
         <HelpModal isOpen={isHelpOpen} onClose={closeHelpModal} ></HelpModal>
     </Wrapper>;
 };

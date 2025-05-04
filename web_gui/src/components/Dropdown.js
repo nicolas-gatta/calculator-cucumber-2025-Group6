@@ -1,11 +1,12 @@
 import "./Dropdown.css";
 import PropTypes from "prop-types";
 
-const Dropdown = ({ title, options, selectedOption, onChange}) => {
+const Dropdown = ({ title, options, selectedOption, onChange, disabled}) => {
     return (
         <div className={"dropdown"}>
             <label className={"dropdown-label"}>{title} :</label>
-            <select className={"dropdown-select"} value={selectedOption} onChange={(e) => onChange(e.target.value)}>
+            <select className={"dropdown-select"} value={selectedOption} disabled={disabled}
+                    onChange={(e) => onChange(e.target.value)}>
                 {options.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                         {opt.label}
@@ -26,6 +27,7 @@ Dropdown.propTypes = {
     ).isRequired,
     selectedOption: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired
 }
 
 export default Dropdown;
