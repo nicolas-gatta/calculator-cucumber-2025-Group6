@@ -11,30 +11,8 @@ import HelpModal from "./HelpModal";
 
 import "./Calculator.css"
 
-const btnHead = [{value: "+/-", className: "otherBtn"}, {value: "?", className: "helpBtn"}]
-
-const btnValues = [
-    [{value: "7", className: ""}, {value: "8", className: ""}, {value: "9", className: ""}, {value:"+", className: "operation"}],
-    [{value: "4", className: ""}, {value: "5", className: ""}, {value: "6", className: ""}, {value:"-", className: "operation"}],
-    [{value: "1", className: ""}, {value: "2", className: ""}, {value: "3", className: ""}, {value:"*", className: "operation"}],
-    [{value: "C", className: "cBtn"}, {value: "0", className: ""}, {value: "=", className: "equals"}, {value:"/", className: "operation"}],
-];
-
-const typesNumber = [
-    {value: "INTEGER", label: "Integer"},
-    {value: "RATIONAL", label: "Rational"},
-    {value: "REAL", label: "Real"},
-    {value: "COMPLEX", label: "Complex"},
-];
-
-const specialButtonsByType = {
-    REAL: [{ value: ".", className: "specialBtn" }],
-    RATIONAL: [{ value: "/", className: "specialBtn" }],
-    COMPLEX: [{ value: ".", className: "specialBtn" }, { value: "i", className: "specialBtn" }],
-};
-
 const Calculator = () => {
-    const [selectedType, setSelectedType] = useState("INTEGER"); // ← stocke le type sélectionné
+    const [selectedType, setSelectedType] = useState("INTEGER");
     const [isHelpOpen, setIsHelpOpen] = useState(false);
     const [firstOperand, setFirstOperand] = useState("");
     const [currentInput, setCurrentInput] = useState("");
@@ -43,15 +21,6 @@ const Calculator = () => {
 
     const openHelpModal = () => setIsHelpOpen(true);
     const closeHelpModal = () => setIsHelpOpen(false);
-
-    const updateInput = (value) => {
-        if (isResultDisplayed) {
-            setCurrentInput(value);
-            setIsResultDisplayed(false);
-        } else {
-            setCurrentInput((prev) => prev + value);
-        }
-    };
 
     const handleSpecialButtonClick = (value) => {
         if (value === "/" && selectedType === "RATIONAL" && !currentInput.includes("/") && currentInput !== "") {
@@ -63,36 +32,50 @@ const Calculator = () => {
         }
     };
 
-
-    const handleButtonClick = (value) => {
-        if (!isNaN(value)) {
-            updateInput(value);
-        }else{
-            switch (value) {
-                case "=":
-                    setIsResultDisplayed(true);
-                    calculate();
-                    break;
-                case "C":
-                    clear();
-                    break;
-                case "+": case "-": case "*": case "/":
-                    if (firstOperand && currentInput) {
-                        calculate().then(() => {
-                            setOperator(value);
-                        });
-                    }
-                    setFirstOperand(currentInput);
-                    setOperator(value);
-                    setCurrentInput("");
-                    break;
-                default:
-                    updateInput(value);
-            }
+    const toggleNegative = () => {
+        if(currentInput === ""){
+            setCurrentInput("-");
+        } else if(currentInput === "-"){
+            setCurrentInput("");
+        } else if(currentInput.startsWith("-")){
+            setCurrentInput(currentInput.substring(1));
+        } else {
+            setCurrentInput("-" + currentInput);
         }
-
-
     };
+
+    const handleEquals = () => {
+        setIsResultDisplayed(true);
+        return calculate();
+    };
+
+    const handleClear = () => {
+        clear();
+        setIsResultDisplayed(false);
+    };
+
+    const handleOperator = async (value) => {
+        console.log(value);
+        if (firstOperand && currentInput){
+            await calculate();
+        }
+        if(currentInput){
+            setFirstOperand(currentInput);
+            setCurrentInput("");
+        }
+        setOperator(value);
+    };
+
+    const updateOperand = (value) => {
+        console.log(value);
+        if(isResultDisplayed) {
+            setCurrentInput(value);
+            setIsResultDisplayed(false);
+        } else {
+            setCurrentInput(prev => prev + value);
+        }
+    };
+
 
     const calculate = async () => {
         if (firstOperand && operator && currentInput) {
@@ -109,11 +92,11 @@ const Calculator = () => {
                 });
 
                 const result = await response.text();
-                setFirstOperand(result); // Pour un calcul en chaîne
+                setFirstOperand(result);
                 setCurrentInput("");
                 setOperator("");
             } catch (error) {
-                console.error("Erreur lors de l’appel API :", error);
+                console.error("Error during API call :", error);
             }
         }
     };
@@ -122,7 +105,49 @@ const Calculator = () => {
         setFirstOperand("");
         setCurrentInput("");
         setOperator("");
-        setIsResultDisplayed(false);
+    };
+
+    const btnHead = [
+        {value: "+/-", className: "otherBtn", onClick: toggleNegative},
+        {value: "?", className: "helpBtn", onClick: openHelpModal}]
+
+    const btnValues = [
+        [
+            {value: "7", onClick: () => updateOperand("7")},
+            {value: "8", onClick: () => updateOperand("8")},
+            {value: "9", onClick: () => updateOperand("9")},
+            {value:"+", className: "operation", onClick: () => handleOperator("+")}
+        ],
+        [
+            {value: "4", onClick: () => updateOperand("4")},
+            {value: "5", onClick: () => updateOperand("5")},
+            {value: "6", onClick: () => updateOperand("6")},
+            {value:"-", className: "operation", onClick: () => handleOperator("-")}
+        ],
+        [
+            {value: "1", onClick: () => updateOperand("1")},
+            {value: "2", onClick: () => updateOperand("2")},
+            {value: "3", onClick: () => updateOperand("3")},
+            {value:"*", className: "operation", onClick: () => handleOperator("*")}
+        ],
+        [
+            {value: "C", className: "cBtn", onClick: () => handleClear()},
+            {value: "0", onClick: () => updateOperand("0")},
+            {value: "=", className: "equals", onClick: () => handleEquals()},
+            {value:"/", className: "operation", onClick: () => handleOperator("/")}],
+    ];
+
+    const typesNumber = [
+        {value: "INTEGER", label: "Integer"},
+        {value: "RATIONAL", label: "Rational"},
+        {value: "REAL", label: "Real"},
+        {value: "COMPLEX", label: "Complex"},
+    ];
+
+    const specialButtonsByType = {
+        REAL: [{ value: ".", className: "specialBtn" }],
+        RATIONAL: [{ value: "/", className: "specialBtn" }],
+        COMPLEX: [{ value: ".", className: "specialBtn" }, { value: "i", className: "specialBtn" }],
     };
 
     const getSpecialButtons = () => specialButtonsByType[selectedType] || [];
@@ -135,7 +160,7 @@ const Calculator = () => {
                     key={btn.value}
                     className={btn.className}
                     value={btn.value}
-                    onClick={() => btn.value === "?" ? openHelpModal() : null}
+                    onClick={btn.onClick}
                 />
             ))}
         </Head>
@@ -158,7 +183,7 @@ const Calculator = () => {
                     key={btn.value}
                     className={btn.className}
                     value={btn.value}
-                    onClick={() => handleButtonClick(btn.value)}
+                    onClick={btn.onClick}
                 />
             ))}
         </ButtonBox>
