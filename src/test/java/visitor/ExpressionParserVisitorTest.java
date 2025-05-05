@@ -145,7 +145,7 @@ class ExpressionParserVisitorTest {
     }
 
     @Test
-     void testMatrixMultiplicationScalara() {
+     void testMatrixMultiplicationScalar() {
         Expression expr = StringParser.parse("[[1,2],[3,4]] * 5");
         assertNotNull(expr);
         assertInstanceOf(Times.class, expr);

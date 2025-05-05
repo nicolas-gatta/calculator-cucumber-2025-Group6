@@ -144,9 +144,12 @@ public class Evaluator extends Visitor {
                         accumulator = new MyNumber(accVal / currVal);
                     }
                 }
-                else if (accumulator instanceof MyNumber || current instanceof MyNumber ||
-                        accumulator instanceof RealNumber || current instanceof RealNumber ||
-                        accumulator instanceof RationalNumber || current instanceof RationalNumber) {
+                else if (accumulator instanceof MyNumber && current instanceof RealNumber ||
+                        accumulator instanceof MyNumber && current instanceof RationalNumber ||
+                        accumulator instanceof RealNumber && current instanceof MyNumber ||
+                        accumulator instanceof RealNumber && current instanceof RationalNumber ||
+                        accumulator instanceof RationalNumber && current instanceof MyNumber ||
+                        accumulator instanceof RationalNumber && current instanceof RealNumber) {
 
                     double accVal = getRealNumber(accumulator).getValue();
                     double currVal = getRealNumber(current).getValue();
@@ -181,9 +184,9 @@ public class Evaluator extends Visitor {
                     }
                 }
 
-                else if (accumulator instanceof MatrixExpression && current instanceof RealNumber) {
+                else if (accumulator instanceof MatrixExpression && (current instanceof RealNumber || current instanceof MyNumber || current instanceof RationalNumber)) {
                     Matrix accVal = ((MatrixExpression) accumulator).getMatrix();
-                    double currVal = ((RealNumber) current).getValue();
+                    double currVal = getRealNumber(current).getValue();
 
                     if (o instanceof Divides) {
                         accumulator = new MatrixExpression(accVal.divide(currVal));
@@ -192,8 +195,8 @@ public class Evaluator extends Visitor {
                     }
                 }
 
-                else if (accumulator instanceof RealNumber && current instanceof MatrixExpression) {
-                    double accVal = ((RealNumber) current).getValue();
+                else if ((accumulator instanceof RealNumber || accumulator instanceof MyNumber || accumulator instanceof RationalNumber) && current instanceof MatrixExpression) {
+                    double accVal = getRealNumber(accumulator).getValue();
                     Matrix currVal = ((MatrixExpression) accumulator).getMatrix();
 
                     if (o instanceof Divides) {
