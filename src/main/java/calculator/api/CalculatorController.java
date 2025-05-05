@@ -2,6 +2,7 @@ package calculator.api;
 
 import calculator.Calculator;
 import calculator.Expression;
+import calculator.IllegalConstruction;
 import calculator.numbers.ComplexNumber;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RationalNumber;
@@ -23,14 +24,18 @@ public class CalculatorController {
 
     @PostMapping("/calculate")
     public String calculate(@RequestBody CalculationRequest request) {
-        try {
-            Expression firtsOperand = parseInput(request.getFirstOperand(), request.getNumberType());
-            Expression secondOperand = parseInput(request.getSecondOperand(), request.getNumberType());
+        Expression firstOperand = parseInput(request.getFirstOperand(), request.getNumberType());
+        Expression secondOperand = parseInput(request.getSecondOperand(), request.getNumberType());
 
-            List<Expression> params = new ArrayList<>();
-            params.add(firtsOperand);
+        List<Expression> params = new ArrayList<>();
+        if(firstOperand != null) {
+            params.add(firstOperand);
+        }
+        if(secondOperand != null) {
             params.add(secondOperand);
+        }
 
+        try{
             Expression operation = switch (request.getOperator()) {
                 case "+" -> new Plus(params);
                 case "-" -> new Minus(params);
@@ -42,19 +47,21 @@ public class CalculatorController {
             Expression result = calculator.eval(operation);
 
             return result.toString();
-        } catch (Exception e) {
-            return "Error: " + e.getMessage();
+        }catch (IllegalConstruction e){
+            throw new IllegalArgumentException("Illegal construction: " + e.getMessage());
         }
-
 
     }
 
     private Expression parseInput(String input, String numberType) {
         switch (numberType) {
             case "INTEGER" -> {
-                return new MyNumber(Integer.parseInt(input));
+                return input == null ? null : (new MyNumber(Integer.parseInt(input)));
             }
             case "RATIONAL" -> {
+                if(input == null) {
+                    return null;
+                }
                 if (input.contains("/")) {
                     String[] parts = input.split("/");
                     return new RationalNumber(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
@@ -62,10 +69,10 @@ public class CalculatorController {
                 return new RationalNumber(Integer.parseInt(input), 1);
             }
             case "REAL" -> {
-                return new RealNumber(Double.parseDouble(input), 6);
+                return input == null ? null : (new RealNumber(Double.parseDouble(input), 6));
             }
             case "COMPLEX" -> {
-                return parseComplexNumber(input);
+                return input == null ? null : parseComplexNumber(input);
             }
             default -> throw new IllegalArgumentException("Invalid number type: " + numberType);
         }
