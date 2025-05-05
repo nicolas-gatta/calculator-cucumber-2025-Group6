@@ -39,5 +39,21 @@ class MatrixControllerTest {
                 .andExpect(content().string(expected));
     }
 
+    @Test
+    void testSubtract() throws Exception {
+        MatrixRequest request = new MatrixRequest();
+        request.setMatrix(MATRIX_A);
+        request.setMatrixB(MATRIX_B);
+        request.setOperator("subtract");
+
+        String expected = "[[-4.0,-4.0],[-4.0,-4.0]]";
+
+        mockMvc.perform(post("/api/matrix/calculate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(expected));
+    }
+
 
 }
