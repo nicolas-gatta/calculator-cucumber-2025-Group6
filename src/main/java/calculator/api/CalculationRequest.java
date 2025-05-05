@@ -6,7 +6,9 @@ public class CalculationRequest {
     private String secondOperand;
     private String numberType;
 
-    public CalculationRequest() {}
+    public CalculationRequest() {
+        // empty constructor
+    }
 
     public String getFirstOperand() { return firstOperand; }
     public void setFirstOperand(String firstOperand) { this.firstOperand = firstOperand; }
