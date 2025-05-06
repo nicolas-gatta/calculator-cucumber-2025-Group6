@@ -218,8 +218,6 @@ class MatrixTest {
         assertEquals("[[-9.0,9.0,18.0],[-10.0,16.0,28.0],[-16.0,22.0,34.0]]", result.toString());
     }
 
-
-
     @Test
     void testInverseOfIdentity() {
         Matrix m = new Matrix("[[1,0],[0,1]]");

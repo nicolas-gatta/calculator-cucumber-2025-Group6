@@ -260,6 +260,11 @@ public class Main {
 		Expression e;
 
 		try {
+
+			MyNumber number = new MyNumber(2);
+			RealNumber realNumber = new RealNumber(5);
+			RationalNumber rationalNumber = new RationalNumber(6, 2);
+
 			Matrix A = new Matrix("[[1,2],[3,4]]");
 			Matrix B = new Matrix("[[5,6],[7,8]]");
 			Matrix C = new Matrix("[[9,10,11],[12,13,14],[15,16,17]]");
@@ -285,6 +290,15 @@ public class Main {
 			c.print(e);
 
 			e = new Times(List.of(e5, e3));
+			c.print(e);
+
+			e = new Times(List.of(e1, number));
+			c.print(e);
+
+			e = new Times(List.of(e1, realNumber));
+			c.print(e);
+
+			e = new Times(List.of(e1, rationalNumber));
 			c.print(e);
 
 			e = new MatrixTranspose(List.of(e1));
@@ -370,6 +384,9 @@ public class Main {
 		c.print(e);
 
 		e = StringParser.parse("[[1,2,3],[4,5,6]] + [[1,2,3],[4,5,6]]");
+		c.print(e);
+
+		e = StringParser.parse("[[1,2,3],[4,5,6]] * 5");
 		c.print(e);
 
 		e = StringParser.parse("([[1,2,3],[4,5,6]])^T");
