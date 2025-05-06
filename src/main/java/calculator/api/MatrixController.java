@@ -117,6 +117,6 @@ public class MatrixController {
         if(value == null || value.isEmpty()) {
             return null;
         }
-        return new RealNumber(Double.parseDouble(value), 4);
+        return new RealNumber(Double.parseDouble(value));
     }
 }

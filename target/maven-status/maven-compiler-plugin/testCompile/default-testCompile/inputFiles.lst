@@ -1,3 +1,6 @@
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\api\CalculatorAPIApplicationTest.java
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\api\CalculatorControllerTest.java
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\api\MatrixControllerTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\CalculatorSteps.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\CucumberTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\gui\CalculatorAppTest.java
@@ -30,12 +33,14 @@ C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\con
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\EnergyConverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\ForceConverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\LengthConverterTest.java
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\NumberSystemConverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\PressureConverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\SpeedConverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\TemperatureConverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\TimeconverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\VolumeConverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\visitor\EquationCollectorVisitorTest.java
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\visitor\ExpressionParserVisitorTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\visitor\TestCountingVisitor.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\visitor\TestEvaluator.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\visitor\TestScientificNotationVisitor.java
