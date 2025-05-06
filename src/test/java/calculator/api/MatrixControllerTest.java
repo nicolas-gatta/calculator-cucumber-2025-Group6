@@ -53,27 +53,27 @@ class MatrixControllerTest {
                 .andExpect(content().string(expected));
     }
 
-//    static Stream<Arguments> operationProviderWithScalar() {
-//        return Stream.of(
-//                org.junit.jupiter.params.provider.Arguments.of("scalar", "[[2.0,4.0],[6.0,8.0]]"),
-//                org.junit.jupiter.params.provider.Arguments.of("divide", "[[0.5,1.0],[1.5,2.0]]")
-//                );
-//    }
-//
-//    @ParameterizedTest
-//    @MethodSource("operationProviderWithScalar")
-//    void testMatrixScalarOperations(String operator, String expected) throws Exception {
-//        MatrixRequest request = new MatrixRequest();
-//        request.setMatrix(MATRIX_A);
-//        request.setScalar(SCALAR);
-//        request.setOperator(operator);
-//
-//        mockMvc.perform(post("/api/matrix/calculate")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(request)))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string(expected));
-//    }
+    static Stream<Arguments> operationProviderWithScalar() {
+        return Stream.of(
+                org.junit.jupiter.params.provider.Arguments.of("scalar", "[[2.0,4.0],[6.0,8.0]]"),
+                org.junit.jupiter.params.provider.Arguments.of("divide", "[[0.5,1.0],[1.5,2.0]]")
+                );
+    }
+
+    @ParameterizedTest
+    @MethodSource("operationProviderWithScalar")
+    void testMatrixScalarOperations(String operator, String expected) throws Exception {
+        MatrixRequest request = new MatrixRequest();
+        request.setMatrix(MATRIX_A);
+        request.setScalar(SCALAR);
+        request.setOperator(operator);
+
+        mockMvc.perform(post("/api/matrix/calculate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(expected));
+    }
 
 
     static Stream<Arguments> operationProviderOneMatrix() {
@@ -134,7 +134,7 @@ class MatrixControllerTest {
     }
 
     @ParameterizedTest
-    @MethodSource("operationProvider")
+    @MethodSource("operationNullMatrixProvider")
     void testNullMatrixOperations(String operator) throws Exception {
         MatrixRequest request = new MatrixRequest();
         request.setMatrix(new double[][]{});
@@ -149,27 +149,27 @@ class MatrixControllerTest {
     }
 
 
-//    static Stream<Arguments> operationProviderWithScalarNull() {
-//        return Stream.of(
-//                org.junit.jupiter.params.provider.Arguments.of("scalar", ""),
-//                org.junit.jupiter.params.provider.Arguments.of("divide", null)
-//                );
-//    }
-//
-//    @ParameterizedTest
-//    @MethodSource("operationProviderWithScalarNull")
-//    void testMatrixScalarNullOperations(String operator, String scalar) throws Exception {
-//        MatrixRequest request = new MatrixRequest();
-//        request.setMatrix(MATRIX_A);
-//        request.setScalar(scalar);
-//        request.setOperator(operator);
-//
-//        mockMvc.perform(post("/api/matrix/calculate")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(request)))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(content().string(containsString("Error: Illegal construction:")));
-//    }
+    static Stream<Arguments> operationProviderWithScalarNull() {
+        return Stream.of(
+                org.junit.jupiter.params.provider.Arguments.of("scalar", ""),
+                org.junit.jupiter.params.provider.Arguments.of("divide", null)
+                );
+    }
+
+    @ParameterizedTest
+    @MethodSource("operationProviderWithScalarNull")
+    void testMatrixScalarNullOperations(String operator, String scalar) throws Exception {
+        MatrixRequest request = new MatrixRequest();
+        request.setMatrix(null);
+        request.setScalar(scalar);
+        request.setOperator(operator);
+
+        mockMvc.perform(post("/api/matrix/calculate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(containsString("Error: Illegal construction:")));
+    }
 
 
     static Stream<Arguments> operationProviderOneMatrixNull() {
