@@ -21,6 +21,7 @@ public enum ConverterTypeEnum {
 //            throw new IllegalArgumentException("converter value not found");
 //        }
 //        return converterValue;
+        if(str == null) return Optional.empty();
         try {
             return Optional.of(ConverterTypeEnum.valueOf(str.trim().toUpperCase()));
         } catch (IllegalArgumentException ex) {
