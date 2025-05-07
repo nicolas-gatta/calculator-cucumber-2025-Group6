@@ -138,6 +138,76 @@ public interface ExpressionParserListener extends ParseTreeListener {
 	 */
 	void exitVariableNumber(ExpressionParserParser.VariableNumberContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code EquationVariable}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void enterEquationVariable(ExpressionParserParser.EquationVariableContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EquationVariable}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void exitEquationVariable(ExpressionParserParser.EquationVariableContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code PrefixEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrefixEquationExpr(ExpressionParserParser.PrefixEquationExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code PrefixEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrefixEquationExpr(ExpressionParserParser.PrefixEquationExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code InfixEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void enterInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code InfixEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void exitInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ParensEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void enterParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ParensEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void exitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code PostfixEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void enterPostfixEquationExpr(ExpressionParserParser.PostfixEquationExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code PostfixEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void exitPostfixEquationExpr(ExpressionParserParser.PostfixEquationExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ExpressionParserParser#equationRightPart}.
+	 * @param ctx the parse tree
+	 */
+	void enterEquationRightPart(ExpressionParserParser.EquationRightPartContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ExpressionParserParser#equationRightPart}.
+	 * @param ctx the parse tree
+	 */
+	void exitEquationRightPart(ExpressionParserParser.EquationRightPartContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ExpressionParserParser#equation}.
 	 * @param ctx the parse tree
 	 */
@@ -157,6 +227,18 @@ public interface ExpressionParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLinearEquation(ExpressionParserParser.LinearEquationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterEquationExpr(ExpressionParserParser.EquationExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitEquationExpr(ExpressionParserParser.EquationExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code InfixOperationExpr}
 	 * labeled alternative in {@link ExpressionParserParser#expr}.
@@ -230,18 +312,6 @@ public interface ExpressionParserListener extends ParseTreeListener {
 	 */
 	void exitParensExpr(ExpressionParserParser.ParensExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code VarExpr}
-	 * labeled alternative in {@link ExpressionParserParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterVarExpr(ExpressionParserParser.VarExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code VarExpr}
-	 * labeled alternative in {@link ExpressionParserParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitVarExpr(ExpressionParserParser.VarExprContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code LinearExpr}
 	 * labeled alternative in {@link ExpressionParserParser#expr}.
 	 * @param ctx the parse tree
@@ -253,6 +323,18 @@ public interface ExpressionParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLinearExpr(ExpressionParserParser.LinearExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code VarExpr}
+	 * labeled alternative in {@link ExpressionParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarExpr(ExpressionParserParser.VarExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code VarExpr}
+	 * labeled alternative in {@link ExpressionParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarExpr(ExpressionParserParser.VarExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code MatrixExpr}
 	 * labeled alternative in {@link ExpressionParserParser#expr}.

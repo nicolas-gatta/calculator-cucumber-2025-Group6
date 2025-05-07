@@ -17,6 +17,7 @@ import calculator.operations.*;
 import expressionParser.ExpressionParserBaseVisitor;
 import expressionParser.ExpressionParserParser;
 
+
 import java.util.List;
 
 /**
@@ -31,6 +32,9 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
 
     /**
      * Converts a number context into the appropriate {@link Expression} subclass.
+     *
+     * @param number the ANTLR-generated context representing a number
+     * @return the corresponding {@link Expression} representation of the number
      */
     private Expression numberConverter(ExpressionParserParser.NumberContext number) {
         if (number.RATIONAL() != null) {
@@ -47,6 +51,9 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
 
     /**
      * Converts a number context into a {@link RealNumber}.
+     *
+     * @param number the ANTLR-generated context representing a number
+     * @return the corresponding {@link RealNumber} representation
      */
     private RealNumber numberToRealConverter(ExpressionParserParser.NumberContext number) {
         if (number.RATIONAL() != null) {
@@ -63,6 +70,12 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
 
     /**
      * Builds a binary operation expression using two operands and an operator.
+     *
+     * @param left     the left-hand operand
+     * @param right    the right-hand operand
+     * @param op       the operator (e.g., +, -, *, /)
+     * @param notation the notation style (e.g., INFIX, PREFIX, POSTFIX)
+     * @return the corresponding {@link Expression} representing the operation
      */
     private Expression operationExpr(Expression left, Expression right, String op, Notation notation) {
         return operationListExpr(List.of(left, right), op, notation);
@@ -70,6 +83,11 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
 
     /**
      * Builds an operation expression from a list of expressions and an operator.
+     *
+     * @param expressionList the list of expressions to operate on
+     * @param op             the operator (e.g., +, -, *, /)
+     * @param notation       the notation style (e.g., INFIX, PREFIX, POSTFIX)
+     * @return the corresponding {@link Expression} representing the operation
      */
     private Expression operationListExpr(List<Expression> expressionList, String op, Notation notation) {
         try{
@@ -87,15 +105,21 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
     }
 
     /**
-     * Starting point if there is parenthesis
+     * Visits a parenthesized expression and evaluates the inner expression.
+     *
+     * @param ctx the context representing the parenthesized expression
+     * @return the evaluated {@link Expression} inside the parentheses
      */
     @Override
     public Expression visitParensExpr(ExpressionParserParser.ParensExprContext ctx) {
-        return this.visit(ctx.expr());
+        return visit(ctx.expr());
     }
 
     /**
-     * Build the number using the correct class Expression
+     * Visits a number expression and converts it to its respective {@link Expression} form.
+     *
+     * @param ctx the context representing the number expression
+     * @return the {@link Expression} representation of the number
      */
     @Override
     public Expression visitNumberExpr(ExpressionParserParser.NumberExprContext ctx) {
@@ -103,7 +127,10 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
     }
 
     /**
-     * Starting point if there is parenthesis
+     * Visits a complex number expression and constructs a {@link ComplexNumber}.
+     *
+     * @param ctx the context representing the complex number
+     * @return the constructed {@link ComplexNumber}
      */
     @Override
     public Expression visitComplexExpr(ExpressionParserParser.ComplexExprContext ctx) {
@@ -114,7 +141,10 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
     }
 
     /**
-     * Build the operation following the infix rule
+     * Visits an Infix Operation expression and constructs a {@link Operation}.
+     *
+     * @param ctx the context representing the operation
+     * @return the constructed {@link Operation}
      */
     @Override
     public Expression visitInfixOperationExpr(ExpressionParserParser.InfixOperationExprContext ctx) {
@@ -125,7 +155,10 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
     }
 
     /**
-     * Build the operation following the prefix rule
+     * Visits a Prefix Operation expression and constructs a {@link Operation}.
+     *
+     * @param ctx the context representing the operation
+     * @return the constructed {@link Operation}
      */
     @Override
     public Expression visitPrefixOperationExpr(ExpressionParserParser.PrefixOperationExprContext ctx) {
@@ -142,12 +175,14 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         Expression left = visit(ctx.expr(0));
         Expression right = visit(ctx.expr(1));
 
-
         return operationExpr(left, right, op, Notation.PREFIX);
     }
 
     /**
-     * Build the operation following the postfix rule
+     * Visits a Postfix Operation expression and constructs a {@link Operation}.
+     *
+     * @param ctx the context representing the operation
+     * @return the constructed {@link Operation}
      */
     @Override
     public Expression visitPostOperationExpr(ExpressionParserParser.PostOperationExprContext ctx){
@@ -168,30 +203,124 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
     }
 
     /**
-     * Build the number variable using the correct class Expression
+     * Visits a Infix Operation expression and constructs a {@link Operation}.
+     *
+     * @param ctx the context representing the operation
+     * @return the constructed {@link Operation}
+     */
+    @Override
+    public Expression visitInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx) {
+        Expression left = visit(ctx.equationLeftPart(0));
+        Expression right = visit(ctx.equationLeftPart(1));
+        String op = ctx.op.getText();
+        return operationExpr(left, right, op, Notation.INFIX);
+    }
+
+    /**
+     * Visits a Postfix Operation expression and constructs a {@link Operation}.
+     *
+     * @param ctx the context representing the operation
+     * @return the constructed {@link Operation}
+     */
+    @Override
+    public Expression visitPostfixEquationExpr(ExpressionParserParser.PostfixEquationExprContext ctx) {
+        String op = ctx.op.getText();
+
+        if(ctx.equationLeftPart().size() >= 3){
+
+            List<Expression> arguments = ctx.equationLeftPart().stream()
+                    .map(this::visit)
+                    .toList();
+            return operationListExpr(arguments, op, Notation.POSTFIX);
+        }
+
+        Expression left = visit(ctx.equationLeftPart(0));
+        Expression right = visit(ctx.equationLeftPart(1));
+
+        return operationExpr(left, right, op, Notation.POSTFIX);
+    }
+
+    /**
+     * Visits a Prefix Operation expression and constructs a {@link Operation}.
+     *
+     * @param ctx the context representing the operation
+     * @return the constructed {@link Operation}
+     */
+    @Override
+    public Expression visitPrefixEquationExpr(ExpressionParserParser.PrefixEquationExprContext ctx) {
+        String op = ctx.op.getText();
+
+        if(ctx.equationLeftPart().size() >= 3){
+
+            List<Expression> arguments = ctx.equationLeftPart().stream()
+                    .map(this::visit)
+                    .toList();
+
+            return operationListExpr(arguments, op, Notation.PREFIX);
+        }
+        Expression left = visit(ctx.equationLeftPart(0));
+        Expression right = visit(ctx.equationLeftPart(1));
+
+
+        return operationExpr(left, right, op, Notation.PREFIX);
+    }
+
+    /**
+     * Visits Variable expression and constructs a {@link VariableExpression}.
+     *
+     * @param ctx the context representing the Variable
+     * @return the constructed {@link VariableExpression}
      */
     @Override
     public Expression visitVarExpr(ExpressionParserParser.VarExprContext ctx) {
-        String variable = ctx.variableNumber().VARIABLE().getText();
+        return visit(ctx.variableNumber());
+    }
 
-        if(ctx.variableNumber().number() == null){
+    /**
+     * Visits Variable expression and constructs a {@link VariableExpression}.
+     *
+     * @param ctx the context representing the Variable
+     * @return the constructed {@link VariableExpression}
+     */
+    @Override
+    public Expression visitEquationVariable(ExpressionParserParser.EquationVariableContext ctx) {
+        return visit(ctx.variableNumber());
+    }
+
+    /**
+     * Visits Variable expression and constructs a {@link VariableExpression}.
+     *
+     * @param ctx the context representing the Variable
+     * @return the constructed {@link VariableExpression}
+     */
+    @Override
+    public Expression visitVariableNumber(ExpressionParserParser.VariableNumberContext ctx) {
+        String variable = ctx.VARIABLE().getText();
+
+        if(ctx.number() == null){
             return new VariableExpression(variable);
         }
-        Expression number = numberConverter(ctx.variableNumber().number());
+        Expression number = numberConverter(ctx.number());
 
         return new VariableExpression(number, variable);
     }
 
     /**
-     * Build the matrix using the correct class Expression
+     * Visits Matrix expression and constructs a {@link MatrixExpression}.
+     *
+     * @param ctx the context representing the Matrix
+     * @return the constructed {@link MatrixExpression}
      */
     @Override
     public Expression visitMatrixExpr(ExpressionParserParser.MatrixExprContext ctx) {
-        return new MatrixExpression(new Matrix(ctx.getText()));
+        return visit(ctx.matrix());
     }
 
     /**
-     * Build the matrix using the correct class Expression (Mostly for matrix with transpose, identity and inverted)
+     * Visits Matrix expression and constructs a {@link MatrixExpression}.
+     *
+     * @param ctx the context representing the Matrix
+     * @return the constructed {@link MatrixExpression}
      */
     @Override
     public Expression visitMatrix(ExpressionParserParser.MatrixContext ctx) {
@@ -199,7 +328,12 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
     }
 
     /**
-     * Build the operation related to the matrix using the correct class Expression
+     * Build the operation related to the matrix using the correct class {@link MatrixTranspose}{@link MatrixIdentity}{@link MatrixInverted}
+     *
+     * @param matrix A matrix
+     * @param op An operation
+     * @param notation Which kind of notation to use
+     * @return the constructed {@link MatrixTranspose}{@link MatrixIdentity}{@link MatrixInverted}
      */
     private Expression matrixOperator(Expression matrix, String op, Notation notation) {
         try{
@@ -216,7 +350,10 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
     }
 
     /**
-     * Build the operation related to the matrix following the prefix rule (Mostly for matrix with transpose, identity and inverted)
+     * Visits a Prefix Operation Matrix expression and constructs a {@link MatrixTranspose}{@link MatrixIdentity}{@link MatrixInverted}.
+     *
+     * @param ctx the context representing the matrix operation
+     * @return the constructed {@link MatrixTranspose}{@link MatrixIdentity}{@link MatrixInverted}
      */
     @Override
     public Expression visitMatrixPrefix(ExpressionParserParser.MatrixPrefixContext ctx) {
@@ -224,7 +361,10 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
     }
 
     /**
-     * Build the operation related to the matrix following the postfix rule (Mostly for matrix with transpose, identity and inverted)
+     * Visits a Prefix Matrix Operation expression and constructs a {@link MatrixTranspose}{@link MatrixIdentity}{@link MatrixInverted}.
+     *
+     * @param ctx the context representing the matrix operation
+     * @return the constructed {@link MatrixTranspose}{@link MatrixIdentity}{@link MatrixInverted}
      */
     @Override
     public Expression visitMatrixPostfix(ExpressionParserParser.MatrixPostfixContext ctx) {
@@ -232,25 +372,67 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
     }
 
     /**
-     * Starting point for the matrix
+     * Visits a Prefix Matrix Operation expression and constructs a {@link MatrixTranspose}{@link MatrixIdentity}{@link MatrixInverted}.
+     *
+     * @param ctx the context representing the matrix operation
+     * @return the constructed {@link MatrixTranspose}{@link MatrixIdentity}{@link MatrixInverted}
      */
     @Override
     public Expression visitMatrixFunctionExpr(ExpressionParserParser.MatrixFunctionExprContext ctx) {
-        return this.visit(ctx.matrixFunction());
+        return visit(ctx.matrixFunction());
     }
 
     /**
-     * Build the equation that will later compose the Linear Equation System
+     * Visits an Equation Operation expression and constructs a {@link EquationExpression}.
+     *
+     * @param ctx the context representing the Equation
+     * @return the constructed {@link EquationExpression}
+     */
+    @Override
+    public Expression visitEquationExpr(ExpressionParserParser.EquationExprContext ctx) {
+        return visit(ctx.equation());
+    }
+
+    /**
+     * Visits an Equation Operation expression and constructs a {@link Operation}.
+     *
+     * @param ctx the context representing the Equation left part
+     * @return the constructed {@link EquationExpression}
      */
     @Override
     public Expression visitEquation(ExpressionParserParser.EquationContext ctx) {
-        Expression left = visit(ctx.expr(0));
-        Expression right = visit(ctx.expr(1));
+        Expression left = visit(ctx.equationLeftPart());
+        Expression right = visit(ctx.equationRightPart());
         return new EquationExpression(new Equation(left, right));
     }
 
     /**
-     * Build the linear Esuation System
+     * Visits an Equation Operation expression and constructs a {@link Operation}.
+     *
+     * @param ctx the context representing the Equation left part
+     * @return the constructed {@link Operation}
+     */
+    @Override
+    public Expression visitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx) {
+        return visit(ctx.equationLeftPart());
+    }
+
+    /**
+     * Visits an Equation Operation expression and constructs a {@link EquationExpression}.
+     *
+     * @param ctx the context representing the matrix operation
+     * @return the constructed {@link EquationExpression}
+     */
+    @Override
+    public Expression visitEquationRightPart(ExpressionParserParser.EquationRightPartContext ctx) {
+        return numberConverter(ctx.number());
+    }
+
+    /**
+     * Visits an Linear Equation expression and constructs a {@link LinearEquationSystemExpression}.
+     *
+     * @param ctx the context representing the Linear System
+     * @return the constructed {@link LinearEquationSystemExpression}
      */
     @Override
     public Expression visitLinearExpr(ExpressionParserParser.LinearExprContext ctx) {

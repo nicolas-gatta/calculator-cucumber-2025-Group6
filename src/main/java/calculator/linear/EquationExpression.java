@@ -17,6 +17,9 @@ public class EquationExpression implements Expression {
      * @param equation the equation to wrap
      */
     public EquationExpression(Equation equation) {
+        if(equation == null){
+            throw new NullPointerException("equation is null");
+        }
         this.equation = equation;
     }
 

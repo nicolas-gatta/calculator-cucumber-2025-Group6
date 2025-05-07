@@ -48,7 +48,7 @@ public final class MatrixIdentity extends Operation{
 
     @Override
     public Matrix opMatrix(Matrix l, double r) {
-        throw new ArithmeticException("Operation only for Matrix");
+        throw new ArithmeticException("Operation only for ONE Matrix");
     }
 
     @Override

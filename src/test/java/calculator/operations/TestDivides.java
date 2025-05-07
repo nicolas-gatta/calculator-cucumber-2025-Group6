@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import calculator.Expression;
 import calculator.IllegalConstruction;
 import calculator.Notation;
+import calculator.matrix.Matrix;
 import calculator.numbers.MyNumber;
 import org.junit.jupiter.api.*;
 import calculator.numbers.RationalNumber;	
@@ -23,9 +24,21 @@ class TestDivides {
 	private final int value2 = 6;
 	private Divides op;
 	private List<Expression> params;
+	private Matrix matrix1;
+	private Matrix matrix2;
+
 
 	@BeforeEach
 	void setUp() {
+		matrix1 = new Matrix(new double[][]{
+				{1, 2},
+				{3, 4}
+		});
+		matrix2 = new Matrix(new double[][]{
+				{-1, -2},
+				{-3, -4}
+		});
+
 		  params = Arrays.asList(new MyNumber(value1), new MyNumber(value2));
 		  try {
 		  	op = new Divides(params);
@@ -205,5 +218,20 @@ class TestDivides {
 			assertNotEquals(prefixResult, postfixResult);
 		}
 		catch(IllegalConstruction e) { fail(); }
+	}
+
+	@Test
+	void testOpMatrix_Matrix() {
+		assertThrows(ArithmeticException.class, () -> op.opMatrix(matrix1, matrix2));
+	}
+
+	@Test
+	void testOpMatrix_Scalar() {
+		assertEquals(new Matrix(new double[][]{{0.5,1},{1.5,2}}).toString(),op.opMatrix(matrix1, 2).toString());
+	}
+
+	@Test
+	void testOpMatrix() {
+		assertThrows(ArithmeticException.class, () -> op.opMatrix(matrix1));
 	}
 }

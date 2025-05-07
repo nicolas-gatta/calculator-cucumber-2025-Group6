@@ -1,6 +1,7 @@
 package calculator.linear;
 
 import calculator.numbers.MyNumber;
+import calculator.numbers.RationalNumber;
 import calculator.numbers.RealNumber;
 import org.junit.jupiter.api.Test;
 
@@ -9,8 +10,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class VariableExpressionTest {
 
     @Test
-    public void testConstructor(){
+    public void testConstructorInteger(){
         MyNumber coeff = new MyNumber(3);
+
+        assertDoesNotThrow(() -> new VariableExpression(coeff, "x"));
+    }
+
+    @Test
+    public void testConstructorRealNumber(){
+        RealNumber coeff = new RealNumber(3);
+
+        assertDoesNotThrow(() -> new VariableExpression(coeff, "x"));
+    }
+
+    @Test
+    public void testConstructorRationalNumber(){
+        RationalNumber coeff = new RationalNumber(3, 8);
 
         assertDoesNotThrow(() -> new VariableExpression(coeff, "x"));
     }

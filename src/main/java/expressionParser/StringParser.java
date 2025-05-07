@@ -3,6 +3,7 @@ package expressionParser;
 import calculator.Expression;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 import visitor.ExpressionParserVisitor;
 
@@ -16,7 +17,6 @@ import visitor.ExpressionParserVisitor;
  */
 public class StringParser {
 
-
     /**
      * Parses a string into an {@link Expression} tree using the ANTLR lexer, parser,
      * and a custom visitor.
@@ -29,6 +29,10 @@ public class StringParser {
      */
     public static Expression parse(String input){
 
+        if (input == null){
+            throw new NullPointerException("Input cannot be null");
+        }
+
         ExpressionParserLexer lexer = new ExpressionParserLexer(CharStreams.fromString(input));
 
         ExpressionParserParser parser = new ExpressionParserParser(new CommonTokenStream(lexer));
@@ -37,6 +41,12 @@ public class StringParser {
 
         ExpressionParserVisitor visitor = new ExpressionParserVisitor();
 
-        return visitor.visit(tree);
+        Expression expression = visitor.visit(tree);
+
+        if (expression == null){
+            throw new RecognitionException("Expression cannot be null", parser, parser.getInputStream(), parser.getContext());
+        }
+
+        return expression;
     }
 }
