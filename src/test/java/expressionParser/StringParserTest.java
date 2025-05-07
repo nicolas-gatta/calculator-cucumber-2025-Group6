@@ -24,7 +24,7 @@ class StringParserTest {
     }
 
     @Test
-    void testValidParenthesesExpression() {
+    void testInvalidParenthesesExpression() {
         String input = "(x + 2 = 5)";
         assertThrows(RecognitionException.class, () -> StringParser.parse(input));
     }
