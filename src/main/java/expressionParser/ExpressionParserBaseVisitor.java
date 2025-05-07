@@ -2,6 +2,8 @@
 package expressionParser;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
+import javax.annotation.processing.Generated;
+
 /**
  * This class provides an empty implementation of {@link ExpressionParserVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
@@ -11,6 +13,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * operations with no return type.
  */
 @SuppressWarnings("CheckReturnValue")
+@Generated("org.antlr")
 public class ExpressionParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements ExpressionParserVisitor<T> {
 	/**
 	 * {@inheritDoc}

@@ -15,6 +15,7 @@ import visitor.ExpressionParserVisitor;
  * representation of an expression (e.g., "3 + 4", "(x + 2 = 5)", or "solve(x + y = 3, x - y = 1)")
  * and returns the corresponding {@link Expression} tree.</p>
  */
+
 public class StringParser {
 
     /**

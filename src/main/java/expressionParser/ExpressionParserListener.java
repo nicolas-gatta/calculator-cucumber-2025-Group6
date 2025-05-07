@@ -2,10 +2,14 @@
 package expressionParser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
+import javax.annotation.processing.Generated;
+
 /**
  * This interface defines a complete listener for a parse tree produced by
  * {@link ExpressionParserParser}.
  */
+
+@Generated("org.antlr")
 public interface ExpressionParserListener extends ParseTreeListener {
 	/**
 	 * Enter a parse tree produced by {@link ExpressionParserParser#operator}.
