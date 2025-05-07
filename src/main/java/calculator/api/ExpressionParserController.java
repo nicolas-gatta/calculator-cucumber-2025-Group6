@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExpressionParserController {
 
 
-    @PostMapping("/evaluate")
+    @PostMapping(value ="/evaluate", produces = "text/plain")
     public String evalExpression(@RequestBody String expression) {
         return StringParser.parse(expression).toString();
     }

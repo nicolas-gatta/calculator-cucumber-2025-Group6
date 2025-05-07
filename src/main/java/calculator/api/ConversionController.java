@@ -12,7 +12,7 @@ import java.util.Locale;
 @RequestMapping("/api/conversion")
 public class ConversionController {
 
-    @PostMapping("/convert")
+    @PostMapping(value ="/convert", produces = "text/plain")
     public String convert(@RequestBody ConversionRequest request) {
         try{
             String conversionType = request.getConversionType();

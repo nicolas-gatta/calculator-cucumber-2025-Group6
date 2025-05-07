@@ -22,7 +22,7 @@ public class CalculatorController {
 
     Calculator calculator = new Calculator();
 
-    @PostMapping("/calculate")
+    @PostMapping(value ="/calculate", produces = "text/plain")
     public String calculate(@RequestBody CalculationRequest request) {
         Expression firstOperand = parseInput(request.getFirstOperand(), request.getNumberType());
         Expression secondOperand = parseInput(request.getSecondOperand(), request.getNumberType());
