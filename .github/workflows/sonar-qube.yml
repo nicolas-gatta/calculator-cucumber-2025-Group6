@@ -6,10 +6,10 @@ on:
 #  pull_request:
 #    types: [opened, synchronize, reopened]
   workflow_dispatch:
-  workflow_run:
-    workflows: [ "Java CI with Maven" ]
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: [ "Java CI with Maven" ]
+  #   types:
+  #     - completed
 
 jobs:
   build:
