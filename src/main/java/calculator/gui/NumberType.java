@@ -23,7 +23,22 @@ public enum NumberType {
     /**
      * Represents complex numbers (numbers with real and imaginary parts).
      */
-    COMPLEX("Complex");
+    COMPLEX("Complex"),
+    
+    /**
+     * Represents linear equation systems.
+     */
+    LINEAR_SYSTEM("Linear System"),
+    
+    /**
+     * Represents matrices for matrix operations.
+     */
+    MATRIX("Matrix"),
+    
+    /**
+     * Represents unit conversions.
+     */
+    UNIT_CONVERTER("Unit Converter");
     
     private final String displayName;
     

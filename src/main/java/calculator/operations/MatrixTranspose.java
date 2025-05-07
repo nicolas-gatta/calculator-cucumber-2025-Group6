@@ -17,7 +17,7 @@ public final class MatrixTranspose extends Operation{
 
     public MatrixTranspose(List<Expression> elist, Notation n) throws IllegalConstruction {
         super(elist, n);
-        symbol = "^T";
+        symbol = "T";
         neutral = 0;
     }
 

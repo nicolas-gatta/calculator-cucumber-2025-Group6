@@ -1,0 +1,19 @@
+.dropdown{
+    display: flex;
+    align-items: center; /* Aligne verticalement */
+    gap: 10px; /* Espace entre le label et le select */
+    flex: 1; /* (optionnel) Prend toute la place disponible */
+}
+
+.dropdown-label {
+    /* Tu peux ajouter un peu de style ici si tu veux */
+    font-weight: bold;
+    color: white;
+}
+
+.dropdown-select {
+    flex: 1; /* Le select grandit pour occuper l'espace restant */
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}

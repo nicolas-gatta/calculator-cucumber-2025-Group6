@@ -34,6 +34,11 @@ public class RationalNumber implements Expression {
         return b == 0 ? Math.abs(a) : gcd(b, a % b);
     }
 
+    // Method to calculate the greatest common divisor
+    public double getValue() {
+        return (double) numerator /denominator;
+    }
+
     /**
      * Gets the numerator of the rational number.
      * @return The numerator.

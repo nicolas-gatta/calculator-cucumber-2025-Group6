@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import calculator.Expression;
 import calculator.IllegalConstruction;
 import calculator.Notation;
+import calculator.matrix.Matrix;
 import calculator.numbers.MyNumber;
 import org.junit.jupiter.api.*;
 import calculator.numbers.RationalNumber;
@@ -21,12 +22,23 @@ class TestPlus {
 	private final int value2 = 6;
 	private Plus op;
 	private List<Expression> params;
+	private Matrix matrix1;
+	private Matrix matrix2;
 
 	@BeforeEach
 	void setUp() {
-		  params = new ArrayList<>(Arrays.asList(new MyNumber(value1),new MyNumber(value2)));
-		  try { op = new Plus(params); }
-		  catch(IllegalConstruction e) { fail(); }
+		matrix1 = new Matrix(new double[][]{
+				{1, 2},
+				{3, 4}
+		});
+		matrix2 = new Matrix(new double[][]{
+				{-1, -2},
+				{-3, -4}
+		});
+
+		params = new ArrayList<>(Arrays.asList(new MyNumber(value1),new MyNumber(value2)));
+		try { op = new Plus(params); }
+		catch(IllegalConstruction e) { fail(); }
 	}
 
 	@Test
@@ -173,6 +185,21 @@ class TestPlus {
 			assertNotEquals(prefixResult, postfixResult);
 		}
 		catch(IllegalConstruction e) { fail(); }
+	}
+
+	@Test
+	void testOpMatrix_Matrix() {
+		assertEquals(new Matrix(new double[][]{{0,0},{0,0}}).toString(),op.opMatrix(matrix1, matrix2).toString());
+	}
+
+	@Test
+	void testOpMatrix_Scalar() {
+		assertThrows(ArithmeticException.class, () -> op.opMatrix(matrix1, 5));
+	}
+
+	@Test
+	void testOpMatrix() {
+		assertThrows(ArithmeticException.class, () -> op.opMatrix(matrix1));
 	}
 
 }

@@ -16,6 +16,9 @@ public class Equation {
      * @param right The right-hand side of the equation.
      */
     public Equation(Expression left, Expression right){
+        if(left == null || right == null){
+            throw new NullPointerException("Left and Right cannot be null");
+        }
         this.left = left;
         this.right = right;
     }

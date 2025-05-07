@@ -17,6 +17,12 @@ import java.util.Hashtable;
 
 import java.util.*;
 
+/**
+ * EquationCollectorVisitor is a visitor implementation that collects information from
+ * linear equations and systems of linear equations, transforming them into matrix form.
+ * It supports the extraction of variable coefficients, equation results, and generates
+ * matrices representing the linear system for further processing.
+ */
 public class EquationCollectorVisitor extends Visitor {
 
     private final Set<String> allVariables = new TreeSet<>();
@@ -28,10 +34,21 @@ public class EquationCollectorVisitor extends Visitor {
 
     private String currentSymbol = "";
 
+    /**
+     * Returns a list of all variables in the system.
+     *
+     * @return a list of all variable names.
+     */
     public List<String> getAllVariables() {
         return new ArrayList<>(allVariables);
     }
 
+
+    /**
+     * Build a matrix representing the right-hand values of the equations.
+     *
+     * @return a Matrix containing the right-hand side values.
+     */
     public Matrix getEquationEqualsValuesAsMatrix() {
         int rows = equationEqualsValues.size();
         int cols = 1;
@@ -42,6 +59,11 @@ public class EquationCollectorVisitor extends Visitor {
         return new Matrix(data);
     }
 
+    /**
+     * Build a matrix representing the left-hand values of the equations.
+     *
+     * @return a Matrix containing the left-hand side values.
+     */
     public Matrix getEquationSystemAsMatrix() {
         int rows = equationsValues.size();
         int cols = equationsValues.get(0).size();
@@ -52,14 +74,6 @@ public class EquationCollectorVisitor extends Visitor {
             }
         }
         return new Matrix(data);
-    }
-
-    public EquationCollectorVisitor() {
-    }
-
-    @Override
-    public void visit(MyNumber n) {
-        equationEqualsValues.add(n.getValue().doubleValue());
     }
 
     @Override
@@ -85,31 +99,36 @@ public class EquationCollectorVisitor extends Visitor {
     }
 
     @Override
+    public void visit(MyNumber n) {
+        equationEqualsValues.add(n.getValue().doubleValue());
+    }
+
+    @Override
     public void visit(RealNumber n) {
         equationEqualsValues.add(n.getValue());
     }
 
     @Override
     public void visit(ComplexNumber n) {
-        equationEqualsValues.add(n.getReal());
+        throw new IllegalArgumentException("Linear Equation does not support Complex Number");
     }
 
     @Override
     public void visit(RationalNumber n) {
-        equationEqualsValues.add(new RealNumber(n.getNumerator()/(double)n.getDenominator()).getValue());
+        equationEqualsValues.add(n.getValue());
     }
 
     @Override
     public void visit(MatrixExpression n) {
-
+        throw new IllegalArgumentException("Linear Equation does not support matrix operations");
     }
 
     @Override
     public void visit(VariableExpression v) {
         allVariables.add(v.getRight());
-        MyNumber value = currentSymbol == "-" ? new MyNumber(v.getLeft().getValue() * -1) : v.getLeft();
-        value = previousSymbol == "-" ? new MyNumber(value.getValue() * -1) : value;
-        storeVariables.put(v.getRight(), value.getValue().doubleValue());
+        double value = Objects.equals(currentSymbol, "-") ? v.getLeft().getValue() * -1 : v.getLeft().getValue();
+        value = Objects.equals(previousSymbol, "-") ? value * -1 : value;
+        storeVariables.put(v.getRight(), value);
     }
 
     @Override
@@ -118,6 +137,8 @@ public class EquationCollectorVisitor extends Visitor {
         eq.getEquation().getRight().accept(this);
     }
 
+
+    @Override
     public void visit(LinearEquationSystemExpression l){
 
         List<Dictionary<String, Double>> variablesValues = new ArrayList<>();
