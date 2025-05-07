@@ -1560,7 +1560,7 @@ public class CalculatorUI {
                 } else {
                     formattedResult = String.format("%.6f", result);
                     // Delete trailing zeros
-                    formattedResult = formattedResult.replaceAll("0+$", "0");
+                    formattedResult = formattedResult.stripTrailing();
                     if (formattedResult.endsWith(".0")) {
                         formattedResult = formattedResult.substring(0, formattedResult.length() - 2);
                     }
