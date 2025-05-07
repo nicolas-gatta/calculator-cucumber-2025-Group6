@@ -161,13 +161,13 @@ public class ExpressionParserBaseListener implements ExpressionParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx) { }
+	@Override public void enterEquationVariable(ExpressionParserParser.EquationVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx) { }
+	@Override public void exitEquationVariable(ExpressionParserParser.EquationVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -192,6 +192,18 @@ public class ExpressionParserBaseListener implements ExpressionParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

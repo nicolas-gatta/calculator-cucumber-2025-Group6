@@ -88,12 +88,12 @@ public interface ExpressionParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariableNumber(ExpressionParserParser.VariableNumberContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ParensEquationExpr}
+	 * Visit a parse tree produced by the {@code EquationVariable}
 	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx);
+	T visitEquationVariable(ExpressionParserParser.EquationVariableContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code PrefixEquationExpr}
 	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
@@ -108,6 +108,13 @@ public interface ExpressionParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ParensEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code PostfixEquationExpr}
 	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.

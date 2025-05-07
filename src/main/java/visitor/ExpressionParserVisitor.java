@@ -17,6 +17,7 @@ import calculator.operations.*;
 import expressionParser.ExpressionParserBaseVisitor;
 import expressionParser.ExpressionParserParser;
 
+
 import java.util.List;
 
 /**
@@ -142,7 +143,6 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         Expression left = visit(ctx.expr(0));
         Expression right = visit(ctx.expr(1));
 
-
         return operationExpr(left, right, op, Notation.PREFIX);
     }
 
@@ -167,11 +167,68 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
         return operationExpr(left, right, op, Notation.POSTFIX);
     }
 
+    @Override
+    public Expression visitInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx) {
+        Expression left = visit(ctx.equationLeftPart(0));
+        Expression right = visit(ctx.equationLeftPart(1));
+        String op = ctx.op.getText();
+        return operationExpr(left, right, op, Notation.INFIX);
+    }
+
+    @Override
+    public Expression visitPostfixEquationExpr(ExpressionParserParser.PostfixEquationExprContext ctx) {
+        String op = ctx.op.getText();
+
+        if(ctx.equationLeftPart().size() >= 3){
+
+            List<Expression> arguments = ctx.equationLeftPart().stream()
+                    .map(this::visit)
+                    .toList();
+            return operationListExpr(arguments, op, Notation.POSTFIX);
+        }
+
+        Expression left = visit(ctx.equationLeftPart(0));
+        Expression right = visit(ctx.equationLeftPart(1));
+
+        return operationExpr(left, right, op, Notation.POSTFIX);
+    }
+
+    @Override
+    public Expression visitPrefixEquationExpr(ExpressionParserParser.PrefixEquationExprContext ctx) {
+        String op = ctx.op.getText();
+
+        if(ctx.equationLeftPart().size() >= 3){
+
+            List<Expression> arguments = ctx.equationLeftPart().stream()
+                    .map(this::visit)
+                    .toList();
+
+            return operationListExpr(arguments, op, Notation.PREFIX);
+        }
+        Expression left = visit(ctx.equationLeftPart(0));
+        Expression right = visit(ctx.equationLeftPart(1));
+
+
+        return operationExpr(left, right, op, Notation.PREFIX);
+    }
+
     /**
      * Build the number variable using the correct class Expression
      */
     @Override
     public Expression visitVarExpr(ExpressionParserParser.VarExprContext ctx) {
+        String variable = ctx.variableNumber().VARIABLE().getText();
+
+        if(ctx.variableNumber().number() == null){
+            return new VariableExpression(variable);
+        }
+        Expression number = numberConverter(ctx.variableNumber().number());
+
+        return new VariableExpression(number, variable);
+    }
+
+    @Override
+    public Expression visitEquationVariable(ExpressionParserParser.EquationVariableContext ctx) {
         String variable = ctx.variableNumber().VARIABLE().getText();
 
         if(ctx.variableNumber().number() == null){
@@ -244,9 +301,24 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
      */
     @Override
     public Expression visitEquationExpr(ExpressionParserParser.EquationExprContext ctx) {
-        Expression left = visit(ctx.equation().equationLeftPart());
-        Expression right = visit(ctx.equation().equationRightPart());
+        return visit(ctx.equation());
+    }
+
+    @Override
+    public Expression visitEquation(ExpressionParserParser.EquationContext ctx) {
+        Expression left = visit(ctx.equationLeftPart());
+        Expression right = visit(ctx.equationRightPart());
         return new EquationExpression(new Equation(left, right));
+    }
+
+    @Override
+    public Expression visitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx) {
+        return visit(ctx.equationLeftPart());
+    }
+
+    @Override
+    public Expression visitEquationRightPart(ExpressionParserParser.EquationRightPartContext ctx) {
+        return numberConverter(ctx.number());
     }
 
     /**

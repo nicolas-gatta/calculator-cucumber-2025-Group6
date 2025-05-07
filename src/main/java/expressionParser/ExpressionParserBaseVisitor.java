@@ -102,7 +102,7 @@ public class ExpressionParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEquationVariable(ExpressionParserParser.EquationVariableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -117,6 +117,13 @@ public class ExpressionParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> 
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

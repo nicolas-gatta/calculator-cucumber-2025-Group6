@@ -44,8 +44,6 @@ public class StringParser {
 
         Expression expression = visitor.visit(tree);
 
-        System.out.println(expression);
-
         if (expression == null){
             throw new RecognitionException("Expression cannot be null", parser, parser.getInputStream(), parser.getContext());
         }

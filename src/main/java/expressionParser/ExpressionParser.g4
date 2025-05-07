@@ -29,10 +29,11 @@ matrixFunction: '('? matrix ')'? matrixOperator # MatrixPostfix
 
 // Linear Equation
 variableNumber: number? VARIABLE ;
-equationLeftPart: '(' equationLeftPart ')'                                  #ParensEquationExpr
-                | op = operator '(' variableNumber(',' variableNumber)* ')' #PrefixEquationExpr
-                | variableNumber (op = operator variableNumber)*            #InfixEquationExpr
-                | '(' variableNumber (',' variableNumber)*')' op = operator #PostfixEquationExpr
+equationLeftPart: '(' equationLeftPart ')'                                      #ParensEquationExpr
+                | op = operator '(' equationLeftPart(',' equationLeftPart)* ')' #PrefixEquationExpr
+                | equationLeftPart op = operator equationLeftPart               #InfixEquationExpr
+                | '(' equationLeftPart (',' equationLeftPart)*')' op = operator #PostfixEquationExpr
+                | variableNumber                                                #EquationVariable
                 ;
 
 equationRightPart: number;

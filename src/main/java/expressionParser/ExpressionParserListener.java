@@ -138,17 +138,17 @@ public interface ExpressionParserListener extends ParseTreeListener {
 	 */
 	void exitVariableNumber(ExpressionParserParser.VariableNumberContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ParensEquationExpr}
+	 * Enter a parse tree produced by the {@code EquationVariable}
 	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
 	 * @param ctx the parse tree
 	 */
-	void enterParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx);
+	void enterEquationVariable(ExpressionParserParser.EquationVariableContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ParensEquationExpr}
+	 * Exit a parse tree produced by the {@code EquationVariable}
 	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
 	 * @param ctx the parse tree
 	 */
-	void exitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx);
+	void exitEquationVariable(ExpressionParserParser.EquationVariableContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code PrefixEquationExpr}
 	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
@@ -173,6 +173,18 @@ public interface ExpressionParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ParensEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void enterParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ParensEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 */
+	void exitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code PostfixEquationExpr}
 	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.

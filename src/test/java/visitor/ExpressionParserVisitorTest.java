@@ -210,7 +210,7 @@ class ExpressionParserVisitorTest {
 
     @Test
      void testLinearEquationSystemParsing() {
-        Expression expr = StringParser.parse("solve((x + y = 5), (x - y = 1))");
+        Expression expr = StringParser.parse("solve((x + y) = 5, (x - y) = 1)");
         assertInstanceOf(LinearEquationSystemExpression.class, expr);
         assertEquals(2, ((LinearEquationSystemExpression) expr).getSystem().size());
     }
