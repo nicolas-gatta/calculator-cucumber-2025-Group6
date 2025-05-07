@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/linearEquation")
 public class LinearEquationController {
 
-    @PostMapping("/solve")
+    @PostMapping(value ="/solve", produces = "text/plain")
     public String solveLinearSystem(@RequestBody LinearEquationRequest request) {
         try {
             Matrix matrixA = new Matrix(request.getCoefficients());

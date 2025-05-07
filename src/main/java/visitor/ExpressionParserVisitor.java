@@ -44,9 +44,8 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
             return new RealNumber(Double.parseDouble(number.REAL().getText()));
         } else if (number.INT() != null){
             return new MyNumber(Integer.parseInt(number.INT().getText()));
-        }else{
-            return null;
         }
+        throw new NullPointerException("Number is null");
     }
 
     /**
@@ -61,11 +60,10 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
             return new RealNumber(Double.parseDouble(parts[0]) / Double.parseDouble(parts[1]));
         } else if (number.REAL() != null) {
             return new RealNumber(Double.parseDouble(number.REAL().getText()));
-        } else if (number.INT() != null){
+        } else if (number.INT() != null) {
             return new RealNumber(Integer.parseInt(number.INT().getText()));
-        }else{
-            return null;
         }
+        throw new NullPointerException("Number is null");
     }
 
     /**

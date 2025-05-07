@@ -21,7 +21,7 @@ public class MatrixController {
 
     Calculator calculator = new Calculator();
 
-    @PostMapping("/calculate")
+    @PostMapping(value = "/calculate", produces = "text/plain")
     public String calculate(@RequestBody MatrixRequest request) {
         Expression firstMatrix = parseMatrix(request.getMatrix());
         List<Expression> params = new ArrayList<>();

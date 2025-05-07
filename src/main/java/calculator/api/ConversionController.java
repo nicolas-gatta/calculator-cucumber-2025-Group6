@@ -12,7 +12,7 @@ import java.util.Locale;
 @RequestMapping("/api/conversion")
 public class ConversionController {
 
-    @PostMapping("/convert")
+    @PostMapping(value ="/convert", produces = "text/plain")
     public String convert(@RequestBody ConversionRequest request) {
         try{
             String conversionType = request.getConversionType();
@@ -39,7 +39,7 @@ public class ConversionController {
         if(Math.abs(result) < 0.0001 || Math.abs(result) > 1000) {
             return String.format(Locale.US, "%.6e", result);
         } else {
-            return String.format(Locale.US, "%.6f", result).replaceAll("0+$", "0");
+            return String.format(Locale.US, "%.6f", result).replaceAll("^(\\d+\\.\\d*?[0-9])0+$", "$1");
         }
     }
 }

@@ -11,6 +11,7 @@ import calculator.numbers.ComplexNumber;
 import calculator.numbers.RationalNumber;
 import calculator.matrix.MatrixExpression;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -107,27 +108,27 @@ public class StringVisitor extends Visitor {
      */
     @Override
     public void visit(Operation o) {
-        Stream<String> s = o.getArgs().stream().map(expr -> {
+        List<String> argsList = o.getArgs().stream().map(expr -> {
             StringVisitor sv = new StringVisitor(notation);
             expr.accept(sv);
             return sv.getResult();
-        });
+        }).toList();
 
         if(o.getArgs().size() == 1){
             result = switch (notation) {
-                case INFIX, POSTFIX -> "( " + o.getArgs().get(0) + " )^" + o.getSymbol() ;
-                case PREFIX -> o.getSymbol() + "^(" + o.getArgs().get(0) + " )" ;
+                case INFIX, POSTFIX -> "( " + argsList.get(0) + " )^" + o.getSymbol() ;
+                case PREFIX -> o.getSymbol() + "^(" + argsList.get(0) + " )" ;
             };
         }else{
             result = switch (notation) {
                 case INFIX -> "( " +
-                        s.reduce((s1, s2) -> s1 + " " + o.getSymbol() + " " + s2).get() +
+                        String.join(" " + o.getSymbol() + " ", argsList) +
                         " )";
                 case PREFIX -> o.getSymbol() + " (" +
-                        s.reduce((s1, s2) -> s1 + ", " + s2).get() +
+                        String.join(", ", argsList) +
                         ")";
                 case POSTFIX -> "(" +
-                        s.reduce((s1, s2) -> s1 + ", " + s2).get() +
+                        String.join(", ", argsList) +
                         ") " + o.getSymbol();
             };
         }
