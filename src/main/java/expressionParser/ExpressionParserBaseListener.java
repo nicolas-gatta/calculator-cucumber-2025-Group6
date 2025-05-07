@@ -161,6 +161,66 @@ public class ExpressionParserBaseListener implements ExpressionParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrefixEquationExpr(ExpressionParserParser.PrefixEquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrefixEquationExpr(ExpressionParserParser.PrefixEquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPostfixEquationExpr(ExpressionParserParser.PostfixEquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPostfixEquationExpr(ExpressionParserParser.PostfixEquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEquationRightPart(ExpressionParserParser.EquationRightPartContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEquationRightPart(ExpressionParserParser.EquationRightPartContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterEquation(ExpressionParserParser.EquationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -180,6 +240,18 @@ public class ExpressionParserBaseListener implements ExpressionParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLinearEquation(ExpressionParserParser.LinearEquationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEquationExpr(ExpressionParserParser.EquationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEquationExpr(ExpressionParserParser.EquationExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -257,18 +329,6 @@ public class ExpressionParserBaseListener implements ExpressionParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVarExpr(ExpressionParserParser.VarExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVarExpr(ExpressionParserParser.VarExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterLinearExpr(ExpressionParserParser.LinearExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -276,6 +336,18 @@ public class ExpressionParserBaseListener implements ExpressionParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLinearExpr(ExpressionParserParser.LinearExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVarExpr(ExpressionParserParser.VarExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVarExpr(ExpressionParserParser.VarExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

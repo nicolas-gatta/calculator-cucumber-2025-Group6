@@ -1,6 +1,5 @@
 package calculator.matrix;
 
-import calculator.matrix.Matrix;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,6 +32,16 @@ class MatrixTest {
     @Test
     void testEmptyMatrix() {
         assertThrows(IllegalArgumentException.class, () -> new Matrix(new double[0][0]));
+    }
+
+    @Test
+    void testEmptyMatrix2() {
+        assertThrows(IllegalArgumentException.class, () -> new Matrix(new double[0]));
+    }
+
+    @Test
+    void testInvalidParseMatrix() {
+        assertThrows(IllegalArgumentException.class, () -> new Matrix("[1,2,3]"));
     }
 
     @Test
@@ -171,6 +180,13 @@ class MatrixTest {
     }
 
     @Test
+    void testInvalidDeterminant() {
+        Matrix m = new Matrix("[[-4,-6],[5,-1],[-2,4]]");
+        assertThrows(IllegalArgumentException.class, m::determinant);
+
+    }
+
+    @Test
     void testAdjoint2x2() {
         Matrix m = new Matrix("[[3,0],[2,0]]");
         Matrix result = m.adjoint();
@@ -182,6 +198,12 @@ class MatrixTest {
         Matrix m = new Matrix("[[1,3,2],[0,2,2],[-2,-1,0]]");
         Matrix result = m.adjoint();
         assertEquals("[[2.0,-2.0,2.0],[-4.0,4.0,-2.0],[4.0,-5.0,2.0]]", result.toString());
+    }
+
+    @Test
+    void testInvalidAdjoint() {
+        Matrix m = new Matrix("[[1,3],[0,2],[-2,-1]]");
+        assertThrows(IllegalArgumentException.class, m::adjoint);
     }
 
     @Test
@@ -201,7 +223,7 @@ class MatrixTest {
     @Test
     void testInvalidInverse() {
         Matrix m = new Matrix("[[3,0],[2,0]]");
-        assertThrows(IllegalArgumentException.class, () -> m.inverse());
+        assertThrows(IllegalArgumentException.class, m::inverse);
     }
 
     @Test
@@ -226,10 +248,16 @@ class MatrixTest {
     }
 
     @Test
-    void testIdentityGeneration() {
+    void testMatrixIdentity() {
         Matrix m = new Matrix("[[1,2],[3,4]]");
         Matrix identity = m.identity();
         assertEquals("[[1.0,0.0],[0.0,1.0]]", identity.toString());
+    }
+
+    @Test
+    void testInvalidMatrixIdentity() {
+        Matrix m = new Matrix("[[1,2],[3,4],[4,6]]");
+        assertThrows(IllegalArgumentException.class, m::identity);
     }
 
     @Test

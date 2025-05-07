@@ -88,6 +88,40 @@ public interface ExpressionParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariableNumber(ExpressionParserParser.VariableNumberContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ParensEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParensEquationExpr(ExpressionParserParser.ParensEquationExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PrefixEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrefixEquationExpr(ExpressionParserParser.PrefixEquationExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code InfixEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInfixEquationExpr(ExpressionParserParser.InfixEquationExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PostfixEquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#equationLeftPart}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPostfixEquationExpr(ExpressionParserParser.PostfixEquationExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParserParser#equationRightPart}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEquationRightPart(ExpressionParserParser.EquationRightPartContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ExpressionParserParser#equation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -99,6 +133,13 @@ public interface ExpressionParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLinearEquation(ExpressionParserParser.LinearEquationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EquationExpr}
+	 * labeled alternative in {@link ExpressionParserParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEquationExpr(ExpressionParserParser.EquationExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code InfixOperationExpr}
 	 * labeled alternative in {@link ExpressionParserParser#expr}.
@@ -142,19 +183,19 @@ public interface ExpressionParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParensExpr(ExpressionParserParser.ParensExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code VarExpr}
-	 * labeled alternative in {@link ExpressionParserParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVarExpr(ExpressionParserParser.VarExprContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code LinearExpr}
 	 * labeled alternative in {@link ExpressionParserParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLinearExpr(ExpressionParserParser.LinearExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code VarExpr}
+	 * labeled alternative in {@link ExpressionParserParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarExpr(ExpressionParserParser.VarExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MatrixExpr}
 	 * labeled alternative in {@link ExpressionParserParser#expr}.

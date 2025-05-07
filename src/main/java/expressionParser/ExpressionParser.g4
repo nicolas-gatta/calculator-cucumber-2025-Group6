@@ -29,8 +29,15 @@ matrixFunction: '('? matrix ')'? matrixOperator # MatrixPostfix
 
 // Linear Equation
 variableNumber: number? VARIABLE ;
-equation: '('? expr op = '=' expr ')'? ;
-linearEquation: 'solve' '(' equation (',' equation)* ')';
+equationLeftPart: '(' equationLeftPart ')'                                  #ParensEquationExpr
+                | op = operator '(' variableNumber(',' variableNumber)* ')' #PrefixEquationExpr
+                | variableNumber (op = operator variableNumber)*            #InfixEquationExpr
+                | '(' variableNumber (',' variableNumber)*')' op = operator #PostfixEquationExpr
+                ;
+
+equationRightPart: number;
+equation: equationLeftPart op = '=' equationRightPart;
+linearEquation: 'solve' '(' equation (',' equation)* ')' ;
 
 // Entry point
 expr: op = operator '(' expr (',' expr)* ')'    # PrefixOperationExpr
@@ -40,7 +47,8 @@ expr: op = operator '(' expr (',' expr)* ')'    # PrefixOperationExpr
     | number                                    # NumberExpr
     | complex                                   # ComplexExpr
     | matrix                                    # MatrixExpr
-    | variableNumber                            # VarExpr
+    | equation                                  # EquationExpr
     | linearEquation                            # LinearExpr
+    | variableNumber                            # VarExpr
     | matrixFunction                            # MatrixFunctionExpr
     ;

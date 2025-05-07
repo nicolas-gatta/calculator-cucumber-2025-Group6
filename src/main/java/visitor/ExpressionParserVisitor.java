@@ -243,9 +243,9 @@ public class ExpressionParserVisitor extends ExpressionParserBaseVisitor<Express
      * Build the equation that will later compose the Linear Equation System
      */
     @Override
-    public Expression visitEquation(ExpressionParserParser.EquationContext ctx) {
-        Expression left = visit(ctx.expr(0));
-        Expression right = visit(ctx.expr(1));
+    public Expression visitEquationExpr(ExpressionParserParser.EquationExprContext ctx) {
+        Expression left = visit(ctx.equation().equationLeftPart());
+        Expression right = visit(ctx.equation().equationRightPart());
         return new EquationExpression(new Equation(left, right));
     }
 
