@@ -17,7 +17,6 @@ import visitor.ExpressionParserVisitor;
  */
 public class StringParser {
 
-
     /**
      * Parses a string into an {@link Expression} tree using the ANTLR lexer, parser,
      * and a custom visitor.

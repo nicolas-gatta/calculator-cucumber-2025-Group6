@@ -1,7 +1,14 @@
 package calculator.linear;
 
+import calculator.Expression;
+import calculator.IllegalConstruction;
 import calculator.numbers.MyNumber;
+import calculator.numbers.RationalNumber;
+import calculator.numbers.RealNumber;
+import calculator.operations.Plus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import visitor.EquationCollectorVisitor;
 
 import java.util.List;
 
@@ -9,31 +16,61 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LinearEquationSystemExpressionTest {
 
-    @Test
-    public void testConstructor(){
-        Equation eq = new Equation(new VariableExpression("x"), new MyNumber(3));
-        EquationExpression expr = new EquationExpression(eq);
+    private LinearEquationSystemExpression system;
+    private EquationExpression expr1;
+    private EquationExpression expr2;
 
-        assertDoesNotThrow(() -> new LinearEquationSystemExpression(List.of(expr)));
+    @BeforeEach
+    void setUp() throws IllegalConstruction {
+        Expression left1 = new Plus(List.of(new VariableExpression("y"), new VariableExpression(new RealNumber(8),"x")));
+        Expression right1 = new RealNumber(5.5);
+        expr1 = new EquationExpression(new Equation(left1, right1));
+
+        Expression left2 = new Plus(List.of(new VariableExpression("y"), new VariableExpression(new RationalNumber(8,3),"z")));
+        Expression right2 = new RealNumber(7.0);
+        expr2 = new EquationExpression(new Equation(left2, right2));
+
+        system = new LinearEquationSystemExpression(List.of(expr1, expr2));
     }
 
     @Test
-    public void testToStringAndGetSystem() {
-        Equation eq = new Equation(new VariableExpression("x"), new MyNumber(3));
-        EquationExpression expr = new EquationExpression(eq);
-
-        LinearEquationSystemExpression system = new LinearEquationSystemExpression(List.of(expr));
-
-        assertEquals("(x = 3)", system.toString());
-        assertEquals(1, system.getSystem().size());
-        assertEquals(expr, system.getSystem().get(0));
+    void testConstructor() {
+        assertNotNull(system);
+        assertEquals(2, system.getSystem().size());
     }
 
     @Test
-    public void testAcceptCallsVisitor() {
-        var system = new LinearEquationSystemExpression(List.of());
-        var mockVisitor = new visitor.EquationCollectorVisitor();
+    void testToString() {
+        String expected = "(( y + 8.0000x ) = 5.5000, ( y + 2.6667z ) = 7.0000)";
+        assertEquals(expected, system.toString());
+    }
 
-        assertDoesNotThrow(() -> system.accept(mockVisitor));
+    @Test
+    void testGetSystem() {
+        assertEquals(2, system.getSystem().size());
+        assertTrue(system.getSystem().contains(expr1));
+        assertTrue(system.getSystem().contains(expr2));
+    }
+
+    @Test
+    void testAcceptCallsVisitor() {
+        EquationCollectorVisitor visitor = new EquationCollectorVisitor();
+        assertDoesNotThrow(() -> system.accept(visitor));
+        assertEquals(3, visitor.getAllVariables().size());
+    }
+
+    @Test
+    void testEquals_SameObject() {
+        assertEquals(system, system);
+    }
+
+    @Test
+    void testEquals_DifferentContent() throws IllegalConstruction {
+        Expression left = new Plus(List.of(new MyNumber(2), new MyNumber(3)));
+        Expression right = new RealNumber(8.0);
+        EquationExpression anotherExpr = new EquationExpression(new Equation(left, right));
+
+        LinearEquationSystemExpression differentSystem = new LinearEquationSystemExpression(List.of(anotherExpr));
+        assertNotEquals(system, differentSystem);
     }
 }
