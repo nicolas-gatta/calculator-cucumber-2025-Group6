@@ -1,16 +1,31 @@
 package calculator.cli;
 
+import calculator.Calculator;
+import calculator.Expression;
+import expressionParser.StringParser;
+
 import java.util.Scanner;
 
 public class CalculatorCLI {
 
-    private static final String HELP_MESSAGE = """
-    ==================== Calculator Help ====================
+    private static final String MAIN_HELP_MESSAGE = """
+    =================== Application Help ===================
     
     Tools Available:
       - calculator
       - converter
 
+    --------------------------------------------------------
+    Special Commands
+    --------------------------------------------------------
+
+    - help : Show this help message
+    - exit : Quit the application
+
+    ========================================================
+    """;
+
+    private static final String CALCULATOR_HELP_MESSAGE = """
     --------------------------------------------------------
     Supported Expression Types (Calculator)
     --------------------------------------------------------
@@ -66,14 +81,11 @@ public class CalculatorCLI {
     a) Representation:
        - (50 + 20i)
 
-    --------------------------------------------------------
-    Special Commands
-    --------------------------------------------------------
 
-    - help : Show this help message
-    - exit : Quit the application
+    """;
 
-    ========================================================
+    private static final String CONVERTER_HELP_MESSAGE = """
+    CONVERT HELP MESSAGE
     """;
 
     private static final String TOOL_CHOOSER_MESSAGE = """
@@ -90,41 +102,82 @@ public class CalculatorCLI {
     ========================================================
     """;
 
+    private static final String CALCULATOR_MESSAGE = """
+    ====================== Calculator ======================
+    
+    Type 'help' for instructions.
+    
+    ========================================================  
+    """;
 
+    private static final String CONVERTER_MESSAGE = """
+    ====================== Converter =======================
+    
+    Type 'help' for instructions.
+    
+    ========================================================
+    """;
 
-    public static void entryPointCli(){
-        Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
+    public static void entryPointCli() {
         System.out.println(TOOL_CHOOSER_MESSAGE);
 
-        while(true){
+        while (true) {
             String userInput = scanner.nextLine().trim();
 
-            if(userInput.equalsIgnoreCase("exit")){
-                System.out.println("Exit calculator");
+            if (userInput.equalsIgnoreCase("exit")) {
+                System.out.println("Exit Application");
                 break;
-            }
-            else if(userInput.equalsIgnoreCase("help")) {
-                System.out.println(HELP_MESSAGE);
-            }
-            else if(userInput.equalsIgnoreCase("calculator")) {
-                System.out.println("Enter calculator");
-            }
-            else if(userInput.equalsIgnoreCase("converter")){
-                System.out.println("Enter converter");
-            }
-            else{
-                System.out.println("Exit anyway");
-                break;
+            } else if (userInput.equalsIgnoreCase("help")) {
+                System.out.println(MAIN_HELP_MESSAGE);
+            } else if (userInput.equalsIgnoreCase("calculator")) {
+                calculatorCli();
+            } else if (userInput.equalsIgnoreCase("converter")) {
+                converterCli();
+            } else {
+                System.out.println("Unknown command. Type 'help' or 'exit'.");
             }
         }
     }
 
     private static void calculatorCli(){
+        System.out.println(CALCULATOR_MESSAGE);
 
+        Calculator c = new Calculator();
+
+        while (true){
+            System.out.println("Enter your expression:");
+            String userInput = scanner.nextLine().trim();
+
+            if(userInput.equalsIgnoreCase("exit")){
+                System.out.println("Exit calculator");
+                break;
+            } else if (userInput.equalsIgnoreCase("help")){
+                System.out.println(CALCULATOR_HELP_MESSAGE);
+            }
+            else{
+                Expression expr = StringParser.parse(userInput);
+                c.print(expr);
+            }
+        }
     }
 
     private static void converterCli(){
+        System.out.println(CONVERTER_MESSAGE);
 
+        while (true){
+            String userInput = scanner.nextLine().trim();
+
+            if(userInput.equalsIgnoreCase("exit")){
+                System.out.println("Exit converter");
+                break;
+            } else if (userInput.equalsIgnoreCase("help")){
+                System.out.println(CONVERTER_HELP_MESSAGE);
+            }
+            else{
+                //Do the stuff
+            }
+        }
     }
 }
