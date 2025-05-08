@@ -27,7 +27,7 @@ public class NumberTypeTest {
     @Test
     public void testEnumValues() {
         NumberType[] types = NumberType.values();
-        assertEquals(4, types.length);
+        assertEquals(7, types.length);
         
         // Verify all expected types exist
         boolean hasInteger = false;

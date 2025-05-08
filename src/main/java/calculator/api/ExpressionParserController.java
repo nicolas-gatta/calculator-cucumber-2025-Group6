@@ -1,5 +1,7 @@
 package calculator.api;
 
+import calculator.Calculator;
+import calculator.Expression;
 import expressionParser.StringParser;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,6 @@ public class ExpressionParserController {
 
     @PostMapping(value ="/evaluate", produces = "text/plain")
     public String evalExpression(@RequestBody String expression) {
-        return StringParser.parse(expression).toString();
+        return new Calculator().eval(StringParser.parse(expression)).toString();
     }
 }

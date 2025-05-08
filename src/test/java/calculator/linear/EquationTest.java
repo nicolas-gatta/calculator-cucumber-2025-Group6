@@ -57,7 +57,7 @@ class EquationTest {
 
     @Test
     void testToString() {
-        assertEquals("( 1 + 2 ) = 5.5000", equation.toString());
+        assertEquals("(1 + 2) = 5.5000", equation.toString());
     }
 
     @Test

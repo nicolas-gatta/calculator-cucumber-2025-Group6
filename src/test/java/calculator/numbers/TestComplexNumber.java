@@ -132,7 +132,7 @@ class TestComplexNumber {
         Collections.addAll(params, c1, c2);
         e = new Plus(params, Notation.INFIX);
 
-        assertEquals("( 3.0 + 4.0i + 1.0 + 2.0i )", e.toString());
+        assertEquals("(3.0 + 4.0i + 1.0 + 2.0i)", e.toString());
     }
 
     @Test

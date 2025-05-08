@@ -41,7 +41,7 @@ class LinearEquationSystemExpressionTest {
 
     @Test
     void testToString() {
-        String expected = "(( y + 8.0000x ) = 5.5000, ( y + 2.6667z ) = 7.0000)";
+        String expected = "((y + 8.0000x) = 5.5000, (y + 2.6667z) = 7.0000)";
         assertEquals(expected, system.toString());
     }
 
