@@ -1,3 +1,7 @@
+:root {
+    --cols: 2;
+}
+
 /* === CONTAINER PRINCIPAL === */
 .matrix-box {
     display: flex;
@@ -21,7 +25,7 @@
     gap: 6px;
     margin-bottom: 1rem;
     justify-content: center;
-    grid-template-columns: repeat(var(--cols, 2), 75px); /* Valeur par défaut si pas défini, 2 colonnes */
+    grid-template-columns: repeat(var(--cols), 75px); /* Valeur par défaut si pas défini, 2 colonnes */
 }
 
 /* Style pour chaque cellule de la matrice */
