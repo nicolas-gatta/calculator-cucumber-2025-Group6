@@ -27,7 +27,11 @@ Dropdown.propTypes = {
     ).isRequired,
     selectedOption: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired
+    disabled: PropTypes.bool
+}
+
+Dropdown.defaultProps = {
+    disabled: false,
 }
 
 export default Dropdown;
