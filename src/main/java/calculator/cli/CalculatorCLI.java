@@ -3,6 +3,7 @@ package calculator.cli;
 import calculator.Calculator;
 import calculator.Expression;
 import expressionParser.StringParser;
+import unit_converter.IUnitConverter;
 
 import java.util.Scanner;
 
@@ -68,11 +69,7 @@ public class CalculatorCLI {
 
     Solve a system of equations:
       Example:
-        solve(
-          (3x + 3y) = 5,
-          (3x - 4z) = 7,
-          (x - (y + z)) = 10
-        )
+        solve((3x + 3y) = 5, (3x - 4z) = 7, (x - (y + z)) = 10)
 
     --------------------------------------------------------
     Complex Numbers
@@ -115,12 +112,16 @@ public class CalculatorCLI {
     
     Type 'help' for instructions.
     
+    Choose your converter:  LENGTH, VOLUME, TEMPERATURE, AREA, DENSITY, CURRENCY,
+                            PRESSURE, SPEED, ENERGY, TIME, FORCE
+    
     ========================================================
     """;
 
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void entryPointCli() {
+
         System.out.println(TOOL_CHOOSER_MESSAGE);
 
         while (true) {
@@ -142,6 +143,7 @@ public class CalculatorCLI {
     }
 
     private static void calculatorCli(){
+
         System.out.println(CALCULATOR_MESSAGE);
 
         Calculator c = new Calculator();
@@ -155,18 +157,28 @@ public class CalculatorCLI {
                 break;
             } else if (userInput.equalsIgnoreCase("help")){
                 System.out.println(CALCULATOR_HELP_MESSAGE);
+            }else if (userInput.isEmpty()) {
+                continue;
             }
             else{
-                Expression expr = StringParser.parse(userInput);
-                c.print(expr);
+                try{
+                    Expression expr = StringParser.parse(userInput);
+                    c.print(expr);
+                }catch (Exception e){
+                    System.out.println("Error: Invalid expression. " + e.getMessage());
+                }
             }
         }
     }
 
     private static void converterCli(){
+
         System.out.println(CONVERTER_MESSAGE);
 
+        IUnitConverter<?> converter;
+
         while (true){
+            System.out.println("Enter conversion type: ");
             String userInput = scanner.nextLine().trim();
 
             if(userInput.equalsIgnoreCase("exit")){
@@ -174,9 +186,15 @@ public class CalculatorCLI {
                 break;
             } else if (userInput.equalsIgnoreCase("help")){
                 System.out.println(CONVERTER_HELP_MESSAGE);
+            }else if (userInput.isEmpty()) {
+                continue;
             }
             else{
-                //Do the stuff
+                try{
+                    continue;
+                }catch(Exception e){
+                    System.out.println(e.getMessage()); 
+                }
             }
         }
     }
