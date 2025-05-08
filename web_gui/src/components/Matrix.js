@@ -1,6 +1,6 @@
 import "./Matrix.css";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Dropdown from "./Dropdown";
 import Button from "./Button";
 import PropTypes from "prop-types";
@@ -10,7 +10,9 @@ const Matrix = ({ setMatrixResult }) => {
     const [cols, setCols] = useState(2);
     const [matrix, setMatrix] = useState([]);
     const [matrixA, setMatrixA] = useState([["", ""]]);
-    const [operation, setOperation] = useState(""); // Opération actuelle choisie
+    const [operation, setOperation] = useState("");
+
+    const matrixGridRef = useRef(null);
 
     const sizeOptions = [1, 2, 3, 4, 5].map(n => ({ value: n, label: n.toString() }));
 
@@ -47,21 +49,21 @@ const Matrix = ({ setMatrixResult }) => {
                 setMatrix(result);
                 setMatrixResult(JSON.stringify(result));
             } else {
-                const errorMessage = await response.text() || "Erreur dans le calcul";
+                const errorMessage = await response.text() || "Calculation error";
                 alert(errorMessage);
             }
         } catch (error) {
-            console.error("Erreur réseau ou parsing :", error);
-            alert("Erreur inattendue");
+            console.error("Parsing or network error :", error);
+            alert("Unexpected error");
         }
     };
 
     const requestScalar = () => {
-        const scalarValue = prompt("Entrez un scalaire :");
-        if (scalarValue && !isNaN(scalarValue)) {
+        const scalarValue = prompt("Enter a scalar:");
+        if (scalarValue && !isNaN(Number(scalarValue))) {
             return parseFloat(scalarValue);
         } else {
-            alert("Valeur invalide pour le scalaire");
+            alert("Invalid value for scalar");
             return null;
         }
     };
@@ -77,9 +79,8 @@ const Matrix = ({ setMatrixResult }) => {
     }
 
     const handleScalarOperation = async (operation) => {
-        const scalarValue = requestScalar(); // Demander le scalaire
+        const scalarValue = requestScalar();
         if (scalarValue !== null) {
-            // Appel API pour l'opération avec le scalaire
             await calculateApiCall(matrix, [], scalarValue.toString(), operation);
         }
     };
@@ -93,14 +94,21 @@ const Matrix = ({ setMatrixResult }) => {
 
     const handleCalculate = async () => {
         if (!matrixA || !operation) {
-            alert("Opération invalide ou matrice manquante.");
+            alert("Invalid operation or missing matrix.");
             return;
         }
 
         await calculateApiCall(matrixA, matrix, "", operation);
-        setMatrixA(null);     // Réinitialiser pour les prochaines opérations
-        setOperation("");      // Idem
+        setMatrixA(null);
+        setOperation("");
     };
+
+    useEffect(() => {
+        if (matrixGridRef.current) {
+            const cols = matrix[0]?.length || 2;
+            matrixGridRef.current.style.setProperty("--cols", cols.toString());
+        }
+    }, [matrix]);
 
     return (
         <div className="matrix-box">
@@ -119,7 +127,7 @@ const Matrix = ({ setMatrixResult }) => {
                 />
             </div>
 
-            <div className="matrix-grid" style={{ '--cols': matrix[0]?.length > 0 ? matrix[0].length : 2 }}>
+            <div className="matrix-grid" ref={matrixGridRef}>
                 {matrix.map((row, rIdx) =>
                     row.map((val, cIdx) => (
                         <input

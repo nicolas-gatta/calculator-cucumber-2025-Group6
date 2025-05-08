@@ -11,6 +11,7 @@ import HelpModal from "./HelpModal";
 
 import "./Calculator.css"
 import Matrix from "./Matrix";
+import Converter from "./Converter";
 
 const Calculator = () => {
     const [selectedType, setSelectedType] = useState("INTEGER");
@@ -144,7 +145,8 @@ const Calculator = () => {
         {value: "RATIONAL", label: "Rational"},
         {value: "REAL", label: "Real"},
         {value: "COMPLEX", label: "Complex"},
-        {value: "MATRIX", label: "Matrix"}
+        {value: "MATRIX", label: "Matrix"},
+        {value: "UNIT_CONVERSIONS", label: "Unit conversions"}
     ];
 
     const specialButtonsByType = {
@@ -194,6 +196,7 @@ const Calculator = () => {
         )}
 
         {selectedType === "MATRIX" && <Matrix setMatrixResult={setMatrixResult} />}
+        {selectedType === "UNIT_CONVERSIONS" && <Converter/>}
 
 
 

@@ -1,16 +1,16 @@
-.dropdown{
+.field {
     display: flex;
     align-items: center;
     gap: 10px;
     flex: 1;
 }
 
-.dropdown-label {
+.field-label {
     font-weight: bold;
     color: white;
 }
 
-.dropdown-select {
+.field-input {
     flex: 1;
     padding: 5px;
     border-radius: 5px;
