@@ -1,5 +1,6 @@
 package calculator;
 
+import calculator.cli.CalculatorCLI;
 import unit_converter.ConverterFactory;
 import unit_converter.IUnitConverter;
 import unit_converter.enums.ConverterTypeEnum;
@@ -77,6 +78,7 @@ public class Main {
 //			IUnitConverter<?> converter = ConverterFactory.getConverter(converterName);
 //			if(converter == null) System.out.println("Converter not found");
 
+			CalculatorCLI.entryPointCli();
 
 			e = new MyNumber(8);
 			c.print(e);
