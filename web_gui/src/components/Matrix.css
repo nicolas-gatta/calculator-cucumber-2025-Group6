@@ -1,0 +1,105 @@
+/* === CONTAINER PRINCIPAL === */
+.matrix-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 0 1rem; /* marge sur petits écrans */
+}
+
+.dropdowns {
+    display: flex;
+    align-items: center;
+    gap: 1rem;  /* espace entre les dropdowns */
+    margin-bottom: 1rem;  /* espace sous les dropdowns */
+}
+
+/* === GRILLE DE LA MATRICE === */
+.matrix-grid {
+    display: grid;
+    gap: 6px;
+    margin-bottom: 1rem;
+    justify-content: center;
+    grid-template-columns: repeat(var(--cols, 2), 75px); /* Valeur par défaut si pas défini, 2 colonnes */
+}
+
+/* Style pour chaque cellule de la matrice */
+.matrix-grid input {
+    width: 75px;
+    height: 35px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* === SECTION DES BOUTONS === */
+.matrix-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 10px;
+}
+
+/* === STRUCTURE DES LIGNES DE BOUTONS === */
+.button-row {
+    display: grid;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Layouts de chaque ligne */
+.row-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.row-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.row-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* === STYLE DES BOUTONS === */
+.button-row button {
+    height: 50px;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+}
+
+/* Boutons spécifiques si besoin */
+.matrix-action {
+    font-size: 16px;
+    padding: 0.5rem;
+    height: 50px;
+    width: 100%;
+}
+
+/* === RESPONSIVE (mobile/tablette) === */
+@media (max-width: 600px) {
+    .row-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .row-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .row-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .matrix-grid input {
+        width: 50px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .button-row button {
+        height: 44px;
+        font-size: 14px;
+    }
+}

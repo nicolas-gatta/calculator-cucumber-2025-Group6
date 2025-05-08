@@ -20,7 +20,7 @@ class ExpressionParserControllerTest {
     void expressionParserTest() throws Exception {
         mockMvc.perform(post("/api/parser/evaluate")
                         .contentType(MediaType.TEXT_PLAIN)
-                        .content("1"))
+                        .content("1*1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("1"));
     }

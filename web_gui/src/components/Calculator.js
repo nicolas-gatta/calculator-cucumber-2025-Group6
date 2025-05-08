@@ -10,6 +10,7 @@ import TypeBar from "./TypeBar";
 import HelpModal from "./HelpModal";
 
 import "./Calculator.css"
+import Matrix from "./Matrix";
 
 const Calculator = () => {
     const [selectedType, setSelectedType] = useState("INTEGER");
@@ -18,6 +19,7 @@ const Calculator = () => {
     const [currentInput, setCurrentInput] = useState("");
     const [operator, setOperator] = useState("");
     const [isResultDisplayed, setIsResultDisplayed] = useState(false);
+    const [matrixResult, setMatrixResult] = useState("");
 
     const openHelpModal = () => setIsHelpOpen(true);
     const closeHelpModal = () => setIsHelpOpen(false);
@@ -142,6 +144,7 @@ const Calculator = () => {
         {value: "RATIONAL", label: "Rational"},
         {value: "REAL", label: "Real"},
         {value: "COMPLEX", label: "Complex"},
+        {value: "MATRIX", label: "Matrix"}
     ];
 
     const specialButtonsByType = {
@@ -154,7 +157,7 @@ const Calculator = () => {
 
 
     return <Wrapper>
-        <Head><Screen value={currentInput || firstOperand || "0"} />
+        <Head><Screen value={matrixResult || currentInput || firstOperand || "0"} />
             {btnHead.map((btn) => (
                 <Button
                     key={btn.value}
@@ -177,16 +180,22 @@ const Calculator = () => {
             ))}
         </TypeBar>
 
-        <ButtonBox>
-            {btnValues.flat().map((btn) => (
-                <Button
-                    key={btn.value}
-                    className={btn.className}
-                    value={btn.value}
-                    onClick={btn.onClick}
-                />
-            ))}
-        </ButtonBox>
+        {(selectedType === "INTEGER" || selectedType === "COMPLEX" || selectedType === "RATIONAL" || selectedType === "REAL") && (
+            <ButtonBox>
+                {btnValues.flat().map((btn) => (
+                    <Button
+                        key={btn.value}
+                        className={btn.className}
+                        value={btn.value}
+                        onClick={btn.onClick}
+                    />
+                ))}
+            </ButtonBox>
+        )}
+
+        {selectedType === "MATRIX" && <Matrix setMatrixResult={setMatrixResult} />}
+
+
 
         <HelpModal isOpen={isHelpOpen} onClose={closeHelpModal} ></HelpModal>
     </Wrapper>;
