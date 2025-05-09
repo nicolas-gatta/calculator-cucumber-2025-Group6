@@ -8,14 +8,16 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-    padding: 0 1rem;
+
 }
 
 .dropdowns {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 5px;
 }
 
 .matrix-grid {

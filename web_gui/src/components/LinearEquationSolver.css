@@ -1,0 +1,44 @@
+.linear-equation-solver table {
+    border-collapse: collapse;
+    margin-top: 5px;
+}
+
+.linear-equation-solver td,
+.linear-equation-solver th {
+    padding: 6px;
+    text-align: center;
+}
+
+.linear-equation-solver input[type="number"] {
+    width: 60px;
+}
+
+.linear-equation-solver h3{
+    font-weight: bold;
+    color: lightskyblue;
+}
+.linear-equation-solver th,
+.linear-equation-solver h4{
+    font-weight: bold;
+    color: white;
+}
+
+.linear-equation-solver pre{
+    color: white;
+}
+
+.matrix-input{
+    margin: 20px auto;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px auto;
+    max-width: 800px; /* adapte selon la largeur de ton tableau */
+}
+
+.table-header button {
+    padding: 5px 10px;
+}

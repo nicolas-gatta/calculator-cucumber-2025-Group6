@@ -1,18 +1,22 @@
 .field {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 5px;
 }
 
 .field-label {
+    flex : 1;
+    text-align: left;
     font-weight: bold;
     color: white;
+    padding: 5px;
 }
 
 .field-input {
-    flex: 1;
+    width: 80%;
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
 }
