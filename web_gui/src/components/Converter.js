@@ -1,23 +1,11 @@
 import "./Converter.css";
 import Dropdown from "./Dropdown";
-import {useEffect, useState} from "react";
-import Field from "./Field";
-import Button from "./Button";
+import {useState} from "react";
+import ConverterBase from "./ConverterBase";
 
 
 const Converter = () => {
     const [selectedConversionType, setSelectedConversionType] = useState("LENGTH");
-    const [fromUnit, setFromUnit] = useState("");
-    const [toUnit, setToUnit] = useState("");
-    const [value, setValue] = useState('');
-    const [result, setResult] = useState('');
-
-    useEffect(() => {
-        const units = conversionUnits[selectedConversionType] || [];
-        setFromUnit(units[0]?.value || "");
-        setToUnit(units[1]?.value || "");
-    }, [selectedConversionType]);
-
 
     const conversionTypes = [
         {value: "LENGTH", label: "Length"},
@@ -161,55 +149,10 @@ const Converter = () => {
         ],
     };
 
-    useEffect(() => {
-        const doConversion = async () => {
-            if (!value || !fromUnit || !toUnit || !selectedConversionType) return;
-
-            try {
-                const response = await fetch("/api/conversion/convert", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        conversionType: selectedConversionType,
-                        fromUnit,
-                        toUnit,
-                        value,
-                    }),
-                });
-
-                if (!response.ok) {
-                    console.error("Conversion failed");
-                    setResult("Error");
-                    return;
-                }
-
-                const resultText = await response.text();
-                setResult(resultText);
-            } catch (error) {
-                console.error("Error during conversion:", error);
-                setResult("Error");
-            }
-        };
-
-        void doConversion();
-    }, [value, fromUnit, toUnit, selectedConversionType]);
-
-    useEffect(() => {
-        if (value === '') {
-            setResult('');
-        }
-    }, [value]);
-
-    const handleClear = () => {
-        setValue('');
-        setResult('');
-    }
+    const unitsForCurrentType = conversionUnits[selectedConversionType] || [];
 
     return (
         <div className="converter">
-            {/* Conversion Type Dropdown */}
             <Dropdown
                 title={"Conversion Type"}
                 options={conversionTypes}
@@ -217,27 +160,10 @@ const Converter = () => {
                 onChange={(value) => setSelectedConversionType(value)}
             />
 
-            {/* From Dropdown */}
-            <Dropdown
-                title={"From"}
-                options={conversionUnits[selectedConversionType] || []}
-                selectedOption={fromUnit}
-                onChange={(value) => setFromUnit(value)}
+            <ConverterBase units={unitsForCurrentType}
+                           conversionType={selectedConversionType}
+                           apiPath="/api/conversion/convert"
             />
-
-            {/* To Dropdown */}
-            <Dropdown
-                title={"To"}
-                options={conversionUnits[selectedConversionType] || []}
-                selectedOption={toUnit}
-                onChange={(value) => setToUnit(value)}
-            />
-            <Field title="Value" value={value} onChange={(newValue) => setValue(newValue)}/>
-            <Field title="Result" value={result} readOnly/>
-            {result === "Error" && (
-                <div className="error-text">An error occurred. Please check your input.</div>
-            )}
-            <Button value="Clear" onClick={handleClear}/>
         </div>
     );
 };
