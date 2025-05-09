@@ -1,13 +1,7 @@
 package calculator;
 
-import calculator.cli.CalculatorCLI;
-import unit_converter.ConverterFactory;
-import unit_converter.IUnitConverter;
-import unit_converter.enums.ConverterTypeEnum;
+import calculator.cli.ApplicationCLI;
 
-import java.util.*;
-
-import static unit_converter.ConverterFactory.getConverter;
 import calculator.linear.Equation;
 import calculator.linear.EquationExpression;
 import calculator.linear.LinearEquationSystemExpression;
@@ -70,15 +64,6 @@ public class Main {
 
 		try {
 			System.out.println("\n=== Integer Operations Examples ===");
-
-			//Use this code for user input CLI when using values converters
-//			Scanner userInput = new Scanner(System.in);
-//			System.out.println("Enter Converter Type:");
-//			String converterName = userInput.nextLine();
-//			IUnitConverter<?> converter = ConverterFactory.getConverter(converterName);
-//			if(converter == null) System.out.println("Converter not found");
-
-			CalculatorCLI.entryPointCli();
 
 			e = new MyNumber(8);
 			c.print(e);
@@ -445,6 +430,7 @@ public class Main {
 			launchGUI(args);
 		} else {
 			// Votre code existant pour la version console
+			ApplicationCLI.entryPointCli();
 			demonstrateIntegerOperations();
 			demonstrateRealOperations();
 			demonstrateRationalOperations();

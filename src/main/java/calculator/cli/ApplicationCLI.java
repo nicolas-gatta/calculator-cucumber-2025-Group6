@@ -3,11 +3,12 @@ package calculator.cli;
 import calculator.Calculator;
 import calculator.Expression;
 import expressionParser.StringParser;
+import unit_converter.ConverterFactory;
 import unit_converter.IUnitConverter;
 
 import java.util.Scanner;
 
-public class CalculatorCLI {
+public class ApplicationCLI {
 
     private static final String MAIN_HELP_MESSAGE = """
     =================== Application Help ===================
@@ -140,6 +141,7 @@ public class CalculatorCLI {
                 System.out.println("Unknown command. Type 'help' or 'exit'.");
             }
         }
+        scanner.close();
     }
 
     private static void calculatorCli(){
@@ -175,7 +177,7 @@ public class CalculatorCLI {
 
         System.out.println(CONVERTER_MESSAGE);
 
-        IUnitConverter<?> converter;
+        IUnitConverter<Double> converter;
 
         while (true){
             System.out.println("Enter conversion type: ");
@@ -190,10 +192,31 @@ public class CalculatorCLI {
                 continue;
             }
             else{
-                try{
+
+                converter = ConverterFactory.getConverter(userInput);
+                if(converter == null){
+                    System.out.println("Unknown conversion type");
                     continue;
+                }
+
+                System.out.print("Enter source unit: ");
+                String fromInput = scanner.nextLine();
+                if (fromInput.equalsIgnoreCase("exit")) break;
+
+                System.out.print("Enter target unit: ");
+                String toInput = scanner.nextLine();
+                if (toInput.equalsIgnoreCase("exit")) break;
+
+                System.out.print("Enter value: ");
+                String valueInput = scanner.nextLine();
+                if (valueInput.equalsIgnoreCase("exit")) break;
+
+                try{
+                    double value = Double.parseDouble(valueInput);
+                    double result = converter.convert(fromInput, toInput, value);
+                    System.out.printf("Result: %.4f %s = %.4f %s%n", value, fromInput, result, toInput);
                 }catch(Exception e){
-                    System.out.println(e.getMessage()); 
+                    System.out.println(e.getMessage());
                 }
             }
         }
