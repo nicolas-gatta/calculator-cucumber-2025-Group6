@@ -1,0 +1,41 @@
+.programmer-converter{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.programmer-converter .dropdown,
+.programmer-converter .field {
+    width: 100%;
+}
+
+.programmer-converter button{
+    height: 40px;
+    font-size: 18px;
+    align-content: center;
+    width: auto;
+    min-width: 50px;
+    padding: 5px 15px;
+}
+
+.programmer-converter ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.programmer-converter ul ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.programmer-converter ul li {
+    font-size: 14px;
+}
+
+.programmer-converter ul li strong {
+    font-size: 16px;
+    font-weight: bold;
+}

@@ -13,7 +13,7 @@
 }
 
 .screen-text {
-    font-size: clamp(1rem, 5vw, 3rem); /* taille qui s'adapte */
+    font-size: clamp(1rem, 5vw, 3rem);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
