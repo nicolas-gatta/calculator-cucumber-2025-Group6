@@ -22,10 +22,10 @@
         <javadoc.version>3.11.2</javadoc.version>
         <sonar.organization>nicolas-gatta</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.cpd.exclusions>@Generated\(".*"\), **/ExpressionParserBaseListener.java, **/ExpressionParserBaseVisitor.java,**/ExpressionParserParser.java,**/ExpressionParserLexer.java,**/ExpressionParserListener.java,**/ExpressionParserVisitor.java</sonar.cpd.exclusions>
-        <sonar.coverage.exclusions>@Generated\(".*"\), **/ExpressionParserBaseListener.java, **/ExpressionParserBaseVisitor.java,**/ExpressionParserParser.java,**/ExpressionParserLexer.java,**/ExpressionParserListener.java,**/ExpressionParserVisitor.java</sonar.coverage.exclusions>
-        <sonar.issue.ignore.allfile>@Generated\(".*"\), **/ExpressionParserBaseListener.java, **/ExpressionParserBaseVisitor.java,**/ExpressionParserParser.java,**/ExpressionParserLexer.java,**/ExpressionParserListener.java,**/ExpressionParserVisitor.java</sonar.issue.ignore.allfile>
-        <sonar.exclusions>@Generated\(".*"\), **/ExpressionParserBaseListener.java, **/ExpressionParserBaseVisitor.java,**/ExpressionParserParser.java,**/ExpressionParserLexer.java,**/ExpressionParserListener.java,**/ExpressionParserVisitor.java </sonar.exclusions>
+        <sonar.cpd.exclusions>**/ExpressionParserBaseListener.java,**/ExpressionParserBaseVisitor.java,**/ExpressionParserParser.java,**/ExpressionParserLexer.java,**/ExpressionParserListener.java,**/ExpressionParserVisitor.java</sonar.cpd.exclusions>
+        <sonar.coverage.exclusions>**/ExpressionParserBaseListener.java,**/ExpressionParserBaseVisitor.java,**/ExpressionParserParser.java,**/ExpressionParserLexer.java,**/ExpressionParserListener.java,**/ExpressionParserVisitor.java</sonar.coverage.exclusions>
+        <sonar.issue.ignore.allfile>**/ExpressionParserBaseListener.java,**/ExpressionParserBaseVisitor.java,**/ExpressionParserParser.java,**/ExpressionParserLexer.java,**/ExpressionParserListener.java,**/ExpressionParserVisitor.java</sonar.issue.ignore.allfile>
+        <sonar.exclusions>**/ExpressionParserBaseListener.java,**/ExpressionParserBaseVisitor.java,**/ExpressionParserParser.java,**/ExpressionParserLexer.java,**/ExpressionParserListener.java,**/ExpressionParserVisitor.java </sonar.exclusions>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.version>3.13.0</maven.compiler.version>
