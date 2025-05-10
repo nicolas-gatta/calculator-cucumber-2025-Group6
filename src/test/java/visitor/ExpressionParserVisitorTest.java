@@ -64,7 +64,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("3 + 4");
         assertNotNull(expr);
         assertInstanceOf(Plus.class, expr);
-        assertEquals("( 3 + 4 )", expr.toString());
+        assertEquals("(3 + 4)", expr.toString());
     }
 
     @Test
@@ -72,7 +72,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("3 - 4");
         assertNotNull(expr);
         assertInstanceOf(Minus.class, expr);
-        assertEquals("( 3 - 4 )", expr.toString());
+        assertEquals("(3 - 4)", expr.toString());
     }
 
     @Test
@@ -80,7 +80,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("3 * 4");
         assertNotNull(expr);
         assertInstanceOf(Times.class, expr);
-        assertEquals("( 3 * 4 )", expr.toString());
+        assertEquals("(3 * 4)", expr.toString());
     }
 
     @Test
@@ -88,7 +88,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("3 / 4");
         assertNotNull(expr);
         assertInstanceOf(Divides.class, expr);
-        assertEquals("( 3 / 4 )", expr.toString());
+        assertEquals("(3 / 4)", expr.toString());
     }
 
     @Test
@@ -102,7 +102,7 @@ class ExpressionParserVisitorTest {
      void testInfixtfix() {
         Expression expr = StringParser.parse("(50 + (3 / 4)) * 2");
         assertNotNull(expr);
-        assertEquals("( ( 50 + ( 3 / 4 ) ) * 2 )", expr.toString());
+        assertEquals("((50 + (3 / 4)) * 2)", expr.toString());
     }
 
     @Test
@@ -125,7 +125,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("[[1,2],[3,4]] + [[1,2],[3,4]]");
         assertNotNull(expr);
         assertInstanceOf(Plus.class, expr);
-        assertEquals("( [[1.0,2.0],[3.0,4.0]] + [[1.0,2.0],[3.0,4.0]] )", expr.toString());
+        assertEquals("([[1.0,2.0],[3.0,4.0]] + [[1.0,2.0],[3.0,4.0]])", expr.toString());
     }
 
     @Test
@@ -133,7 +133,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("[[1,2],[3,4]] - [[1,2],[3,4]]");
         assertNotNull(expr);
         assertInstanceOf(Minus.class, expr);
-        assertEquals("( [[1.0,2.0],[3.0,4.0]] - [[1.0,2.0],[3.0,4.0]] )", expr.toString());
+        assertEquals("([[1.0,2.0],[3.0,4.0]] - [[1.0,2.0],[3.0,4.0]])", expr.toString());
     }
 
     @Test
@@ -141,7 +141,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("[[1,2],[3,4]] * [[1,2],[3,4]]");
         assertNotNull(expr);
         assertInstanceOf(Times.class, expr);
-        assertEquals("( [[1.0,2.0],[3.0,4.0]] * [[1.0,2.0],[3.0,4.0]] )", expr.toString());
+        assertEquals("([[1.0,2.0],[3.0,4.0]] * [[1.0,2.0],[3.0,4.0]])", expr.toString());
     }
 
     @Test
@@ -149,7 +149,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("[[1,2],[3,4]] * 5");
         assertNotNull(expr);
         assertInstanceOf(Times.class, expr);
-        assertEquals("( [[1.0,2.0],[3.0,4.0]] * 5 )", expr.toString());
+        assertEquals("([[1.0,2.0],[3.0,4.0]] * 5)", expr.toString());
     }
 
     @Test
@@ -157,7 +157,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("[[1,2],[3,4]] / 5");
         assertNotNull(expr);
         assertInstanceOf(Divides.class, expr);
-        assertEquals("( [[1.0,2.0],[3.0,4.0]] / 5 )", expr.toString());
+        assertEquals("([[1.0,2.0],[3.0,4.0]] / 5)", expr.toString());
     }
 
     @Test
@@ -165,7 +165,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("T^ [[1,0],[0,1]]");
         assertNotNull(expr);
         assertInstanceOf(MatrixTranspose.class, expr);
-        assertEquals("T^([[1.0,0.0],[0.0,1.0]] )", expr.toString());
+        assertEquals("T^([[1.0,0.0],[0.0,1.0]])", expr.toString());
     }
 
     @Test
@@ -173,7 +173,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("[[1,0],[0,1]] ^T");
         assertNotNull(expr);
         assertInstanceOf(MatrixTranspose.class, expr);
-        assertEquals("( [[1.0,0.0],[0.0,1.0]] )^T", expr.toString());
+        assertEquals("([[1.0,0.0],[0.0,1.0]])^T", expr.toString());
     }
 
     @Test
@@ -181,7 +181,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("-1^ [[2,0],[0,3]]");
         assertNotNull(expr);
         assertInstanceOf(MatrixInverted.class, expr);
-        assertEquals("-1^([[2.0,0.0],[0.0,3.0]] )", expr.toString());
+        assertEquals("-1^([[2.0,0.0],[0.0,3.0]])", expr.toString());
     }
 
     @Test
@@ -189,7 +189,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("[[1,0],[0,1]] ^-1");
         assertNotNull(expr);
         assertInstanceOf(MatrixInverted.class, expr);
-        assertEquals("( [[1.0,0.0],[0.0,1.0]] )^-1", expr.toString());
+        assertEquals("([[1.0,0.0],[0.0,1.0]])^-1", expr.toString());
     }
 
     @Test
@@ -197,7 +197,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("I^ [[4,0],[0,5]]");
         assertNotNull(expr);
         assertInstanceOf(MatrixIdentity.class, expr);
-        assertEquals("I^([[4.0,0.0],[0.0,5.0]] )", expr.toString());
+        assertEquals("I^([[4.0,0.0],[0.0,5.0]])", expr.toString());
     }
 
     @Test
@@ -205,7 +205,7 @@ class ExpressionParserVisitorTest {
         Expression expr = StringParser.parse("[[5,0],[0,8]] ^I");
         assertNotNull(expr);
         assertInstanceOf(MatrixIdentity.class, expr);
-        assertEquals("( [[5.0,0.0],[0.0,8.0]] )^I", expr.toString());
+        assertEquals("([[5.0,0.0],[0.0,8.0]])^I", expr.toString());
     }
 
     @Test

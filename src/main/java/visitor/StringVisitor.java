@@ -116,8 +116,8 @@ public class StringVisitor extends Visitor {
 
         if(o.getArgs().size() == 1){
             result = switch (notation) {
-                case INFIX, POSTFIX -> "(" + argsList.get(0) + ") " + "^" + o.getSymbol() ;
-                case PREFIX -> o.getSymbol() + "^" + " (" + argsList.get(0) + ")" ;
+                case INFIX, POSTFIX -> "(" + argsList.get(0) + ")" + "^" + o.getSymbol() ;
+                case PREFIX -> o.getSymbol() + "^" + "(" + argsList.get(0) + ")" ;
             };
         }else{
             result = switch (notation) {
