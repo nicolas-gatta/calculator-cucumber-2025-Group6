@@ -13,16 +13,17 @@ public enum ConverterTypeEnum {
     SPEED("Speed"),
     ENERGY("Energy"),
     FORCE("Force"),
-    TIME("Time");
+    TIME("Time"),
+    BINARY("Binary");
 
-    private final String displayName;
+    private final String valueName;
 
-    ConverterTypeEnum(String displayName) {
-        this.displayName = displayName;
+    ConverterTypeEnum(String valueName) {
+        this.valueName = valueName;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getValueName() {
+        return valueName;
     }
 
     public static Optional<ConverterTypeEnum> fromString(String str){

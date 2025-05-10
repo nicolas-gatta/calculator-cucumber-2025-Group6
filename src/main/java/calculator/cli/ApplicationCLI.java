@@ -5,11 +5,8 @@ import calculator.Expression;
 import expressionParser.StringParser;
 import unit_converter.ConverterFactory;
 import unit_converter.IUnitConverter;
-import unit_converter.enums.ConverterTypeEnum;
 
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class ApplicationCLI {
 
@@ -123,9 +120,9 @@ public class ApplicationCLI {
 
     public static void entryPointCli() {
 
-        System.out.println(TOOL_CHOOSER_MESSAGE);
-
         while (true) {
+
+            System.out.println(TOOL_CHOOSER_MESSAGE);
             String userInput = scanner.nextLine().trim();
 
             if (userInput.equalsIgnoreCase("exit")) {
@@ -146,11 +143,11 @@ public class ApplicationCLI {
 
     private static void calculatorCli(){
 
-        System.out.println(CALCULATOR_MESSAGE);
-
         Calculator c = new Calculator();
 
         while (true){
+
+            System.out.println(CALCULATOR_MESSAGE);
             System.out.println("Enter your expression:");
             String userInput = scanner.nextLine().trim();
 
@@ -175,12 +172,13 @@ public class ApplicationCLI {
 
     private static void converterCli(){
 
-        System.out.println(CONVERTER_MESSAGE);
-        System.out.println("Available converters: " + String.join(", ", ConverterFactory.getConverterListNames()));
-
-        IUnitConverter<Double> converter;
+        IUnitConverter<?> converter;
 
         while (true){
+
+            System.out.println(CONVERTER_MESSAGE);
+            System.out.println("Available converters: " + String.join(", ", ConverterFactory.getConverterListNames()));
+
             System.out.println("Enter conversion type: ");
             String userInput = scanner.nextLine().trim();
 
@@ -200,6 +198,8 @@ public class ApplicationCLI {
                     continue;
                 }
 
+                System.out.println("Available converter units: " + String.join(", ", converter.getConverterUnitListNames()));
+
                 System.out.print("Enter source unit: ");
                 String fromInput = scanner.nextLine();
                 if (fromInput.equalsIgnoreCase("exit")) break;
@@ -213,13 +213,27 @@ public class ApplicationCLI {
                 if (valueInput.equalsIgnoreCase("exit")) break;
 
                 try{
-                    double value = Double.parseDouble(valueInput);
-                    double result = converter.convert(fromInput, toInput, value);
-                    System.out.printf("Result: %.4f %s = %.4f %s%n", value, fromInput, result, toInput);
+                    convertAndDisplay(converter, fromInput, toInput, valueInput);
                 }catch(Exception e){
                     System.out.println(e.getMessage());
                 }
             }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void convertAndDisplay(IUnitConverter<?> converter, String fromInput, String toInput, String valueInput) {
+        Class<?> valueType = converter.getValueType();
+
+        if(valueType.equals(Double.class)){
+            double value = Double.parseDouble(valueInput);
+            double result = ((IUnitConverter<Double>) converter).convert(fromInput, toInput, value);
+            System.out.printf("Result: %.4f %s = %.4f %s%n", value, fromInput, result, toInput);
+        } else if (valueType.equals(String.class)) {
+            String result = ((IUnitConverter<String>) converter).convert(fromInput, toInput, valueInput);
+            System.out.printf("Result: %s %s = %s %s%n", valueInput, fromInput, result, toInput);
+        } else {
+            System.out.println("Unsupported value type: " + valueType.getSimpleName());
         }
     }
 }

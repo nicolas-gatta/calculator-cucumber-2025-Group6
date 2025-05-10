@@ -4,7 +4,6 @@ import unit_converter.enums.ConverterTypeEnum;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ConverterFactory {
@@ -21,7 +20,8 @@ public class ConverterFactory {
             Map.entry(ConverterTypeEnum.SPEED, new SpeedConverter()),
             Map.entry(ConverterTypeEnum.ENERGY, new EnergyConverter()),
             Map.entry(ConverterTypeEnum.TIME, new TimeConverter()),
-            Map.entry(ConverterTypeEnum.FORCE, new ForceConverter())
+            Map.entry(ConverterTypeEnum.FORCE, new ForceConverter()),
+            Map.entry(ConverterTypeEnum.BINARY, new NumberSystemConverter())
     );
 
     @SuppressWarnings("unchecked")
@@ -36,7 +36,7 @@ public class ConverterFactory {
 
     public static List<String> getConverterListNames() {
         return converters.keySet().stream()
-                .map(ConverterTypeEnum::getDisplayName)
+                .map(ConverterTypeEnum::getValueName)
                 .collect(Collectors.toList());
     }
 }

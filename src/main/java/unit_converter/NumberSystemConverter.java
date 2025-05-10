@@ -1,6 +1,12 @@
 package unit_converter;
 
+import unit_converter.enums.AreaUnitEnum;
+import unit_converter.enums.EnumDisplayUtil;
 import unit_converter.enums.NumberSystemEnum;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class NumberSystemConverter implements IUnitConverter<String> {
     
@@ -70,4 +76,19 @@ public class NumberSystemConverter implements IUnitConverter<String> {
         
         return value;
     }
+
+    @Override
+    public List<String> getConverterUnitListNames() {
+        return Arrays.stream(NumberSystemEnum.values())
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Class<String> getValueType() {
+        return String.class;
+    }
+
+
 } 

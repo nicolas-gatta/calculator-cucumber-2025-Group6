@@ -1,6 +1,13 @@
 package unit_converter;
 
+import unit_converter.enums.AreaUnitEnum;
 import unit_converter.enums.CurrencyUnitEnum;
+import unit_converter.enums.EnumDisplayUtil;
+import unit_converter.enums.TimeUnitEnum;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CurrencyConverter implements IUnitConverter<Double>{
     @Override
@@ -13,5 +20,18 @@ public class CurrencyConverter implements IUnitConverter<Double>{
     public Double convert(CurrencyUnitEnum from, CurrencyUnitEnum to, Double value){
         double inEuro = value / from.toEuro();
         return inEuro * to.toEuro();
+    }
+
+    @Override
+    public List<String> getConverterUnitListNames() {
+        return Arrays.stream(CurrencyUnitEnum.values())
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Class<Double> getValueType() {
+        return Double.class;
     }
 }
