@@ -83,7 +83,35 @@ public class ApplicationCLI {
     """;
 
     private static final String CONVERTER_HELP_MESSAGE = """
-    CONVERT HELP MESSAGE
+    ====================== Converter Help ======================
+    
+    This is an interactive unit converter.
+    
+    To use it:
+       1. Enter a conversion type (e.g., LENGTH, VOLUME, TEMPERATURE, etc.).
+       2. Choose a source unit (e.g., METER).
+       3. Choose a target unit (e.g., KILOMETER).
+       4. Enter the value to convert (e.g., 42.5).
+    
+    Available commands:
+       - help    Display this help message.
+       - exit    Exit the converter.
+    
+    Notes:
+       - Input is case-insensitive (e.g., "meter" or "METER" both work).
+       - Use only supported units listed for each converter.
+       - For currency, use standard codes (e.g., EUR, USD).
+       - For non-numeric converters, just input plain text.
+    
+    Example:
+       Type: LENGTH
+       From: meter
+       To: kilometer
+       Value: 1000
+    
+       Output: 1000.0000 meter = 1.0000 kilometer
+    
+    ============================================================
     """;
 
     private static final String TOOL_CHOOSER_MESSAGE = """
@@ -93,7 +121,7 @@ public class ApplicationCLI {
                 
     Choose your tool:
         - calculator : The calculator evaluates arithmetic, matrix, and complex expressions. It supports infix, prefix, and postfix notation, as well as solving linear equations.
-        - unit converter : The converter allows transforming values between different units or formats. Examples include unit conversions (e.g., meters to kilometers) or number base changes.
+        - converter : The converter allows transforming values between different units or formats. Examples include unit conversions (e.g., meters to kilometers) or number base changes.
                     
         - exit : Quit the application
         
@@ -123,16 +151,16 @@ public class ApplicationCLI {
         while (true) {
 
             System.out.println(TOOL_CHOOSER_MESSAGE);
-            String userInput = scanner.nextLine().trim();
+            String toolInput = prompt(TOOL_CHOOSER_MESSAGE);
 
-            if (userInput.equalsIgnoreCase("exit")) {
+            if (toolInput.equalsIgnoreCase("exit")) {
                 System.out.println("Exit Application");
                 break;
-            } else if (userInput.equalsIgnoreCase("help")) {
+            } else if (toolInput.equalsIgnoreCase("help")) {
                 System.out.println(MAIN_HELP_MESSAGE);
-            } else if (userInput.equalsIgnoreCase("calculator")) {
+            } else if (toolInput.equalsIgnoreCase("calculator")) {
                 calculatorCli();
-            } else if (userInput.equalsIgnoreCase("converter")) {
+            } else if (toolInput.equalsIgnoreCase("converter")) {
                 converterCli();
             } else {
                 System.out.println("Unknown command. Type 'help' or 'exit'.");
@@ -148,24 +176,14 @@ public class ApplicationCLI {
         while (true){
 
             System.out.println(CALCULATOR_MESSAGE);
-            System.out.println("Enter your expression:");
-            String userInput = scanner.nextLine().trim();
+            String exprInput = prompt("Enter your expression:");
+            if (handleCommand(exprInput, CALCULATOR_HELP_MESSAGE)) break;
 
-            if(userInput.equalsIgnoreCase("exit")){
-                System.out.println("Exit calculator");
-                break;
-            } else if (userInput.equalsIgnoreCase("help")){
-                System.out.println(CALCULATOR_HELP_MESSAGE);
-            }else if (userInput.isEmpty()) {
-                continue;
-            }
-            else{
-                try{
-                    Expression expr = StringParser.parse(userInput);
-                    c.print(expr);
-                }catch (Exception e){
-                    System.out.println("Error: Invalid expression. " + e.getMessage());
-                }
+            try{
+                Expression expr = StringParser.parse(exprInput);
+                c.print(expr);
+            }catch (Exception e){
+                System.out.println("Error: Invalid expression. " + e.getMessage());
             }
         }
     }
@@ -179,46 +197,50 @@ public class ApplicationCLI {
             System.out.println(CONVERTER_MESSAGE);
             System.out.println("Available converters: " + String.join(", ", ConverterFactory.getConverterListNames()));
 
-            System.out.println("Enter conversion type: ");
-            String userInput = scanner.nextLine().trim();
+            String userInput = prompt("Enter conversion type: ");
+            if (handleCommand(userInput, CONVERTER_HELP_MESSAGE)) break;
 
-            if(userInput.equalsIgnoreCase("exit")){
-                System.out.println("Exit converter");
-                break;
-            } else if (userInput.equalsIgnoreCase("help")){
-                System.out.println(CONVERTER_HELP_MESSAGE);
-            }else if (userInput.isEmpty()) {
+            converter = ConverterFactory.getConverter(userInput);
+            if(converter == null){
+                System.out.println("Unknown conversion type");
                 continue;
             }
-            else{
 
-                converter = ConverterFactory.getConverter(userInput);
-                if(converter == null){
-                    System.out.println("Unknown conversion type");
-                    continue;
-                }
+            System.out.println("Available converter units: " + String.join(", ", converter.getConverterUnitListNames()));
 
-                System.out.println("Available converter units: " + String.join(", ", converter.getConverterUnitListNames()));
+            String fromInput = prompt("Enter source unit:");
+            if (handleCommand(fromInput, CONVERTER_HELP_MESSAGE)) break;
 
-                System.out.print("Enter source unit: ");
-                String fromInput = scanner.nextLine();
-                if (fromInput.equalsIgnoreCase("exit")) break;
+            String toInput = prompt("Enter target unit:");
+            if (handleCommand(toInput, CONVERTER_HELP_MESSAGE)) break;
 
-                System.out.print("Enter target unit: ");
-                String toInput = scanner.nextLine();
-                if (toInput.equalsIgnoreCase("exit")) break;
+            String valueInput = prompt("Enter value:");
+            if (handleCommand(valueInput, CONVERTER_HELP_MESSAGE)) break;
 
-                System.out.print("Enter value: ");
-                String valueInput = scanner.nextLine();
-                if (valueInput.equalsIgnoreCase("exit")) break;
-
-                try{
-                    convertAndDisplay(converter, fromInput, toInput, valueInput);
-                }catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
+            try{
+                convertAndDisplay(converter, fromInput, toInput, valueInput);
+            }catch(Exception e){
+                System.out.println(e.getMessage());
             }
         }
+    }
+
+
+    private static String prompt(String message) {
+        System.out.print(message + " ");
+        return scanner.nextLine().trim();
+    }
+
+    public static boolean handleCommand(String input, String helpMessage){
+        if (input.equalsIgnoreCase("exit")) {
+            return true;
+        } else if (input.equalsIgnoreCase("help")) {
+            System.out.println(helpMessage);
+            return false;
+        } else if (input.isEmpty()) {
+            return false;
+        }
+        return false;
     }
 
     @SuppressWarnings("unchecked")
