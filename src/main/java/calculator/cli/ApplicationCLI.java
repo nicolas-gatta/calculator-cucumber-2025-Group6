@@ -5,8 +5,11 @@ import calculator.Expression;
 import expressionParser.StringParser;
 import unit_converter.ConverterFactory;
 import unit_converter.IUnitConverter;
+import unit_converter.enums.ConverterTypeEnum;
 
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class ApplicationCLI {
 
@@ -112,10 +115,7 @@ public class ApplicationCLI {
     ====================== Converter =======================
     
     Type 'help' for instructions.
-    
-    Choose your converter:  LENGTH, VOLUME, TEMPERATURE, AREA, DENSITY, CURRENCY,
-                            PRESSURE, SPEED, ENERGY, TIME, FORCE
-    
+     
     ========================================================
     """;
 
@@ -176,6 +176,7 @@ public class ApplicationCLI {
     private static void converterCli(){
 
         System.out.println(CONVERTER_MESSAGE);
+        System.out.println("Available converters: " + String.join(", ", ConverterFactory.getConverterListNames()));
 
         IUnitConverter<Double> converter;
 

@@ -1,8 +1,11 @@
 package unit_converter;
 
 import unit_converter.enums.ConverterTypeEnum;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ConverterFactory {
 
@@ -29,6 +32,12 @@ public class ConverterFactory {
             return null;
         }
         return (IUnitConverter<T>) converters.get(type);
+    }
+
+    public static List<String> getConverterListNames() {
+        return converters.keySet().stream()
+                .map(ConverterTypeEnum::getDisplayName)
+                .collect(Collectors.toList());
     }
 }
 
