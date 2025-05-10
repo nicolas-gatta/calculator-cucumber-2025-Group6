@@ -22,12 +22,10 @@
         <javadoc.version>3.11.2</javadoc.version>
         <sonar.organization>nicolas-gatta</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.cpd.exclusions>r1</sonar.cpd.exclusions>
-        <sonar.cpd.exclusions.r1.fileRegexp>@Generated</sonar.cpd.exclusions.r1.fileRegexp>
-        <sonar.coverage.exclusions>r1</sonar.coverage.exclusions>
-        <sonar.coverage.exclusions.r1.fileRegexp>@Generated</sonar.coverage.exclusions.r1.fileRegexp>
-        <sonar.issue.ignore.allfile>r1</sonar.issue.ignore.allfile>
-        <sonar.issue.ignore.allfile.r1.fileRegexp>@Generated</sonar.issue.ignore.allfile.r1.fileRegexp>
+        <sonar.cpd.exclusions>@Generated\(".*"\)</sonar.cpd.exclusions>
+        <sonar.coverage.exclusions>@Generated\(".*"\)</sonar.coverage.exclusions>
+        <sonar.issue.ignore.allfile>@Generated\(".*"\)</sonar.issue.ignore.allfile>
+        <sonar.exclusions>@Generated\(".*"\)</sonar.exclusions>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.version>3.13.0</maven.compiler.version>
