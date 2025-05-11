@@ -1,7 +1,5 @@
 package unit_converter;
 
-import unit_converter.enums.AreaUnitEnum;
-import unit_converter.enums.CurrencyUnitEnum;
 import unit_converter.enums.EnergyUnitEnum;
 import unit_converter.enums.EnumDisplayUtil;
 

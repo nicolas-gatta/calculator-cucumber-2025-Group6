@@ -1,7 +1,5 @@
 package unit_converter.enums;
 
-import unit_converter.IBaseUnit;
-
 public enum EnergyUnitEnum {
     ELECTRON_VOLT(1.60218E-19),
     JOULE(1.0),

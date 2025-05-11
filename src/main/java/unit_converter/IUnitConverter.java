@@ -7,5 +7,4 @@ public interface IUnitConverter<T>{
     List<String> getConverterUnitListNames();
     Class<T> getValueType(); //Need this to specify to java which type as to be cast for CLI
 
-    //T convert(U from, U to, T value);
 }

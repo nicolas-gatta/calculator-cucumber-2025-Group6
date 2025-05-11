@@ -1,12 +1,18 @@
 package unit_converter;
 
 import unit_converter.enums.ConverterTypeEnum;
+import unit_converter.enums.EnumDisplayUtil;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ConverterFactory {
+
+    private ConverterFactory(){
+        throw new IllegalStateException("Illegal state");
+    }
 
     //instead of Hashmap, Map.ofEntries make the collection immutable
     private static final Map<ConverterTypeEnum, IUnitConverter<?>> converters = Map.ofEntries(
@@ -26,7 +32,6 @@ public class ConverterFactory {
 
     @SuppressWarnings("unchecked")
     public static <T> IUnitConverter<T> getConverter(String typeName) {
-        //return (IUnitConverter<T>) converters.get(type);
         ConverterTypeEnum type = ConverterTypeEnum.fromString(typeName).orElse(null);
         if (type == null) {
             return null;
@@ -35,8 +40,9 @@ public class ConverterFactory {
     }
 
     public static List<String> getConverterListNames() {
-        return converters.keySet().stream()
-                .map(ConverterTypeEnum::getValueName)
+        return Arrays.stream(ConverterTypeEnum.values())
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
                 .collect(Collectors.toList());
     }
 }

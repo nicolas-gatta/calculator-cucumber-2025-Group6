@@ -131,6 +131,8 @@ public class ApplicationCLI {
     private static final String CALCULATOR_MESSAGE = """
     ====================== Calculator ======================
     
+    Interactive calculator.
+    
     Type 'help' for instructions.
     
     ========================================================  
@@ -138,6 +140,8 @@ public class ApplicationCLI {
 
     private static final String CONVERTER_MESSAGE = """
     ====================== Converter =======================
+    
+    Interactive unit converter.
     
     Type 'help' for instructions.
      

@@ -26,7 +26,6 @@ public class TemperatureConverter implements IUnitConverter<Double>{
             case CELSIUS -> value;
             case FAHRENHEIT -> (value - 32) * 5 / 9;
             case KELVIN -> value - 273.15;
-            //default -> throw new IllegalArgumentException("Invalid temperature unit.");
         };
 
         // convert celsius to other unit
@@ -34,7 +33,6 @@ public class TemperatureConverter implements IUnitConverter<Double>{
             case CELSIUS -> tempCelsius;
             case FAHRENHEIT -> tempCelsius * 9 / 5 + 32;
             case KELVIN -> tempCelsius + 273.15;
-            //default -> throw new IllegalArgumentException("Invalid temperature unit.");
         };
     }
 

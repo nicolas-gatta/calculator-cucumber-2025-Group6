@@ -1,6 +1,5 @@
 package unit_converter;
 
-import unit_converter.enums.AreaUnitEnum;
 import unit_converter.enums.EnumDisplayUtil;
 import unit_converter.enums.NumberSystemEnum;
 
