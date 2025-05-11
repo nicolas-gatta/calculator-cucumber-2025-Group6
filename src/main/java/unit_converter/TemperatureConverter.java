@@ -7,14 +7,49 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Converter class for temperature unit conversions.
+ * <p>
+ * This implementation supports conversion between multiple temperature units
+ * (e.g., Celcius, Fahrenheit, Kelvin, etc.) using {@link TemperatureUnitEnum}.
+ * It operates on {@code Double} values.
+ * </p>
+ *
+ * <p>Example usage:</p>
+ * <pre>{@code
+ *     TemperatureConverter converter = new TemperatureConverter();
+ *     double result = converter.convert("square_meter", "hectare", 10000.0);
+ * }</pre>
+ *
+ * @see TemperatureUnitEnum
+ * @see IUnitConverter
+ */
 public class TemperatureConverter implements IUnitConverter<Double>{
+
+    /**
+     * Converts a value from one temperature unit to another, using unit names as strings.
+     *
+     * @param fromUnit the source unit name (e.g., "celcius")
+     * @param toUnit   the target unit name (e.g., "kelvin")
+     * @param value    the  value to convert
+     * @return the converted temperature value in the target unit
+     * @throws IllegalArgumentException if the unit names are invalid
+     */
     @Override
     public Double convert(String fromUnit, String toUnit, Double value) {
-        TemperatureUnitEnum from = TemperatureUnitEnum.fromSting(fromUnit);
-        TemperatureUnitEnum to = TemperatureUnitEnum.fromSting(toUnit);
+        TemperatureUnitEnum from = TemperatureUnitEnum.fromString(fromUnit);
+        TemperatureUnitEnum to = TemperatureUnitEnum.fromString(toUnit);
         return convert(from, to, value);
     }
 
+    /**
+     * Converts a value from one temperature unit to another using {@link TemperatureUnitEnum} values.
+     *
+     * @param from  the source {@code TemperatureUnitEnum}
+     * @param to    the target {@code TemperatureUnitEnum}
+     * @param value the value to convert
+     * @return the converted value in the target unit
+     */
     public Double convert(TemperatureUnitEnum from, TemperatureUnitEnum to, Double value){
 
         if(from == to){
@@ -36,6 +71,11 @@ public class TemperatureConverter implements IUnitConverter<Double>{
         };
     }
 
+    /**
+     * Returns a list of names to display in CLI for all supported temperature units.
+     *
+     * @return a list of unit names (e.g., "celcius", "kelvin")
+     */
     @Override
     public List<String> getConverterUnitListNames() {
         return Arrays.stream(TemperatureUnitEnum.values())
@@ -44,6 +84,11 @@ public class TemperatureConverter implements IUnitConverter<Double>{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns the Java class representing the value type handled by this converter.
+     *
+     * @return {@code Double.class}
+     */
     @Override
     public Class<Double> getValueType() {
         return Double.class;

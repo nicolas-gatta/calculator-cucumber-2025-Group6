@@ -1,5 +1,19 @@
 package unit_converter.enums;
 
+/**
+ * Enumeration of volume units and their conversion factors to the base unit: {@code liter (L)}.
+ * <p>
+ * This enum supports conversion between metric and imperial volume units using predefined
+ * conversion factors to liters.
+ * </p>
+ *
+ * <p>Supported units include:</p>
+ * <ul>
+ *   <li>Milliliter, Centiliter, Deciliter, Liter, Cubic Meter</li>
+ *   <li>Teaspoon, Tablespoon, Fluid Ounce, Cup, Pint, Quart, Gallon</li>
+ *   <li>Cubic Inch, Cubic Foot</li>
+ * </ul>
+ */
 public enum VolumeUnitEnum {
     MILLILITER(0.001),
     CENTILITER(0.01),
@@ -22,10 +36,25 @@ public enum VolumeUnitEnum {
         this.toLiter = toLiter;
     }
 
+    /**
+     * Returns the conversion factor to liters.
+     *
+     * @return the equivalent of one unit in liters
+     */
     public double toLiter() {
         return toLiter;
     }
 
+    /**
+     * Parses a string into a {@code VolumeUnitEnum}.
+     * <p>
+     * Matching is case-insensitive and ignores surrounding whitespace.
+     * </p>
+     *
+     * @param str the string representing a unit (e.g., "liter", "CUP")
+     * @return the corresponding {@code VolumeUnitEnum}
+     * @throws IllegalArgumentException if the input is invalid
+     */
     public static VolumeUnitEnum fromString(String str) {
         return VolumeUnitEnum.valueOf(str.trim().toUpperCase());
     }
