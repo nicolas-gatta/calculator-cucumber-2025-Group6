@@ -28,8 +28,7 @@ Field.propTypes = {
 };
 
 Field.defaultProps = {
-    readOnly: false,
-    onChange: () => {}
+    readOnly: false
 };
 
 export default Field;

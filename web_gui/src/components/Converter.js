@@ -2,9 +2,10 @@ import "./Converter.css";
 import Dropdown from "./Dropdown";
 import {useState} from "react";
 import ConverterBase from "./ConverterBase";
+import PropTypes from "prop-types";
 
 
-const Converter = () => {
+const Converter = ({ setConverterResult }) => {
     const [selectedConversionType, setSelectedConversionType] = useState("LENGTH");
 
     const conversionTypes = [
@@ -163,10 +164,15 @@ const Converter = () => {
             <ConverterBase units={unitsForCurrentType}
                            conversionType={selectedConversionType}
                            apiPath="/api/conversion/convert"
+                           setConverterBaseResult={setConverterResult}
             />
         </div>
     );
 };
+
+Converter.propTypes = {
+    setConverterResult: PropTypes.func.isRequired
+}
 
 
 export default Converter;

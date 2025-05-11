@@ -36,7 +36,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 20px auto;
-    max-width: 800px; /* adapte selon la largeur de ton tableau */
+    max-width: 800px;
 }
 
 .table-header button {

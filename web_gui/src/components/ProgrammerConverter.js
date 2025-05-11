@@ -4,8 +4,9 @@ import Button from "./Button";
 import Modal from "./Modal";
 
 import "./ProgrammerConverter.css"
+import PropTypes from "prop-types";
 
-const ProgrammerConverter = () => {
+const ProgrammerConverter = ({ setProgrammerConverterResult }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const units = [
@@ -51,10 +52,15 @@ const ProgrammerConverter = () => {
             <ConverterBase
                 units={units}
                 apiPath="/api/programmer/convert"
-                conversionType="PROGRAMMER" // tu peux adapter selon les besoins backend
+                conversionType="PROGRAMMER"
+                setConverterBaseResult={setProgrammerConverterResult}
             />
         </div>
     );
 };
+
+ProgrammerConverter.propTypes = {
+    setProgrammerConverterResult: PropTypes.func.isRequired
+}
 
 export default ProgrammerConverter;

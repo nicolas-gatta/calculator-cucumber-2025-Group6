@@ -6,7 +6,7 @@ import Button from "./Button";
 import PropTypes from "prop-types";
 
 
-const ConverterBase = ({ units, conversionType, apiPath }) => {
+const ConverterBase = ({ units, conversionType, apiPath, setConverterBaseResult }) => {
     const [fromUnit, setFromUnit] = useState("");
     const [toUnit, setToUnit] = useState("");
     const [value, setValue] = useState('');
@@ -42,11 +42,13 @@ const ConverterBase = ({ units, conversionType, apiPath }) => {
             if (!response.ok) {
                 console.error("Conversion failed");
                 setResult("Error");
+                setConverterBaseResult("Error");
                 return;
             }
 
             const resultText = await response.text();
             setResult(resultText);
+            setConverterBaseResult(resultText);
         } catch (error) {
             console.error("Error during conversion:", error);
             setResult("Error");
@@ -60,7 +62,7 @@ const ConverterBase = ({ units, conversionType, apiPath }) => {
             units.some(unit => unit.value === fromUnit) &&
             units.some(unit => unit.value === toUnit)
         ) {
-            void doConversion();
+            doConversion().then(r => r);
         }
     }, [value, fromUnit, toUnit, conversionType, apiPath, units]);
 
@@ -94,7 +96,8 @@ ConverterBase.propTypes = {
         })
     ).isRequired,
     conversionType: PropTypes.string,
-    apiPath: PropTypes.string.isRequired
+    apiPath: PropTypes.string.isRequired,
+    setConverterBaseResult: PropTypes.func.isRequired
 }
 
 export default ConverterBase;
