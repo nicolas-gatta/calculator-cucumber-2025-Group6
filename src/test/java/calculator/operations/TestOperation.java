@@ -4,6 +4,8 @@ package calculator.operations;
 import static org.junit.jupiter.api.Assertions.*;
 
 import calculator.Expression;
+import calculator.IllegalConstruction;
+import calculator.Notation;
 import calculator.numbers.MyNumber;
 import org.junit.jupiter.api.*;
 
@@ -43,5 +45,64 @@ class TestOperation {
 	void testCountNbs() {
 		assertEquals(Integer.valueOf(6), o.countNbs());
 	}
+
+	@Test
+	void testConstructorWithEmptyListThrowsException() {
+		List<Expression> emptyList = List.of();
+		assertThrows(IllegalConstruction.class, () -> new Divides(emptyList));
+	}
+
+	@Test
+	void testConstructorWithNullListThrowsException() {
+		assertThrows(IllegalConstruction.class, () -> new Divides(null));
+	}
+
+	@Test
+	void testAddMoreParams() throws Exception {
+		int initialSize = o.getArgs().size();
+		o.addMoreParams(List.of(new MyNumber(9), new MyNumber(10)));
+		assertEquals(initialSize + 2, o.getArgs().size());
+	}
+
+	@Test
+	void testGetSymbol() {
+		assertEquals("/", o.getSymbol()); // pour Divides
+	}
+
+	@Test
+	void testGetNotation() {
+		assertEquals(Notation.INFIX, o.getNotation());
+	}
+
+
+	@Test
+	void testToStringInfix() {
+		String result = o.toString(Notation.INFIX);
+		assertNotNull(result);
+		assertTrue(result.contains("/")); // ou autre selon la notation
+	}
+
+	@Test
+	void testToStringPrefix() {
+		String result = o.toString(Notation.PREFIX);
+		assertNotNull(result);
+		assertTrue(result.startsWith("/")); // attendu pour notation préfixe
+	}
+
+	@Test
+	void testNotEqualsDifferentClass() {
+		assertNotEquals(o, new Object());
+	}
+
+	@Test
+	void testEqualsNull() {
+		assertNotEquals(o, null);
+	}
+
+	@Test
+	void testHashCodeConsistency() {
+		assertEquals(o.hashCode(), o2.hashCode());
+	}
+
 
 }

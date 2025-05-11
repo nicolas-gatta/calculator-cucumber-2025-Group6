@@ -25,7 +25,7 @@ class EquationTest {
     }
 
     @Test
-    public void testConstructor(){
+    void testConstructor(){
         var left = new MyNumber(5);
         var right = new MyNumber(10);
 
@@ -33,12 +33,18 @@ class EquationTest {
     }
 
     @Test
-    public void testInvalidConstructor(){
-        assertThrows(NullPointerException.class, () -> new Equation(null,null));
+    void testInvalidConstructor(){
+        MyNumber myNumber = new MyNumber(5);
+        assertThrows(NullPointerException.class, () -> new Equation(null,myNumber));
     }
 
     @Test
-    public void testGetters(){
+    void testInvalidConstructor2(){
+        MyNumber number = new MyNumber(5);
+        assertThrows(NullPointerException.class, () -> new Equation(number,null)); }
+
+    @Test
+    void testGetters(){
         var left = new MyNumber(5);
         var right = new MyNumber(10);
         Equation eq = new Equation(left, right);
