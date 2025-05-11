@@ -1,6 +1,8 @@
 package visitor;
 
 import calculator.Expression;
+import calculator.linear.Equation;
+import calculator.linear.EquationExpression;
 import calculator.linear.LinearEquationSystemExpression;
 import calculator.linear.VariableExpression;
 import calculator.matrix.MatrixExpression;
@@ -209,9 +211,42 @@ class ExpressionParserVisitorTest {
     }
 
     @Test
-     void testLinearEquationSystemParsing() {
+     void testLinearEquationSystemParsingInfix() {
         Expression expr = StringParser.parse("solve((x + y) = 5, (x - y) = 1)");
         assertInstanceOf(LinearEquationSystemExpression.class, expr);
         assertEquals(2, ((LinearEquationSystemExpression) expr).getSystem().size());
+    }
+
+    @Test
+    void testLinearEquationSystemParsingPrefix() {
+        Expression expr = StringParser.parse("solve(+(x,y) = 5, -(x,y) = 1)");
+        assertInstanceOf(LinearEquationSystemExpression.class, expr);
+        assertEquals(2, ((LinearEquationSystemExpression) expr).getSystem().size());
+    }
+
+    @Test
+    void testLinearEquationSystemParsingPostfix() {
+        Expression expr = StringParser.parse("solve((x,y)+ = 5, (x,y)- = 1)");
+        assertInstanceOf(LinearEquationSystemExpression.class, expr);
+        assertEquals(2, ((LinearEquationSystemExpression) expr).getSystem().size());
+    }
+
+    @Test
+    void testEquationPrefix() {
+        Expression expr = StringParser.parse("+(50x, 50y)=80");
+        assertInstanceOf(EquationExpression.class, expr);
+        assertEquals("+ (50.0000x, 50.0000y) = 80", expr.toString());
+    }
+    @Test
+    void testEquationPostfix() {
+        Expression expr = StringParser.parse("(50x,50y)+=80");
+        assertInstanceOf(EquationExpression.class, expr);
+        assertEquals("(50.0000x, 50.0000y) + = 80", expr.toString());
+    }
+    @Test
+    void testEquationInfix() {
+        Expression expr = StringParser.parse("(50x + 50y)=80");
+        assertInstanceOf(EquationExpression.class, expr);
+        assertEquals("(50.0000x + 50.0000y) = 80", expr.toString());
     }
 }
