@@ -119,12 +119,18 @@ class NumberSystemConverterTest {
     }
 
     @Test
+    void testNullInput() {
+        assertEquals("0", converter.convert("DECIMAL", "BINARY", null));
+    }
+
+    @Test
     void testWithPrefixes() {
         // Test with prefixes
         assertEquals("0b1010", converter.convert("DECIMAL", "BINARY", "10"));
         assertEquals("10", converter.convert("BINARY", "DECIMAL", "0b1010"));
         assertEquals("0xFF", converter.convert("DECIMAL", "HEXADECIMAL", "255"));
         assertEquals("255", converter.convert("HEXADECIMAL", "DECIMAL", "0xFF"));
+        assertEquals("1", converter.convert("HEXADECIMAL", "DECIMAL", "#1"));
     }
 
     @Test
