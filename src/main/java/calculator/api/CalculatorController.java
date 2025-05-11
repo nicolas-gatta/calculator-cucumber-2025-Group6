@@ -16,14 +16,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for handling calculator operations in the API.
+ * <p>
+ * This class exposes a REST API for performing basic arithmetic operations such as addition, subtraction,
+ * multiplication, and division on various number types (Integer, Rational, Real, Complex).
+ * The API endpoint allows users to send calculation requests in the form of a POST request with a JSON body.
+ * </p>
+ */
 @RestController
 @RequestMapping("/api")
 public class CalculatorController {
 
     Calculator calculator = new Calculator();
 
+    /**
+     * Endpoint for performing calculations based on the provided operands and operator.
+     *
+     * @param request the request object containing the operands, operator, and number type.
+     * @return the result of the calculation as a string.
+     * @throws IllegalArgumentException if the operator is invalid or if there is any issue during the calculation.
+     */
     @PostMapping(value ="/calculate", produces = "text/plain")
     public String calculate(@RequestBody CalculationRequest request) {
+        // Parse the operands based on the number type (Integer, Rational, Real, Complex)
         Expression firstOperand = parseInput(request.getFirstOperand(), request.getNumberType());
         Expression secondOperand = parseInput(request.getSecondOperand(), request.getNumberType());
 
@@ -36,6 +52,7 @@ public class CalculatorController {
         }
 
         try{
+            // Perform the operation based on the operator provided in the request
             Expression operation = switch (request.getOperator()) {
                 case "+" -> new Plus(params);
                 case "-" -> new Minus(params);
@@ -44,6 +61,7 @@ public class CalculatorController {
                 default -> throw new IllegalArgumentException("Invalid operator: " + request.getOperator());
             };
 
+            // Evaluate the operation and return the result as a string
             Expression result = calculator.eval(operation);
 
             return result.toString();
@@ -53,6 +71,14 @@ public class CalculatorController {
 
     }
 
+    /**
+     * Parses the input string based on the specified number type and returns the corresponding Expression.
+     *
+     * @param input the string representation of the operand.
+     * @param numberType the type of number (e.g., INTEGER, RATIONAL, REAL, COMPLEX).
+     * @return the corresponding Expression for the operand.
+     * @throws IllegalArgumentException if the number type is invalid.
+     */
     private Expression parseInput(String input, String numberType) {
         switch (numberType) {
             case "INTEGER" -> {
@@ -78,6 +104,13 @@ public class CalculatorController {
         }
     }
 
+    /**
+     * Parses the input string to create a ComplexNumber.
+     *
+     * @param input the string representation of the complex number.
+     * @return the corresponding ComplexNumber.
+     * @throws IllegalArgumentException if the input is invalid for a complex number.
+     */
     private ComplexNumber parseComplexNumber(String input) {
         if (input.equals("i")) return new ComplexNumber(0, 1);
         if (input.equals("-i")) return new ComplexNumber(0, -1);
