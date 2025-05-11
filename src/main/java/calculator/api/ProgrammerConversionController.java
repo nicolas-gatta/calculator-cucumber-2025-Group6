@@ -7,10 +7,23 @@ import org.springframework.web.bind.annotation.RestController;
 import unit_converter.IUnitConverter;
 import unit_converter.NumberSystemConverter;
 
+/**
+ * REST controller for handling number system conversions commonly used in programming.
+ * <p>
+ * This controller supports conversions between binary, decimal, hexadecimal, and octal systems.
+ * </p>
+ */
 @RestController
 @RequestMapping("/api/programmer")
 public class ProgrammerConversionController {
 
+    /**
+     * Converts a number from one number system to another (e.g., from binary to hexadecimal).
+     *
+     * @param request the {@link ProgrammerConversionRequest} containing the input value,
+     *                source base, and target base
+     * @return the converted value as a string
+     */
     @PostMapping("/convert")
     public String convert(@RequestBody ProgrammerConversionRequest request) {
         String fromUnit = request.getFromUnit();
