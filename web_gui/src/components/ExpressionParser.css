@@ -1,0 +1,31 @@
+.expression-parser button {
+    padding: 5px 10px;
+}
+
+.expression-parser{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.expression-parser ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.expression-parser ul ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.expression-parser ul li {
+    font-size: 14px;
+}
+
+.expression-parser ul li strong {
+    font-size: 16px;
+    font-weight: bold;
+}
