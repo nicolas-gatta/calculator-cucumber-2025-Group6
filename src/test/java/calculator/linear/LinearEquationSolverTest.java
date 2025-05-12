@@ -1,6 +1,7 @@
 package calculator.linear;
 
 import calculator.matrix.Matrix;
+import expressionParser.StringParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -8,8 +9,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinearEquationSolverTest {
+
     @Test
-    public void testSolveValidSystem2x2() {
+    void testIllegalConstructor() {
+        assertThrows(IllegalStateException.class, StringParser::new);
+    }
+
+    @Test
+    void testSolveValidSystem2x2() {
         Matrix A = new Matrix(new double[][]{{2, 3}, {1, -1}});
 
         Matrix b = new Matrix(new double[][]{{8}, {0}});
@@ -29,7 +36,7 @@ class LinearEquationSolverTest {
     }
 
     @Test
-    public void testSolveValidSystem3x3() {
+    void testSolveValidSystem3x3() {
         Matrix A = new Matrix(new double[][]{{3, 3, 0}, {3, 0, -4}, {1,-1,-1}});
 
         Matrix b = new Matrix(new double[][]{{5}, {7}, {10}});
@@ -48,7 +55,7 @@ class LinearEquationSolverTest {
     }
 
     @Test
-    public void testSolveThrowsWhenDeterminantZero() {
+    void testSolveThrowsWhenDeterminantZero() {
         Matrix A = new Matrix(new double[][]{
                 {1, 2},
                 {2, 4}

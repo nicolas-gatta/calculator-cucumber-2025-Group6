@@ -10,6 +10,9 @@ import java.util.*;
  */
 public class LinearEquationSolver {
 
+    public LinearEquationSolver(){
+        throw new IllegalStateException("Utility class");
+    }
     /**
      * Solves a linear system Ax = b and returns it as a LinearEquationSystemExpression.
      *
