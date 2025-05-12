@@ -10,12 +10,39 @@ package unit_converter.enums;
  * Example: 1 EUR = 1.08 USD (as defined in this enum)
  */
 public enum CurrencyUnitEnum {
+    /**
+     * Euro (EUR) - Base currency with rate 1.0
+     */
     EUR(1.0),
+
+    /**
+     * US Dollar (USD) with conversion rate to Euro
+     */
     USD(1.08),
+
+    /**
+     * British Pound (GBP) with conversion rate to Euro
+     */
     GBP(0.86),
+
+    /**
+     * Japanese Yen (JPY) with conversion rate to Euro
+     */
     JPY(162.0),
+
+    /**
+     * Swiss Franc (CHF) with conversion rate to Euro
+     */
     CHF(0.98),
+
+    /**
+     * Canadian Dollar (CAD) with conversion rate to Euro
+     */
     CAD(1.46),
+
+    /**
+     * Australian Dollar (AUD) with conversion rate to Euro
+     */
     AUD(1.65);
 
     private final double toEuro;

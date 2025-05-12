@@ -17,8 +17,11 @@ package unit_converter.enums;
  * </ul>
  */
 public enum TemperatureUnitEnum {
+    /** Represents the Celsius temperature scale */
     CELSIUS,
+    /** Represents the Fahrenheit temperature scale */
     FAHRENHEIT,
+    /** Represents the Kelvin temperature scale */
     KELVIN;
 
     /**

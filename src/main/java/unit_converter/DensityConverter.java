@@ -27,6 +27,14 @@ import java.util.stream.Collectors;
 public class DensityConverter implements IUnitConverter<Double>{
 
     /**
+     * Default constructor for DensityConverter.
+     */
+    public DensityConverter() {
+        // Default constructor
+    }
+
+
+    /**
      * Converts a value from one density unit to another, using unit names as strings.
      *
      * @param fromUnit the source unit name (e.g., "gram per liter")

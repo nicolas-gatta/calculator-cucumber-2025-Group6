@@ -26,6 +26,15 @@ import java.util.stream.Collectors;
  */
 public class EnergyConverter implements IUnitConverter<Double>{
 
+
+
+    /**
+     * Default constructor for EnergyConverter.
+     */
+    public EnergyConverter() {
+        // Default constructor
+    }
+
     /**
      * Converts a value from one Energy unit to another, using unit names as strings.
      *

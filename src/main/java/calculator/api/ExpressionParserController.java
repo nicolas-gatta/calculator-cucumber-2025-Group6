@@ -25,6 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExpressionParserController {
 
     /**
+     * Default constructor for ExpressionParserController.
+     */
+    public ExpressionParserController() {
+        // Default constructor
+    }
+
+    /**
      * Evaluates a string-based arithmetic expression and returns the result as a string.
      *
      * @param expression the arithmetic expression to evaluate, e.g., "3 + (2 * 5)"

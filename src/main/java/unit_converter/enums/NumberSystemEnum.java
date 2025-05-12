@@ -12,13 +12,23 @@ package unit_converter.enums;
  * @see unit_converter.NumberSystemConverter
  */
 public enum NumberSystemEnum {
+    /** Decimal: Base-10 number system (0-9) */
     DECIMAL(10),
+    /** Binary: Base-2 number system (0-1) */
     BINARY(2),
+    /** Octal: Base-8 number system (0-7) */
     OCTAL(8),
+    /** Hexadecimal: Base-16 number system (0-9, A-F) */
     HEXADECIMAL(16);
 
+    /** The base of this number system */
     private final int base;
 
+    /**
+     * Constructor for NumberSystemEnum.
+     *
+     * @param base the base of the number system
+     */
     NumberSystemEnum(int base) {
         this.base = base;
     }

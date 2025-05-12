@@ -28,7 +28,17 @@ import java.util.List;
 @RequestMapping("/api")
 public class CalculatorController {
 
-    Calculator calculator = new Calculator();
+    /**
+     * Default constructor for CalculatorController.
+     * Initializes a new Calculator instance for performing arithmetic operations.
+     */
+    public CalculatorController() {
+        // Initialize calculator with default settings
+        this.calculator = new Calculator();
+    }
+
+    // Replace the existing calculator initialization
+    private final Calculator calculator;
 
     /**
      * Endpoint for performing calculations based on the provided operands and operator.

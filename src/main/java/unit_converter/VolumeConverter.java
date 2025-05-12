@@ -28,14 +28,12 @@ import java.util.stream.Collectors;
 public class VolumeConverter implements IUnitConverter<Double>{
 
     /**
-     * Converts a value from one volume unit to another, using unit names as strings.
-     *
-     * @param fromUnit the source unit name (e.g., "liter")
-     * @param toUnit   the target unit name (e.g., "gallon")
-     * @param value    the volume value to convert
-     * @return the converted value in the target unit
-     * @throws IllegalArgumentException if the unit names are invalid
+     * Default constructor for VolumeConverter.
      */
+    public VolumeConverter() {
+        // Default constructor
+    }
+
     @Override
     public Double convert(String fromUnit, String toUnit, Double value) {
         VolumeUnitEnum from = VolumeUnitEnum.fromString(fromUnit);

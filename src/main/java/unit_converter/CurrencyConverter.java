@@ -27,6 +27,13 @@ import java.util.stream.Collectors;
 public class CurrencyConverter implements IUnitConverter<Double>{
 
     /**
+     * Default constructor for CurrencyConverter.
+     */
+    public CurrencyConverter() {
+        // Default constructor
+    }
+
+    /**
      * Converts a value from one currency unit to another, using unit names as strings.
      *
      * @param fromUnit the source unit name (e.g., "Eur")

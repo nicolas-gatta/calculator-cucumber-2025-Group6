@@ -29,13 +29,21 @@ import java.util.stream.Collectors;
 public class LengthConverter implements IUnitConverter<Double>{
 
     /**
-     * Converts a value from one length unit to another, using unit names as strings.
+     * Default constructor for LengthConverter.
+     */
+    public LengthConverter() {
+        // Default constructor
+    }
+
+    /**
+     * Converts a length value from one unit to another using string unit identifiers.
+     * This method parses the string unit identifiers to LengthUnitEnum objects and delegates
+     * to the typed convert method.
      *
-     * @param fromUnit the source unit name (e.g., "meter")
-     * @param toUnit   the target unit name (e.g., "kilometer")
-     * @param value    the length value to convert
+     * @param fromUnit the source length unit as a string
+     * @param toUnit the target length unit as a string
+     * @param value the value to convert
      * @return the converted value in the target unit
-     * @throws IllegalArgumentException if the unit names are invalid
      */
     @Override
     public Double convert(String fromUnit, String toUnit, Double value) {

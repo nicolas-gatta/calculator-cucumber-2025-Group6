@@ -19,16 +19,29 @@ package unit_converter.enums;
  * </ul>
  */
 public enum PressureUnitEnum {
+    /** Pascal: SI unit of pressure (N/m²) */
     PASCAL(1.0),
+    /** Hectopascal: 100 pascals, commonly used in meteorology */
     HECTOPASCAL(100.0),
+    /** Kilopascal: 1000 pascals */
     KILOPASCAL(1000.0),
+    /** Bar: 100,000 pascals, approximately equal to atmospheric pressure at sea level */
     BAR(100000.0),
+    /** Standard atmosphere: defined as 101,325 pascals */
     ATMOSPHERE(101325.0),
+    /** Torr: approximately 1/760 of standard atmospheric pressure */
     TORR(133.322),
+    /** Pounds per square inch: imperial unit of pressure */
     PSI(6894.76);
 
+    /** Conversion factor to convert from this unit to Pascals */
     private final double toPascal;
 
+    /**
+     * Constructor for PressureUnitEnum.
+     *
+     * @param toPascal the conversion factor to convert from this unit to Pascals
+     */
     PressureUnitEnum(double toPascal) {
         this.toPascal = toPascal;
     }

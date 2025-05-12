@@ -8,7 +8,19 @@ import unit_converter.IUnitConverter;
 
 import java.util.Scanner;
 
+/**
+ * Command Line Interface for the calculator and converter application.
+ * Provides an interactive interface for users to access calculator and unit converter functionalities.
+ */
 public class ApplicationCLI {
+
+    /**
+     * Default constructor for ApplicationCLI.
+     * This class only contains static methods and is not intended to be instantiated.
+     */
+    private ApplicationCLI() {
+        // Private constructor to prevent instantiation
+    }
 
     private static final String MAIN_HELP_MESSAGE = """
     =================== Application Help ===================
@@ -150,6 +162,10 @@ public class ApplicationCLI {
 
     private static final Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Main entry point for the CLI application.
+     * Displays a menu for tool selection and handles user input.
+     */
     public static void entryPointCli() {
 
         while (true) {
@@ -236,6 +252,13 @@ public class ApplicationCLI {
         return scanner.nextLine().trim();
     }
 
+    /**
+     * Handles common commands across different tools.
+     *
+     * @param input The user input to process
+     * @param helpMessage The help message to display if the input is "help"
+     * @return true if the command indicates to exit the current tool, false otherwise
+     */
     public static boolean handleCommand(String input, String helpMessage){
         if (input.equalsIgnoreCase("exit")) {
             return true;

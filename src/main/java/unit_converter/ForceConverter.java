@@ -29,13 +29,21 @@ import java.util.stream.Collectors;
 public class ForceConverter implements IUnitConverter<Double>{
 
     /**
-     * Converts a value from one force unit to another, using unit names as strings.
+     * Default constructor for ForceConverter.
+     */
+    public ForceConverter() {
+        // Default constructor
+    }
+
+    /**
+     * Converts a force value from one unit to another using string unit identifiers.
+     * This method parses the string unit identifiers to ForceUnitEnum objects and delegates
+     * to the typed convert method.
      *
-     * @param fromUnit the source unit name (e.g., "newton")
-     * @param toUnit   the target unit name (e.g., "kip")
-     * @param value    the force value to convert
+     * @param fromUnit the source force unit as a string
+     * @param toUnit the target force unit as a string
+     * @param value the value to convert
      * @return the converted value in the target unit
-     * @throws IllegalArgumentException if the unit names are invalid
      */
     @Override
     public Double convert(String fromUnit, String toUnit, Double value) {
