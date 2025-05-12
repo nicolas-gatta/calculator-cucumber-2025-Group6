@@ -155,7 +155,7 @@ public class ApplicationCLI {
         while (true) {
 
             System.out.println(TOOL_CHOOSER_MESSAGE);
-            String toolInput = prompt(TOOL_CHOOSER_MESSAGE);
+            String toolInput = prompt("Choose your tool");
 
             if (toolInput.equalsIgnoreCase("exit")) {
                 System.out.println("Exit Application");
@@ -180,7 +180,7 @@ public class ApplicationCLI {
         while (true){
 
             System.out.println(CALCULATOR_MESSAGE);
-            String exprInput = prompt("Enter your expression:");
+            String exprInput = prompt("Enter your expression");
             if (handleCommand(exprInput, CALCULATOR_HELP_MESSAGE)) break;
 
             try{
@@ -201,7 +201,7 @@ public class ApplicationCLI {
             System.out.println(CONVERTER_MESSAGE);
             System.out.println("Available converters: " + String.join(", ", ConverterFactory.getConverterListNames()));
 
-            String userInput = prompt("Enter conversion type: ");
+            String userInput = prompt("Enter conversion type");
             if (handleCommand(userInput, CONVERTER_HELP_MESSAGE)) break;
 
             converter = ConverterFactory.getConverter(userInput);
@@ -212,13 +212,13 @@ public class ApplicationCLI {
 
             System.out.println("Available converter units: " + String.join(", ", converter.getConverterUnitListNames()));
 
-            String fromInput = prompt("Enter source unit:");
+            String fromInput = prompt("Enter source unit");
             if (handleCommand(fromInput, CONVERTER_HELP_MESSAGE)) break;
 
-            String toInput = prompt("Enter target unit:");
+            String toInput = prompt("Enter target unit");
             if (handleCommand(toInput, CONVERTER_HELP_MESSAGE)) break;
 
-            String valueInput = prompt("Enter value:");
+            String valueInput = prompt("Enter value");
             if (handleCommand(valueInput, CONVERTER_HELP_MESSAGE)) break;
 
             try{
@@ -231,7 +231,8 @@ public class ApplicationCLI {
 
 
     private static String prompt(String message) {
-        System.out.print(message + " ");
+        System.out.println(message + " ");
+        System.out.print("> ");
         return scanner.nextLine().trim();
     }
 
