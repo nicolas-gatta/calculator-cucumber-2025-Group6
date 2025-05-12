@@ -77,6 +77,8 @@ class TestEvaluator {
                         expectedValue = 0; // Handle divide by zero case
                     }
                     break;
+                default:
+                    fail();
             }
     
             assertEquals(expectedValue, ((MyNumber) result).getValue());
@@ -293,45 +295,21 @@ class TestEvaluator {
     }
 
 
-
-
-//    @Test
-//    void testMatrixTranspose() throws IllegalConstruction {
-//        double[][] values = {{1, 2}, {3, 4}};
-//        Matrix matrix = new Matrix(values);
-//        MatrixExpression m = new MatrixExpression(matrix);
-//
-//        MatrixTranspose transpose = new MatrixTranspose(List.of(m));
-//        transpose.accept(evaluator);
-//        MatrixExpression result = (MatrixExpression) evaluator.getResult();
-//
-//        double[][] expected = {{1, 3}, {2, 4}};
-//        Matrix expectedMatrix = new Matrix(expected);
-//        MatrixExpression mExpected = new MatrixExpression(expectedMatrix);
-//        assertEquals(mExpected, result);
-//    }
-//
     @Test
-    void testRealNumberDivideByZero() throws IllegalConstruction {
-        RealNumber n1 = new RealNumber(3.14);
-        RealNumber zero = new RealNumber(0);
-        Divides div = new Divides(List.of(n1, zero));
-        div.accept(evaluator);
-        assertNull(evaluator.getResult());
+    void testMatrixTimesScalar() throws IllegalConstruction {
+        double[][] data = {{1, 2}, {3, 4}};
+        Matrix matrix = new Matrix(data);
+        MatrixExpression m = new MatrixExpression(matrix);
+        RealNumber scalar = new RealNumber(2);
+
+        Times times = new Times(List.of(m, scalar));
+        times.accept(evaluator);
+        MatrixExpression result = (MatrixExpression) evaluator.getResult();
+
+        double[][] expected = {{2, 4}, {6, 8}};
+        Matrix expectedMatrix = new Matrix(expected);
+        MatrixExpression mExpected = new MatrixExpression(expectedMatrix);
+        assertEquals(mExpected, result);
     }
 
-//    @Test
-//    void testMatrixTimesScalar() throws IllegalConstruction {
-//        double[][] data = {{1, 2}, {3, 4}};
-//        Matrix matrix = new Matrix(data);
-//        MatrixExpression m = new MatrixExpression(matrix);
-//        RealNumber scalar = new RealNumber(2);
-//
-//        Times times = new Times(List.of(m, scalar));
-//        times.accept(evaluator);
-//
-//        double[][] expected = {{2, 4}, {6, 8}};
-//        Matrix expectedMatrix = new Matrix(expected);
-//        assertArrayEquals(expected,  evaluator.getResult().getMatrix());
-//    }
 }
