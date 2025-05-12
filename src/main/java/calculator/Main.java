@@ -1,6 +1,7 @@
 package calculator;
 
 import calculator.api.CalculatorAPIApplication;
+import calculator.cli.ApplicationCLI;
 import unit_converter.ConverterFactory;
 import unit_converter.IUnitConverter;
 import unit_converter.enums.ConverterTypeEnum;
@@ -478,9 +479,9 @@ public class Main {
 	 */
 	private static void launchWeb(String[] args){
 		try{
+			CalculatorAPIApplication.main(args);
 			runCommand("npm install react-scripts");
 			runCommand("npm start");
-			CalculatorAPIApplication.main(args);
 		} catch (IOException e) {
 			System.out.println(e);
 		}
@@ -491,7 +492,7 @@ public class Main {
 	 * @param args Command line arguments (not used)
 	 */
 	private static void launchCLI(String[] args) {
-		CalculatorAPIApplication.main(args);
+		ApplicationCLI.entryPointCli();
 	}
 
 	/**
@@ -526,28 +527,32 @@ public class Main {
 					running = false;
 				}
 			}
+
+			switch (choice) {
+				case 1:
+					System.out.println("Launching GUI Application...");
+					launchGUI(args);
+					break;
+				case 2:
+					System.out.println("Launching API Server...");
+					launchAPI(args);
+					break;
+				case 3:
+					System.out.println("Launching Web Application...");
+					launchWeb(args);
+					break;
+				case 4:
+					System.out.println("Launching CLI Application...");
+					launchCLI(args);
+					break;
+				case 5:
+					System.out.println("Exiting application...");
+					break;
+				default:
+					System.out.println("Invalid option. Please enter a number between 1 and 5.");
+			}
 		}
-		switch (choice) {
-			case 1:
-				System.out.println("Launching GUI Application...");
-				launchGUI(args);
-				break;
-			case 2:
-				System.out.println("Launching API Server...");
-				launchAPI(args);
-				break;
-			case 3:
-				System.out.println("Launching Web Application...");
-				launchWeb(args);
-				break;
-			case 4:
-				System.out.println("Launching CLI Application...");
-				launchCLI(args);
-				break;
-			case 5:
-				System.out.println("Exiting application...");
-				break;
-		}
+
 		scanner.close();
 	}
 }
