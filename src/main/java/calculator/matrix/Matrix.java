@@ -23,6 +23,13 @@ public class Matrix {
         this.values = values;
     }
 
+    /**
+     * Constructs a column matrix from a 1D array of values.
+     * Each value in the array becomes a row in a single-column matrix.
+     *
+     * @param values the 1D array representing matrix values
+     * @throws IllegalArgumentException if the array is empty
+     */
     public Matrix(double[] values){
 
         if (values.length == 0){
@@ -49,6 +56,11 @@ public class Matrix {
     }
 
 
+    /**
+     * Gets the internal 2D array of values representing this matrix.
+     *
+     * @return the 2D array of matrix values
+     */
     public double[][] getValues(){
         return values;
     }

@@ -23,6 +23,13 @@ import org.springframework.web.server.ResponseStatusException;
 public class GlobalExceptionHandler {
 
     /**
+     * Default constructor for GlobalExceptionHandler.
+     */
+    public GlobalExceptionHandler() {
+        // Default constructor
+    }
+
+    /**
      * Handles {@link IllegalArgumentException} thrown in the application.
      *
      * @param ex the exception thrown

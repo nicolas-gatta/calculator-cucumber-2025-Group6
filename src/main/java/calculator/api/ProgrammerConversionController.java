@@ -18,6 +18,13 @@ import unit_converter.NumberSystemConverter;
 public class ProgrammerConversionController {
 
     /**
+     * Default constructor for ProgrammerConversionController.
+     */
+    public ProgrammerConversionController() {
+        // Default constructor
+    }
+
+    /**
      * Converts a number from one number system to another (e.g., from binary to hexadecimal).
      *
      * @param request the {@link ProgrammerConversionRequest} containing the input value,

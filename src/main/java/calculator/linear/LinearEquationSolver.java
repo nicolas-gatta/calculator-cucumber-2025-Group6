@@ -11,6 +11,13 @@ import java.util.*;
 public class LinearEquationSolver {
 
     /**
+     * Private constructor to prevent instantiation as this is a utility class with only static methods.
+     */
+    private LinearEquationSolver() {
+        // Private constructor to prevent instantiation
+    }
+
+    /**
      * Solves a linear system Ax = b and returns it as a LinearEquationSystemExpression.
      *
      * @param A         the coefficient matrix

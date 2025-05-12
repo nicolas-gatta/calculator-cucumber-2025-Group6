@@ -23,7 +23,10 @@ public class LinearEquationRequest {
         // Empty constructor
     }
 
-    /**  @return the coefficient matrix */
+    /**
+     * Gets the coefficient matrix.
+     * @return the coefficient matrix
+     */
     public double[][] getCoefficients() { return coefficients; }
     /**
      * Sets the coefficient matrix.
@@ -31,7 +34,10 @@ public class LinearEquationRequest {
      */
     public void setCoefficients(double[][] coefficients) { this.coefficients = coefficients; }
 
-    /** @return the constants matrix */
+    /**
+     * Gets the constants matrix.
+     * @return the constants matrix
+     */
     public double[][] getConstants() { return constants; }
     /**
      * Sets the constants matrix.
@@ -39,7 +45,10 @@ public class LinearEquationRequest {
      */
     public void setConstants(double[][] constants) { this.constants = constants; }
 
-    /** @return the list of variable names */
+    /**
+     * Gets the list of variable names.
+     * @return the list of variable names
+     */
     public List<String> getVariables() { return variables; }
     /**
      * Sets the variable names.

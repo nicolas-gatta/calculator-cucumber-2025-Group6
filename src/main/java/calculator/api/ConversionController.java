@@ -16,11 +16,17 @@ import java.util.Locale;
  * (e.g., meters to kilometers, Celsius to Fahrenheit) based on the requested conversion type.
  * It uses the {@link ConverterFactory} to retrieve the correct converter implementation
  * depending on the conversion type provided in the request.
- * </p>
  */
 @RestController
 @RequestMapping("/api/conversion")
 public class ConversionController {
+
+    /**
+     * Default constructor for ConversionController.
+     */
+    public ConversionController() {
+        // Default constructor
+    }
 
     /**
      * Endpoint for converting a numeric value from one unit to another.
@@ -33,7 +39,6 @@ public class ConversionController {
      *     <li>value (numeric string to be converted)</li>
      * </ul>
      * Returns a string representation of the converted value, formatted appropriately.
-     * </p>
      *
      * @param request the conversion request
      * @return the result of the unit conversion as a string
@@ -68,7 +73,6 @@ public class ConversionController {
      * Uses scientific notation if the absolute value is very small (&lt; 0.0001)
      * or very large (&gt; 1000). Otherwise, it uses fixed-point notation with 6 decimal places,
      * and removes unnecessary trailing zeros.
-     * </p>
      *
      * @param result the numerical result of the conversion
      * @return the formatted string

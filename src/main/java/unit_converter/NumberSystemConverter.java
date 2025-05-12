@@ -2,7 +2,19 @@ package unit_converter;
 
 import unit_converter.enums.NumberSystemEnum;
 
+/**
+ * Converter for number systems.
+ * This class implements the IUnitConverter interface to provide conversion functionality
+ * between different number systems (e.g., binary, decimal, hexadecimal, etc.).
+ */
 public class NumberSystemConverter implements IUnitConverter<String> {
+    
+    /**
+     * Default constructor for NumberSystemConverter.
+     */
+    public NumberSystemConverter() {
+        // Default constructor
+    }
     
     @Override
     public String convert(String fromUnit, String toUnit, String value) {
@@ -11,6 +23,17 @@ public class NumberSystemConverter implements IUnitConverter<String> {
         return convert(from, to, value);
     }
     
+    /**
+     * Converts a value from one number system to another.
+     * The conversion is performed by first converting to decimal (base 10),
+     * then to the target number system.
+     *
+     * @param from the source number system
+     * @param to the target number system
+     * @param value the value to convert as a string
+     * @return the converted value in the target number system
+     * @throws IllegalArgumentException if the value is invalid for the source number system
+     */
     public String convert(NumberSystemEnum from, NumberSystemEnum to, String value) {
         if (value == null || value.trim().isEmpty()) {
             return "0";
