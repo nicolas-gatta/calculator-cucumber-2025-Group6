@@ -23,32 +23,32 @@ public final class MatrixTranspose extends Operation{
 
     @Override
     public int op(int left, int right) {
-        throw new ArithmeticException("Operation only for Matrix");
+        throw new ArithmeticException("Transpose Operation only for Matrix, does not support integer operations");
     }
 
     @Override
     public double opReal(double l, double r) {
-        throw new ArithmeticException("Operation only for Matrix");
+        throw new ArithmeticException("Transpose Operation only for Matrix, does not support real operations");
     }
 
     @Override
     public RationalNumber opRational(RationalNumber l, RationalNumber r) {
-        throw new ArithmeticException("Operation only for Matrix");
+        throw new ArithmeticException("Transpose Operation only for Matrix, does not support Rational operations");
     }
 
     @Override
     public ComplexNumber opComplex(ComplexNumber l, ComplexNumber r) {
-        throw new ArithmeticException("Operation only for Matrix");
+        throw new ArithmeticException("Transpose Operation only for Matrix, does not support Complex operations");
     }
 
     @Override
     public Matrix opMatrix(Matrix l, Matrix r) {
-        throw new ArithmeticException("Operation only for ONE Matrix");
+        throw new ArithmeticException("Transpose Operation only for One matrix, does not support two matrices operations");
     }
 
     @Override
     public Matrix opMatrix(Matrix l, double r) {
-        throw new ArithmeticException("Operation only for Matrix");
+        throw new ArithmeticException("Transpose Operation only for One matrix, does not matrix and double operations");
     }
 
     @Override

@@ -30,7 +30,7 @@ class TestMyNumber {
 		assertNotEquals(new MyNumber(otherValue),number);
 		assertEquals(number, number); // Identity check (for coverage, as this should always be true)
 		assertNotEquals(number, value); // number is of type MyNumber, while value is of type int, so not equal
-		
+		assertNotEquals(number, null);
 		try {
 			ArrayList<calculator.Expression> list = new ArrayList<>();
 			list.add(new MyNumber(5));

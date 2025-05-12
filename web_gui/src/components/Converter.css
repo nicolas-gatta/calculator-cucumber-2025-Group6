@@ -1,0 +1,26 @@
+.converter{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.error-text {
+    color: red;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.converter button{
+    height: 40px;
+    width: 90px;
+    font-size: 18px;
+    align-content: center;
+}
+
+.converter .dropdown,
+.converter .field {
+    width: 100%;
+}

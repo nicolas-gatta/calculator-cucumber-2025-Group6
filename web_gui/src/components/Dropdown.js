@@ -1,11 +1,11 @@
 import "./Dropdown.css";
 import PropTypes from "prop-types";
 
-const Dropdown = ({ title, options, selectedOption, onChange, disabled}) => {
+const Dropdown = ({ title, options, selectedOption, onChange, disabled, isInTypeBar}) => {
     return (
-        <div className={"dropdown"}>
-            <label className={"dropdown-label"}>{title} :</label>
-            <select className={"dropdown-select"} value={selectedOption} disabled={disabled}
+        <div className={isInTypeBar ? "dropdown-type-bar" : "dropdown"}>
+            <label className={isInTypeBar ? "dropdown-label-type-bar" : "dropdown-label"}>{title}:</label>
+            <select className={isInTypeBar ? "dropdown-select-type-bar" : "dropdown-select"} value={selectedOption} disabled={disabled}
                     onChange={(e) => onChange(e.target.value)}>
                 {options.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -27,7 +27,13 @@ Dropdown.propTypes = {
     ).isRequired,
     selectedOption: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired
+    disabled: PropTypes.bool,
+    isInTypeBar: PropTypes.bool,
+}
+
+Dropdown.defaultProps = {
+    disabled: false,
+    isInTypeBar: false
 }
 
 export default Dropdown;

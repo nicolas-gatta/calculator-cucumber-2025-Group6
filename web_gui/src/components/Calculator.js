@@ -10,6 +10,11 @@ import TypeBar from "./TypeBar";
 import HelpModal from "./HelpModal";
 
 import "./Calculator.css"
+import Matrix from "./Matrix";
+import Converter from "./Converter";
+import ProgrammerConverter from "./ProgrammerConverter";
+import LinearEquationSolver from "./LinearEquationSolver";
+import ExpressionParser from "./ExpressionParser";
 
 const Calculator = () => {
     const [selectedType, setSelectedType] = useState("INTEGER");
@@ -18,6 +23,7 @@ const Calculator = () => {
     const [currentInput, setCurrentInput] = useState("");
     const [operator, setOperator] = useState("");
     const [isResultDisplayed, setIsResultDisplayed] = useState(false);
+    const [result, setResult] = useState("");
 
     const openHelpModal = () => setIsHelpOpen(true);
     const closeHelpModal = () => setIsHelpOpen(false);
@@ -107,6 +113,10 @@ const Calculator = () => {
         setOperator("");
     };
 
+    const clearResult = () => {
+        setResult("");
+    }
+
     const btnHead = [
         {value: "+/-", className: "otherBtn", onClick: toggleNegative},
         {value: "?", className: "helpBtn", onClick: openHelpModal}]
@@ -142,6 +152,11 @@ const Calculator = () => {
         {value: "RATIONAL", label: "Rational"},
         {value: "REAL", label: "Real"},
         {value: "COMPLEX", label: "Complex"},
+        {value: "MATRIX", label: "Matrix"},
+        {value: "UNIT_CONVERSIONS", label: "Unit conversions"},
+        {value: "BINARY_OCTAL_HEXADECIMAL", label: "Binary, octal, hexadecimal conversions"},
+        {value: "LINEAR_EQUATION", label: "Linear equation solver"},
+        {value: "PARSER", label: "Expression parser"}
     ];
 
     const specialButtonsByType = {
@@ -154,7 +169,7 @@ const Calculator = () => {
 
 
     return <Wrapper>
-        <Head><Screen value={currentInput || firstOperand || "0"} />
+        <Head><Screen value={result || currentInput || firstOperand || "0"} />
             {btnHead.map((btn) => (
                 <Button
                     key={btn.value}
@@ -165,8 +180,15 @@ const Calculator = () => {
             ))}
         </Head>
         <TypeBar> <Dropdown title={"Type"} options={typesNumber} selectedOption={selectedType}
-                            onChange={(value) => setSelectedType(value)}
-                            disabled={firstOperand !== "" || operator !== "" || currentInput !== ""}/>
+                            onChange={(value) => {
+                                setSelectedType(value);
+                                clear();
+                                clearResult();
+                            }}
+
+                            disabled={firstOperand !== "" || operator !== "" || currentInput !== ""}
+                            isInTypeBar={true}
+        />
             {getSpecialButtons().map((btn) => (
                 <Button
                     key={btn.value}
@@ -177,16 +199,24 @@ const Calculator = () => {
             ))}
         </TypeBar>
 
-        <ButtonBox>
-            {btnValues.flat().map((btn) => (
-                <Button
-                    key={btn.value}
-                    className={btn.className}
-                    value={btn.value}
-                    onClick={btn.onClick}
-                />
-            ))}
-        </ButtonBox>
+        {(selectedType === "INTEGER" || selectedType === "COMPLEX" || selectedType === "RATIONAL" || selectedType === "REAL") && (
+            <ButtonBox>
+                {btnValues.flat().map((btn) => (
+                    <Button
+                        key={btn.value}
+                        className={btn.className}
+                        value={btn.value}
+                        onClick={btn.onClick}
+                    />
+                ))}
+            </ButtonBox>
+        )}
+
+        {selectedType === "MATRIX" && <Matrix setMatrixResult={setResult} />}
+        {selectedType === "UNIT_CONVERSIONS" && <Converter setConverterResult={setResult}/>}
+        {selectedType === "BINARY_OCTAL_HEXADECIMAL" && <ProgrammerConverter setProgrammerConverterResult={setResult}/>}
+        {selectedType === "LINEAR_EQUATION" && <LinearEquationSolver setLinearEquationResult={setResult}/>}
+        {selectedType === "PARSER" && <ExpressionParser setExpressionParserResult={setResult}/>}
 
         <HelpModal isOpen={isHelpOpen} onClose={closeHelpModal} ></HelpModal>
     </Wrapper>;

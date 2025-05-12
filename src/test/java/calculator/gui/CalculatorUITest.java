@@ -181,7 +181,7 @@ public class CalculatorUITest {
         robot.clickOn("5");
         robot.clickOn("=");
         
-        assertEquals("5,640000", display.getText());
+        assertEquals("5.640000", display.getText());
         
         // Test starting with decimal point
         robot.clickOn("C");

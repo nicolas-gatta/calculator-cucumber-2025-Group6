@@ -5,7 +5,7 @@ import unit_converter.ConverterFactory;
 import unit_converter.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-public class ConverterFactoryTest {
+class ConverterFactoryTest {
 
     @Test
     void testValidCreatedConverters() {

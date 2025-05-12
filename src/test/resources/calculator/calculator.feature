@@ -38,7 +38,7 @@ Feature: Integer Arithmetic Expressions
 
   Scenario: Printing the sum of two integer numbers
     Given the sum of two numbers 8 and 6
-    Then its INFIX notation is ( 8 + 6 )
+    Then its INFIX notation is (8 + 6)
     And its PREFIX notation is + (8, 6)
     And its POSTFIX notation is (8, 6) +
 
@@ -101,16 +101,16 @@ Feature: Integer Arithmetic Expressions
         Then its <notation> notation is <result>
 
         Examples:
-          | op  | n1 | n2 | notation  | result    |
-          |  +  | 8  | 6  | PREFIX    | + (8, 6)  |
-          |  +  | 8  | 6  | INFIX     | ( 8 + 6 ) |
-          |  +  | 8  | 6  | POSTFIX   | (8, 6) +  |
-          |  -  | 8  | 6  | PREFIX    | - (8, 6)  |
-          |  -  | 8  | 6  | INFIX     | ( 8 - 6 ) |
-          |  -  | 8  | 6  | POSTFIX   | (8, 6) -  |
-          |  *  | 8  | 6  | PREFIX    | * (8, 6)  |
-          |  *  | 8  | 6  | INFIX     | ( 8 * 6 ) |
-          |  *  | 8  | 6  | POSTFIX   | (8, 6) *  |
-          |  /  | 8  | 6  | PREFIX    | / (8, 6)  |
-          |  /  | 8  | 6  | INFIX     | ( 8 / 6 ) |
-          |  /  | 8  | 6  | POSTFIX   | (8, 6) /  |
+          | op  | n1 | n2 | notation  | result   |
+          |  +  | 8  | 6  | PREFIX    | + (8, 6) |
+          |  +  | 8  | 6  | INFIX     | (8 + 6)  |
+          |  +  | 8  | 6  | POSTFIX   | (8, 6) + |
+          |  -  | 8  | 6  | PREFIX    | - (8, 6) |
+          |  -  | 8  | 6  | INFIX     | (8 - 6)  |
+          |  -  | 8  | 6  | POSTFIX   | (8, 6) - |
+          |  *  | 8  | 6  | PREFIX    | * (8, 6) |
+          |  *  | 8  | 6  | INFIX     | (8 * 6)  |
+          |  *  | 8  | 6  | POSTFIX   | (8, 6) * |
+          |  /  | 8  | 6  | PREFIX    | / (8, 6) |
+          |  /  | 8  | 6  | INFIX     | (8 / 6)  |
+          |  /  | 8  | 6  | POSTFIX   | (8, 6) / |

@@ -11,6 +11,7 @@ C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\cal
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\gui\CalculatorUITest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\gui\HelpDialogTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\gui\NumberTypeTest.java
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\IllegalConstructionTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\linear\EquationExpressionTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\linear\EquationTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\linear\LinearEquationSolverTest.java
@@ -24,6 +25,9 @@ C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\cal
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\numbers\TestRationalNumber.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\numbers\TestRealNumber.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\numbers\TestRealOperations.java
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\operations\MatrixIdentityTest.java
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\operations\MatrixInvertedTest.java
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\operations\MatrixTransposeTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\operations\TestDivides.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\operations\TestMinus.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\operations\TestOperation.java
@@ -32,6 +36,7 @@ C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\cal
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\TestCalculator.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\calculator\TestCounting.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\AreaConverterTest.java
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\ConverterFactoryTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\CurrencyConverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\DensityConverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\EnergyConverterTest.java
@@ -43,6 +48,7 @@ C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\con
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\TemperatureConverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\TimeconverterTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\converter\VolumeConverterTest.java
+C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\expressionParser\StringParserTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\visitor\EquationCollectorVisitorTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\visitor\ExpressionParserVisitorTest.java
 C:\Users\Aymeline\IdeaProjects\calculator-cucumber-2025-Group6\src\test\java\visitor\TestCountingVisitor.java

@@ -65,4 +65,11 @@ class TestRealNumber {
         RealNumber nan = new RealNumber(Double.NaN, 2);
         assertTrue(Double.isNaN(nan.getValue()));
     }
+
+    @Test
+    void testNotEqualsNullAndDifferentClass() {
+        RealNumber a = new RealNumber(1.0);
+        assertNotEquals(a, null);
+        assertNotEquals(a, "string");
+    }
 } 
