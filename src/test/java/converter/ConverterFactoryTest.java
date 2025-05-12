@@ -3,6 +3,11 @@ package converter;
 import org.junit.jupiter.api.Test;
 import unit_converter.ConverterFactory;
 import unit_converter.*;
+import unit_converter.enums.ConverterTypeEnum;
+import unit_converter.enums.EnumDisplayUtil;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 class ConverterFactoryTest {
@@ -21,6 +26,20 @@ class ConverterFactoryTest {
         assertInstanceOf(TimeConverter.class, ConverterFactory.getConverter("time"));
         assertInstanceOf(ForceConverter.class, ConverterFactory.getConverter("force"));
     }
+
+    @Test
+    public void testAvailableConverterListNamesMatchEnum() {
+        List<String> expectedNames = List.of(ConverterTypeEnum.values()).stream()
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
+                .collect(Collectors.toList());
+
+        List<String> actualNames = ConverterFactory.getConverterListNames();
+
+        assertEquals(expectedNames.size(), actualNames.size(), "Mismatch in number of available converters.");
+        assertTrue(actualNames.containsAll(expectedNames), "Some expected converter names are missing.");
+    }
+
 
     @Test
     void testCaseInsensitiveInput() {

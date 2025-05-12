@@ -2,6 +2,11 @@ package converter;
 import org.junit.jupiter.api.Test;
 import unit_converter.IUnitConverter;
 import unit_converter.SpeedConverter;
+import unit_converter.enums.EnumDisplayUtil;
+import unit_converter.enums.SpeedUnitEnum;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +14,20 @@ public class SpeedConverterTest {
 
     private final IUnitConverter<Double> converter = new SpeedConverter();
 
+    @Test
+    public void testUnitNamesMatchEnumValues() {
+
+        List<String> expectedUnits = List.of(SpeedUnitEnum.values()).stream()
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
+                .collect(Collectors.toList());
+
+
+        List<String> actualUnits = converter.getConverterUnitListNames();
+
+        assertEquals(expectedUnits.size(), actualUnits.size(), "Number of units mismatch.");
+        assertTrue(actualUnits.containsAll(expectedUnits), "Some expected units are missing.");
+    }
     @Test
     public void testMeterPerSecondToKilometerPerHour() {
         double result = converter.convert("meter_per_second", "kilometer_per_hour", 1.0);

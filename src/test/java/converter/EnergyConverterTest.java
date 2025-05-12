@@ -2,12 +2,32 @@ package converter;
 import org.junit.jupiter.api.Test;
 import unit_converter.EnergyConverter;
 import unit_converter.IUnitConverter;
+import unit_converter.enums.EnergyUnitEnum;
+import unit_converter.enums.EnumDisplayUtil;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EnergyConverterTest {
 
     private final IUnitConverter<Double> converter = new EnergyConverter();
+
+    @Test
+    public void testUnitNamesMatchEnumValues() {
+
+        List<String> expectedUnits = List.of(EnergyUnitEnum.values()).stream()
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
+                .collect(Collectors.toList());
+
+
+        List<String> actualUnits = converter.getConverterUnitListNames();
+
+        assertEquals(expectedUnits.size(), actualUnits.size(), "Number of units mismatch.");
+        assertTrue(actualUnits.containsAll(expectedUnits), "Some expected units are missing.");
+    }
 
     @Test
     public void testKwhToJoule() {

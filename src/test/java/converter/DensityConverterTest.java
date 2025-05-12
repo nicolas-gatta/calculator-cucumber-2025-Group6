@@ -4,15 +4,31 @@ import org.junit.jupiter.api.Test;
 import unit_converter.DensityConverter;
 import unit_converter.IUnitConverter;
 import unit_converter.enums.DensityUnitEnum;
+import unit_converter.enums.EnumDisplayUtil;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DensityConverterTest {
 
     private final IUnitConverter<Double> converter = new DensityConverter();
 
-    //TODO: Add more unit test for others time units
+    @Test
+    public void testUnitNamesMatchEnumValues() {
+
+        List<String> expectedUnits = List.of(DensityUnitEnum.values()).stream()
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
+                .collect(Collectors.toList());
+
+
+        List<String> actualUnits = converter.getConverterUnitListNames();
+
+        assertEquals(expectedUnits.size(), actualUnits.size(), "Number of units mismatch.");
+        assertTrue(actualUnits.containsAll(expectedUnits), "Some expected units are missing.");
+    }
 
     @Test
     public void testGramPerCm3ToKgPerM3() {
