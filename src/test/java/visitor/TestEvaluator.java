@@ -6,14 +6,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import calculator.Calculator;
 import calculator.Expression;
 import calculator.IllegalConstruction;
+import calculator.matrix.Matrix;
+import calculator.matrix.MatrixExpression;
 import calculator.numbers.MyNumber;
 import calculator.numbers.RealNumber;
 import calculator.numbers.ComplexNumber;
 import calculator.numbers.RationalNumber;
-import calculator.operations.Divides;
-import calculator.operations.Minus;
-import calculator.operations.Plus;
-import calculator.operations.Times;
+import calculator.operations.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -215,4 +214,124 @@ class TestEvaluator {
             fail();
         }
     }
+
+    @Test
+    void testMyNumberPlusRealNumber() throws IllegalConstruction {
+        MyNumber a = new MyNumber(2);
+        RealNumber b = new RealNumber(3.5);
+        Plus plus = new Plus(List.of(a, b));
+        plus.accept(evaluator);
+
+        Expression result = evaluator.getResult();
+        assertInstanceOf(RealNumber.class, result);
+        assertEquals(5.5, ((RealNumber) result).getValue(), 0.0001);
+    }
+
+    @Test
+    void testMyNumberMinusRationalNumber() throws IllegalConstruction {
+        MyNumber a = new MyNumber(5);
+        RationalNumber b = new RationalNumber(9,4);
+        Minus minus = new Minus(List.of(a, b));
+        minus.accept(evaluator);
+        Expression result = evaluator.getResult();
+        assertInstanceOf(RealNumber.class, result);
+        assertEquals(2.75, ((RealNumber) result).getValue(), 0.0001);
+    }
+
+    @Test
+    void testRationalTimesMyNumber() throws IllegalConstruction {
+        RationalNumber a = new RationalNumber(2, 3);
+        MyNumber b = new MyNumber(6);
+        Times times = new Times(List.of(a, b));
+        times.accept(evaluator);
+
+        Expression result = evaluator.getResult();
+        assertInstanceOf(RealNumber.class, result);
+        assertEquals(4.0, ((RealNumber) result).getValue(), 0.0001);
+    }
+
+    @Test
+    void testRealNumberDividesMyNumber() throws IllegalConstruction {
+        RealNumber a = new RealNumber(6);
+        MyNumber b = new MyNumber(2);
+        Divides div = new Divides(List.of(a, b));
+        div.accept(evaluator);
+        Expression result = evaluator.getResult();
+        assertInstanceOf(RealNumber.class, result);
+        assertEquals(3.0, ((RealNumber) result).getValue(), 0.0001);
+    }
+
+    @Test
+    void testRealNumberPlusRationalNumber() throws IllegalConstruction {
+        RealNumber a = new RealNumber(2.5);
+        RationalNumber b = new RationalNumber(1, 2);
+        Plus plus = new Plus(List.of(a, b));
+        plus.accept(evaluator);
+        Expression result = evaluator.getResult();
+        assertInstanceOf(RealNumber.class, result);
+        assertEquals(3.0, ((RealNumber) result).getValue(), 0.0001);
+    }
+
+    @Test
+    void testRationalPlusRealNumber() throws IllegalConstruction {
+        RationalNumber a = new RationalNumber(3, 4);
+        RealNumber b = new RealNumber(2);
+        Plus plus = new Plus(List.of(a, b));
+        plus.accept(evaluator);
+        Expression result = evaluator.getResult();
+        assertInstanceOf(RealNumber.class, result);
+        assertEquals(2.75, ((RealNumber) result).getValue(), 0.0001);
+    }
+
+    @Test
+    void testRealNumberDivideByZeroRational() throws IllegalConstruction {
+        RealNumber n1 = new RealNumber(3.14);
+        RationalNumber zero = new RationalNumber(0, 1);
+        Divides div = new Divides(List.of(n1, zero));
+        div.accept(evaluator);
+        assertNull(evaluator.getResult());
+    }
+
+
+
+
+//    @Test
+//    void testMatrixTranspose() throws IllegalConstruction {
+//        double[][] values = {{1, 2}, {3, 4}};
+//        Matrix matrix = new Matrix(values);
+//        MatrixExpression m = new MatrixExpression(matrix);
+//
+//        MatrixTranspose transpose = new MatrixTranspose(List.of(m));
+//        transpose.accept(evaluator);
+//        MatrixExpression result = (MatrixExpression) evaluator.getResult();
+//
+//        double[][] expected = {{1, 3}, {2, 4}};
+//        Matrix expectedMatrix = new Matrix(expected);
+//        MatrixExpression mExpected = new MatrixExpression(expectedMatrix);
+//        assertEquals(mExpected, result);
+//    }
+//
+    @Test
+    void testRealNumberDivideByZero() throws IllegalConstruction {
+        RealNumber n1 = new RealNumber(3.14);
+        RealNumber zero = new RealNumber(0);
+        Divides div = new Divides(List.of(n1, zero));
+        div.accept(evaluator);
+        assertNull(evaluator.getResult());
+    }
+
+//    @Test
+//    void testMatrixTimesScalar() throws IllegalConstruction {
+//        double[][] data = {{1, 2}, {3, 4}};
+//        Matrix matrix = new Matrix(data);
+//        MatrixExpression m = new MatrixExpression(matrix);
+//        RealNumber scalar = new RealNumber(2);
+//
+//        Times times = new Times(List.of(m, scalar));
+//        times.accept(evaluator);
+//
+//        double[][] expected = {{2, 4}, {6, 8}};
+//        Matrix expectedMatrix = new Matrix(expected);
+//        assertArrayEquals(expected,  evaluator.getResult().getMatrix());
+//    }
 }

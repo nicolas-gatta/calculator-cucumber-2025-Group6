@@ -74,6 +74,27 @@ class TestOperation {
 		assertEquals(Notation.INFIX, o.getNotation());
 	}
 
+	@Test
+	void testGetDescriptionNotation() {
+		assertEquals("Infix Notation (operator between operands)", o.getNotation().getDescription());
+	}
+	@Test
+	void testGetDescriptionNotation2() throws IllegalConstruction {
+		List<Expression> params1 = Arrays.asList(new MyNumber(3), new MyNumber(4), new MyNumber(5));
+		List<Expression> params2 = Arrays.asList(new MyNumber(5), new MyNumber(4));
+		List<Expression> params3 = Arrays.asList(new Plus(params1), new Minus(params2), new MyNumber(7));
+		o = new Divides(params3, Notation.PREFIX);
+		assertEquals("Prefix Notation (operator before operands)", o.getNotation().getDescription());
+	}
+	@Test
+	void testGetDescriptionNotation3() throws IllegalConstruction {
+		List<Expression> params1 = Arrays.asList(new MyNumber(3), new MyNumber(4), new MyNumber(5));
+		List<Expression> params2 = Arrays.asList(new MyNumber(5), new MyNumber(4));
+		List<Expression> params3 = Arrays.asList(new Plus(params1), new Minus(params2), new MyNumber(7));
+		o = new Divides(params3, Notation.POSTFIX);
+		assertEquals("Postfix Notation (operator after operands)", o.getNotation().getDescription());
+	}
+
 
 	@Test
 	void testToStringInfix() {

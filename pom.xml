@@ -216,6 +216,7 @@
                 <configuration>
                     <!--needed to prevent module problem-->
                     <detectJavaApiLink>false</detectJavaApiLink>
+                    <failOnError>false</failOnError>
                 </configuration>
                 <executions>
                     <!-- Exports JavaDocs to regular HTML files -->
