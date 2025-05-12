@@ -1,7 +1,16 @@
 package calculator;
 
-import calculator.cli.ApplicationCLI;
+import calculator.api.CalculatorAPIApplication;
+import unit_converter.ConverterFactory;
+import unit_converter.IUnitConverter;
+import unit_converter.enums.ConverterTypeEnum;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+import static unit_converter.ConverterFactory.getConverter;
 import calculator.linear.Equation;
 import calculator.linear.EquationExpression;
 import calculator.linear.LinearEquationSystemExpression;
@@ -64,6 +73,14 @@ public class Main {
 
 		try {
 			System.out.println("\n=== Integer Operations Examples ===");
+
+			//Use this code for user input CLI when using values converters
+//			Scanner userInput = new Scanner(System.in);
+//			System.out.println("Enter Converter Type:");
+//			String converterName = userInput.nextLine();
+//			IUnitConverter<?> converter = ConverterFactory.getConverter(converterName);
+//			if(converter == null) System.out.println("Converter not found");
+
 
 			e = new MyNumber(8);
 			c.print(e);
@@ -328,7 +345,7 @@ public class Main {
 		try {
 
 			Expression left1 = new Plus(List.of(new VariableExpression(new MyNumber(3),"x"),
-								new VariableExpression(new MyNumber(3),"y")));
+					new VariableExpression(new MyNumber(3),"y")));
 
 			Expression right1 = new MyNumber(5);
 
@@ -422,12 +439,59 @@ public class Main {
 		c.print(e);
 	}
 
+	private static void runCommand(String command) throws IOException {
+		ProcessBuilder processBuilder = new ProcessBuilder();
+
+		processBuilder.directory(new java.io.File("..../web_gui"));
+
+		// Start the process
+		Process process = processBuilder.start();
+
+		// Read the output
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				System.out.println(line);
+			}
+		}
+	}
+
 	/**
 	 * Launches the GUI application
 	 * @param args Command line arguments (not used)
 	 */
-	public static void launchGUI(String[] args) {
+	private static void launchGUI(String[] args) {
 		CalculatorApp.main(args);
+	}
+
+	/**
+	 * Launches the API application
+	 * @param args Command line arguments (not used)
+	 */
+	private static void launchAPI(String[] args) {
+		CalculatorAPIApplication.main(args);
+	}
+
+	/**
+	 * Launches the Web application
+	 * @param args Command line arguments (not used)
+	 */
+	private static void launchWeb(String[] args){
+		try{
+			runCommand("npm install react-scripts");
+			runCommand("npm start");
+			CalculatorAPIApplication.main(args);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+	}
+
+	/**
+	 * Launches the CLI application
+	 * @param args Command line arguments (not used)
+	 */
+	private static void launchCLI(String[] args) {
+		CalculatorAPIApplication.main(args);
 	}
 
 	/**
@@ -435,18 +499,55 @@ public class Main {
 	 * @param args Command line arguments (not used)
 	 */
 	public static void main(String[] args) {
-		if (args.length > 0 && args[0].equals("--gui")) {
-			launchGUI(args);
-		} else {
-			// Votre code existant pour la version console
-			ApplicationCLI.entryPointCli();
-			demonstrateIntegerOperations();
-			demonstrateRealOperations();
-			demonstrateRationalOperations();
-			demonstrateComplexOperations();
-			demonstrateMatrixOperations();
-			demonstrateLinearEquation();
-			demonstrateExpressionParser();
+		Scanner scanner = new Scanner(System.in);
+		boolean running = true;
+		int choice = 5;
+
+		while (running) {
+			System.out.println("===== Application Launcher =====");
+			System.out.println("1. Start GUI Application");
+			System.out.println("2. Start API Server");
+			System.out.println("3. Start Web Application");
+			System.out.println("4. Start CLI Application");
+			System.out.println("5. Exit");
+			System.out.print("Select an option (1-5): ");
+
+			if (!scanner.hasNextInt()) {
+				System.out.println("Invalid input. Please enter a number between 1 and 5.");
+				scanner.next(); // Clear the invalid input
+			}else{
+				choice = scanner.nextInt();
+				scanner.nextLine(); // Clear the buffer
+
+				if (choice < 1 || choice > 5) {
+					System.out.println("Invalid option. Please enter a number between 1 and 5.");
+				}
+				else{
+					running = false;
+				}
+			}
 		}
+		switch (choice) {
+			case 1:
+				System.out.println("Launching GUI Application...");
+				launchGUI(args);
+				break;
+			case 2:
+				System.out.println("Launching API Server...");
+				launchAPI(args);
+				break;
+			case 3:
+				System.out.println("Launching Web Application...");
+				launchWeb(args);
+				break;
+			case 4:
+				System.out.println("Launching CLI Application...");
+				launchCLI(args);
+				break;
+			case 5:
+				System.out.println("Exiting application...");
+				break;
+		}
+		scanner.close();
 	}
 }
