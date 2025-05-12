@@ -1,7 +1,6 @@
 package calculator.linear;
 
 import calculator.matrix.Matrix;
-import expressionParser.StringParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,7 +11,7 @@ class LinearEquationSolverTest {
 
     @Test
     void testIllegalConstructor() {
-        assertThrows(IllegalStateException.class, StringParser::new);
+        assertThrows(IllegalStateException.class, LinearEquationSolver::new);
     }
 
     @Test
