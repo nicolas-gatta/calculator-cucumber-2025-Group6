@@ -182,8 +182,9 @@ public class Evaluator extends Visitor {
                     }
                 }
 
-                else if ((accumulator instanceof RealNumber || accumulator instanceof MyNumber || accumulator instanceof RationalNumber) && current instanceof MatrixExpression accMat) {
-                    double currVal = getRealNumber(current).getValue();
+                else if ((accumulator instanceof RealNumber || accumulator instanceof MyNumber || accumulator instanceof RationalNumber) &&
+                        current instanceof MatrixExpression accMat) {
+                    double currVal = getRealNumber(accumulator).getValue();
 
                     if (o instanceof Divides) {
                         accumulator = new MatrixExpression(accMat.getMatrix().divide(currVal));

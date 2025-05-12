@@ -1,5 +1,9 @@
 package calculator.matrix;
 
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Class that represents a matrix and provides various operations
  */
@@ -409,7 +413,10 @@ public class Matrix {
 
         String[] rows = input.split("(?<=]),");
 
-        if (rows.length == 0){
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        boolean hasEmptyRows = !Arrays.stream(rows).allMatch(row -> pattern.matcher(row).matches());
+
+        if (rows.length == 0 || hasEmptyRows){
             throw new IllegalArgumentException("Matrix cannot be empty");
         }
 

@@ -301,6 +301,15 @@ public class Main {
 			e = new Times(List.of(e1, rationalNumber));
 			c.print(e);
 
+			e = new Times(List.of(number, e1));
+			c.print(e);
+
+			e = new Times(List.of(realNumber, e1));
+			c.print(e);
+
+			e = new Times(List.of(rationalNumber, e1));
+			c.print(e);
+
 			e = new MatrixTranspose(List.of(e1));
 			c.print(e);
 
