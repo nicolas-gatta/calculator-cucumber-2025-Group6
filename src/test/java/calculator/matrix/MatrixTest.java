@@ -40,6 +40,12 @@ class MatrixTest {
     }
 
     @Test
+    void  testEmptyMatrix3() {
+        double[][] input = { new double[0] };
+        assertThrows(IllegalArgumentException.class, () -> new Matrix(input));
+    }
+
+    @Test
     void testInvalidParseMatrix() {
         assertThrows(IllegalArgumentException.class, () -> new Matrix("[1,2,3]"));
     }
@@ -106,6 +112,13 @@ class MatrixTest {
     }
 
     @Test
+    void testInvalidAddition2() {
+        Matrix m1 = new Matrix("[[1,2]]");
+        Matrix m2 = new Matrix("[[1,2,3]]");
+        assertThrows(IllegalArgumentException.class, () -> m1.add(m2));
+    }
+
+    @Test
     void testSubtraction2x2() {
         Matrix m1 = new Matrix("[[5,6],[7,8]]");
         Matrix m2 = new Matrix("[[1,2],[3,4]]");
@@ -125,6 +138,13 @@ class MatrixTest {
     void testInvalidSubtraction() {
         Matrix m1 = new Matrix("[[5,6],[7,8]]");
         Matrix m2 = new Matrix("[[1,2,3],[4,5,6],[7,8,9]]");
+        assertThrows(IllegalArgumentException.class, () -> m1.subtract(m2));
+    }
+
+    @Test
+    void testInvalidSubtraction2() {
+        Matrix m1 = new Matrix("[[1,2]]");
+        Matrix m2 = new Matrix("[[1,2,3]]");
         assertThrows(IllegalArgumentException.class, () -> m1.subtract(m2));
     }
 
@@ -236,6 +256,12 @@ class MatrixTest {
     @Test
     void testInvalidInverse() {
         Matrix m = new Matrix("[[3,0],[2,0]]");
+        assertThrows(IllegalArgumentException.class, m::inverse);
+    }
+
+    @Test
+    void testInvalidInverse2() {
+        Matrix m = new Matrix("[[1, 2, 3], [4, 5, 6]]");
         assertThrows(IllegalArgumentException.class, m::inverse);
     }
 

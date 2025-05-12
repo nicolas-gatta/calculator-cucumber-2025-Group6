@@ -4,6 +4,8 @@ package calculator.operations;
 import static org.junit.jupiter.api.Assertions.*;
 
 import calculator.Expression;
+import calculator.IllegalConstruction;
+import calculator.Notation;
 import calculator.numbers.MyNumber;
 import org.junit.jupiter.api.*;
 
@@ -43,5 +45,85 @@ class TestOperation {
 	void testCountNbs() {
 		assertEquals(Integer.valueOf(6), o.countNbs());
 	}
+
+	@Test
+	void testConstructorWithEmptyListThrowsException() {
+		List<Expression> emptyList = List.of();
+		assertThrows(IllegalConstruction.class, () -> new Divides(emptyList));
+	}
+
+	@Test
+	void testConstructorWithNullListThrowsException() {
+		assertThrows(IllegalConstruction.class, () -> new Divides(null));
+	}
+
+	@Test
+	void testAddMoreParams() throws Exception {
+		int initialSize = o.getArgs().size();
+		o.addMoreParams(List.of(new MyNumber(9), new MyNumber(10)));
+		assertEquals(initialSize + 2, o.getArgs().size());
+	}
+
+	@Test
+	void testGetSymbol() {
+		assertEquals("/", o.getSymbol()); // pour Divides
+	}
+
+	@Test
+	void testGetNotation() {
+		assertEquals(Notation.INFIX, o.getNotation());
+	}
+
+	@Test
+	void testGetDescriptionNotation() {
+		assertEquals("Infix Notation (operator between operands)", o.getNotation().getDescription());
+	}
+	@Test
+	void testGetDescriptionNotation2() throws IllegalConstruction {
+		List<Expression> params1 = Arrays.asList(new MyNumber(3), new MyNumber(4), new MyNumber(5));
+		List<Expression> params2 = Arrays.asList(new MyNumber(5), new MyNumber(4));
+		List<Expression> params3 = Arrays.asList(new Plus(params1), new Minus(params2), new MyNumber(7));
+		o = new Divides(params3, Notation.PREFIX);
+		assertEquals("Prefix Notation (operator before operands)", o.getNotation().getDescription());
+	}
+	@Test
+	void testGetDescriptionNotation3() throws IllegalConstruction {
+		List<Expression> params1 = Arrays.asList(new MyNumber(3), new MyNumber(4), new MyNumber(5));
+		List<Expression> params2 = Arrays.asList(new MyNumber(5), new MyNumber(4));
+		List<Expression> params3 = Arrays.asList(new Plus(params1), new Minus(params2), new MyNumber(7));
+		o = new Divides(params3, Notation.POSTFIX);
+		assertEquals("Postfix Notation (operator after operands)", o.getNotation().getDescription());
+	}
+
+
+	@Test
+	void testToStringInfix() {
+		String result = o.toString(Notation.INFIX);
+		assertNotNull(result);
+		assertTrue(result.contains("/")); // ou autre selon la notation
+	}
+
+	@Test
+	void testToStringPrefix() {
+		String result = o.toString(Notation.PREFIX);
+		assertNotNull(result);
+		assertTrue(result.startsWith("/")); // attendu pour notation préfixe
+	}
+
+	@Test
+	void testNotEqualsDifferentClass() {
+		assertNotEquals(o, new Object());
+	}
+
+	@Test
+	void testEqualsNull() {
+		assertNotEquals(o, null);
+	}
+
+	@Test
+	void testHashCodeConsistency() {
+		assertEquals(o.hashCode(), o2.hashCode());
+	}
+
 
 }

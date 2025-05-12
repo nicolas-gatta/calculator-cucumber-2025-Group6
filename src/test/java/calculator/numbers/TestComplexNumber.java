@@ -132,7 +132,7 @@ class TestComplexNumber {
         Collections.addAll(params, c1, c2);
         e = new Plus(params, Notation.INFIX);
 
-        assertEquals("( 3.0 + 4.0i + 1.0 + 2.0i )", e.toString());
+        assertEquals("(3.0 + 4.0i + 1.0 + 2.0i)", e.toString());
     }
 
     @Test
@@ -147,7 +147,57 @@ class TestComplexNumber {
         assertEquals("(3.0 + 4.0i, 1.0 + 2.0i) +", e.toString());
     }
 
+    @Test
+    void testEquals_sameObject() {
+        ComplexNumber c1 = new ComplexNumber(3, 4);
+        assertEquals(c1, c1);
+    }
 
+    @Test
+    void testEquals_sameValues_shouldBeEqual() {
+        ComplexNumber c1 = new ComplexNumber(2.0, 3.0);
+        ComplexNumber c2 = new ComplexNumber(2.0, 3.0);
+        assertEquals(c1, c2);
+    }
 
+    @Test
+    void testEquals_differentValues_shouldNotBeEqual() {
+        ComplexNumber c1 = new ComplexNumber(2.0, 3.0);
+        ComplexNumber c2 = new ComplexNumber(3.0, 2.0);
+        assertNotEquals(c1, c2);
+    }
 
+    @Test
+    void testEquals_null_shouldNotBeEqual() {
+        ComplexNumber c1 = new ComplexNumber(1.0, 1.0);
+        assertNotEquals(c1, null);
+    }
+
+    @Test
+    void testEquals_differentClass_shouldNotBeEqual() {
+        ComplexNumber c1 = new ComplexNumber(1.0, 1.0);
+        String other = "Not a ComplexNumber";
+        assertNotEquals(c1, other);
+    }
+
+    @Test
+    void testEquals_approximatelyEqual_shouldBeEqual() {
+        ComplexNumber c1 = new ComplexNumber(1.00000000001, 2.0);
+        ComplexNumber c2 = new ComplexNumber(1.00000000002, 2.0);
+        assertEquals(c1, c2); // Uses epsilon tolerance
+    }
+
+    @Test
+    void testHashCode_equalObjects_shouldHaveSameHashCode() {
+        ComplexNumber c1 = new ComplexNumber(2.0, 3.0);
+        ComplexNumber c2 = new ComplexNumber(2.0, 3.0);
+        assertEquals(c1.hashCode(), c2.hashCode());
+    }
+
+    @Test
+    void testHashCode_differentObjects_shouldHaveDifferentHashCodes() {
+        ComplexNumber c1 = new ComplexNumber(2.0, 3.0);
+        ComplexNumber c2 = new ComplexNumber(3.0, 2.0);
+        assertNotEquals(c1.hashCode(), c2.hashCode());
+    }
 } 

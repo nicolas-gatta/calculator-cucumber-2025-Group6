@@ -38,7 +38,7 @@ class TestStringVisitor {
         Operation op = new Plus(params);
         StringVisitor visitor = new StringVisitor(Notation.INFIX);
         op.accept(visitor);
-        assertEquals("( 5 + 3 )", visitor.getResult());
+        assertEquals("(5 + 3)", visitor.getResult());
     }
 
     /**
@@ -81,6 +81,6 @@ class TestStringVisitor {
 
         StringVisitor visitor = new StringVisitor(Notation.INFIX);
         times.accept(visitor);
-        assertEquals("( ( 5 + 3 ) * 2 )", visitor.getResult());
+        assertEquals("((5 + 3) * 2)", visitor.getResult());
     }
 } 

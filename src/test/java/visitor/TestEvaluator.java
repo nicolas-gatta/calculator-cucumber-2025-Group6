@@ -12,10 +12,7 @@ import calculator.numbers.MyNumber;
 import calculator.numbers.RealNumber;
 import calculator.numbers.ComplexNumber;
 import calculator.numbers.RationalNumber;
-import calculator.operations.Divides;
-import calculator.operations.Minus;
-import calculator.operations.Plus;
-import calculator.operations.Times;
+import calculator.operations.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -80,6 +77,8 @@ class TestEvaluator {
                         expectedValue = 0; // Handle divide by zero case
                     }
                     break;
+                default:
+                    fail();
             }
     
             assertEquals(expectedValue, ((MyNumber) result).getValue());

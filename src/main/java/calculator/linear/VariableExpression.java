@@ -106,7 +106,7 @@ public class VariableExpression implements Expression {
 
         VariableExpression other = (VariableExpression) obj;
         // Compare numerators and denominators after simplification
-        return this.left == other.left && Objects.equals(this.right, other.right);
+        return Objects.equals(this.left, other.left) && Objects.equals(this.right, other.right);
     }
 
     /**

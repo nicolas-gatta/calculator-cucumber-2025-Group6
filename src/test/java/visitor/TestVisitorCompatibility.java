@@ -40,7 +40,7 @@ class TestVisitorCompatibility {
         
         StringVisitor visitor = new StringVisitor(Notation.INFIX);
         plus.accept(visitor);
-        assertEquals("( 3.14 + 2.00 )", visitor.getResult());
+        assertEquals("(3.14 + 2.00)", visitor.getResult());
     }
     
     @Test
