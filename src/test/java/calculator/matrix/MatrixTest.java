@@ -45,6 +45,19 @@ class MatrixTest {
     }
 
     @Test
+    void testInvalidParseMatrix2() {assertThrows(IllegalArgumentException.class, () -> new Matrix("[[1,2,3]"));}
+
+    @Test
+    void testInconsistentColumnSizes() {
+        assertThrows(IllegalArgumentException.class, () -> new Matrix("[[1,2],[3]]"));
+    }
+
+    @Test
+    void testEmptyMatrixString() {
+        assertThrows(IllegalArgumentException.class, () -> new Matrix("[[],[]]"));
+    }
+
+    @Test
     void testConstructorWithString2x2() {
         Matrix m = new Matrix("[[1,2],[3,4]]");
         assertEquals(1.0, m.getValue(0, 0));
