@@ -68,4 +68,9 @@ public class TimeconverterTest {
                 converter.convert("minute", "notarealunit", 100.0)
         );
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
+    }
 }

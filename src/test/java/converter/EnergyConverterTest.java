@@ -78,4 +78,9 @@ public class EnergyConverterTest {
                 converter.convert("joule", "banana", 1.0)
         );
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
+    }
 }

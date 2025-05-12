@@ -12,7 +12,7 @@ package unit_converter.enums;
  */
 public class EnumDisplayUtil {
 
-    private EnumDisplayUtil(){
+    public EnumDisplayUtil(){
         throw new IllegalStateException("Illegal stat EnumDisplayUtil");
     }
 

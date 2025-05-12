@@ -55,4 +55,9 @@ class ConverterFactoryTest {
         assertNull(ConverterFactory.getConverter(null));
 
     }
+
+    @Test
+    void testPrivateConstructorThrowsException() {
+        assertThrows(IllegalStateException.class, ConverterFactory::new);
+    }
 }

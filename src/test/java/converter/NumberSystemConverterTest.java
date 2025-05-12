@@ -169,4 +169,9 @@ class NumberSystemConverterTest {
         assertEquals("0x7FFFFFFF", converter.convert("DECIMAL", "HEXADECIMAL", "2147483647"));
         assertEquals("2147483647", converter.convert("HEXADECIMAL", "DECIMAL", "7FFFFFFF"));
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(String.class, converter.getValueType(), "Value type mismatch.");
+    }
 }

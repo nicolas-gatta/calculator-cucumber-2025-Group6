@@ -69,5 +69,10 @@ public class PressureConverterTest {
                 converter.convert("atm", "whoops", 10.0)
         );
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
+    }
 }
 

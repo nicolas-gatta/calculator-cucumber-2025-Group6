@@ -94,5 +94,10 @@ public class CurrencyConverterTest {
                 converter.convert("eur", "dogecoin", 10.0)
         );
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
+    }
 }
 

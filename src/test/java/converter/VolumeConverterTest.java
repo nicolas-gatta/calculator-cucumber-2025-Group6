@@ -79,5 +79,10 @@ public class VolumeConverterTest {
                 converter.convert("liter", "cauldron", 1.0)
         );
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
+    }
 }
 

@@ -72,5 +72,10 @@ public class LengthConverterTest {
                 converter.convert("meter", "hand", 1.0)
         );
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
+    }
 }
 

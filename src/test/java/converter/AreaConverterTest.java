@@ -68,4 +68,9 @@ public class AreaConverterTest {
                 converter.convert("SQUARE METER", "notarealunit", 100.0)
         );
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
+    }
 }

@@ -84,5 +84,10 @@ public class SpeedConverterTest {
                 converter.convert("meter_per_second", "warp", 1.0)
         );
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
+    }
 }
 

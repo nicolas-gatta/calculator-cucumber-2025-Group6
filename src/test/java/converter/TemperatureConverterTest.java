@@ -84,4 +84,9 @@ public class TemperatureConverterTest {
                 converter.convert("celsius", "unknown", 100.0)
         );
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
+    }
 }

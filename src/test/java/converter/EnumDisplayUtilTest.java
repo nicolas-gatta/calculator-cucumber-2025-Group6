@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import unit_converter.enums.EnumDisplayUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class EnumDisplayUtilTest {
 
@@ -45,13 +46,8 @@ public class EnumDisplayUtilTest {
         assertEquals(expected, EnumDisplayUtil.toDisplayName(input));
     }
 
-
-//    @Test
-//    void testPrivateConstructorThrowsException() {
-//        Constructor<?> constructor = EnumDisplayUtil.class.getDeclaredConstructors()[0];
-//        constructor.setAccessible(true);
-//        Exception exception = assertThrows(InvocationTargetException.class, () -> constructor.newInstance());
-//        assertTrue(exception.getCause() instanceof IllegalStateException);
-//        assertEquals("Illegal stat EnumDisplayUtil", exception.getCause().getMessage());
-//    }
+    @Test
+    void testPrivateConstructorThrowsException() {
+        assertThrows(IllegalStateException.class, EnumDisplayUtil::new);
+    }
 }

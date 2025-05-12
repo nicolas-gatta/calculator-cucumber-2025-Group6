@@ -18,11 +18,11 @@ public class ApplicationCLI {
      * Default constructor for ApplicationCLI.
      * This class only contains static methods and is not intended to be instantiated.
      */
-    private ApplicationCLI() {
-        // Private constructor to prevent instantiation
+    public ApplicationCLI() {
+        throw new IllegalStateException("Illegal stat EnumDisplayUtil");
     }
 
-    private static final String MAIN_HELP_MESSAGE = """
+    public static final String MAIN_HELP_MESSAGE = """
     =================== Application Help ===================
     
     Tools Available:
@@ -39,7 +39,7 @@ public class ApplicationCLI {
     ========================================================
     """;
 
-    private static final String CALCULATOR_HELP_MESSAGE = """
+    public static final String CALCULATOR_HELP_MESSAGE = """
     --------------------------------------------------------
     Supported Expression Types (Calculator)
     --------------------------------------------------------
@@ -94,7 +94,7 @@ public class ApplicationCLI {
 
     """;
 
-    private static final String CONVERTER_HELP_MESSAGE = """
+    public static final String CONVERTER_HELP_MESSAGE = """
     ====================== Converter Help ======================
     
     This is an interactive unit converter.
@@ -126,7 +126,7 @@ public class ApplicationCLI {
     ============================================================
     """;
 
-    private static final String TOOL_CHOOSER_MESSAGE = """
+    public static final String TOOL_CHOOSER_MESSAGE = """
     ========================================================
     
     Cucumber Calculator ready. Type 'help' for instructions.
@@ -140,7 +140,7 @@ public class ApplicationCLI {
     ========================================================
     """;
 
-    private static final String CALCULATOR_MESSAGE = """
+    public static final String CALCULATOR_MESSAGE = """
     ====================== Calculator ======================
     
     Interactive calculator.
@@ -150,7 +150,7 @@ public class ApplicationCLI {
     ========================================================  
     """;
 
-    private static final String CONVERTER_MESSAGE = """
+    public static final String CONVERTER_MESSAGE = """
     ====================== Converter =======================
     
     Interactive unit converter.
@@ -160,7 +160,7 @@ public class ApplicationCLI {
     ========================================================
     """;
 
-    private static final Scanner scanner = new Scanner(System.in);
+    public static final Scanner scanner = new Scanner(System.in);
 
     /**
      * Main entry point for the CLI application.

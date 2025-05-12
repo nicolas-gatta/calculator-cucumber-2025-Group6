@@ -30,11 +30,11 @@ import java.util.stream.Collectors;
 public class ConverterFactory {
 
     /**
-     * Private constructor to prevent instantiation of this utility class.
+     * public constructor to prevent instantiation of this utility class.
      *
      * @throws IllegalStateException always thrown when the constructor is called
      */
-    private ConverterFactory(){
+    public ConverterFactory(){
         throw new IllegalStateException("Illegal state");
     }
 

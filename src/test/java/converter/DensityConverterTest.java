@@ -73,4 +73,9 @@ public class DensityConverterTest {
                 converter.convert("unknown unit", "kilogram per cubic meter", 1.0)
         );
     }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
+    }
 }
