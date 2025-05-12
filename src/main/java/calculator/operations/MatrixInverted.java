@@ -9,12 +9,29 @@ import calculator.numbers.RationalNumber;
 
 import java.util.List;
 
+/**
+ * Operation that calculates the inverse of a matrix.
+ * The inverse of a matrix A is a matrix A^-1 such that A * A^-1 = I, where I is the identity matrix.
+ */
 public final class MatrixInverted extends Operation{
 
+    /**
+     * Constructs a MatrixInverted operation with the given list of expressions.
+     * 
+     * @param elist the list of expressions to operate on
+     * @throws IllegalConstruction if the construction is invalid
+     */
     public MatrixInverted(List<Expression> elist) throws IllegalConstruction {
         this(elist, null);
     }
 
+    /**
+     * Constructs a MatrixInverted operation with the given list of expressions and notation.
+     * 
+     * @param elist the list of expressions to operate on
+     * @param n the notation to use
+     * @throws IllegalConstruction if the construction is invalid
+     */
     public MatrixInverted(List<Expression> elist, Notation n) throws IllegalConstruction {
         super(elist, n);
         symbol = "-1";

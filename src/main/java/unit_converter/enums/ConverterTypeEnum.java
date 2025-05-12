@@ -13,17 +13,64 @@ import java.util.Optional;
  * {@link unit_converter.IUnitConverter} via the {@code ConverterFactory}.
  */
 public enum ConverterTypeEnum {
+    /**
+     * Length unit conversions (e.g., meters, feet, inches).
+     */
     LENGTH,
+
+    /**
+     * Volume unit conversions (e.g., liters, gallons).
+     */
     VOLUME,
+
+    /**
+     * Temperature unit conversions (e.g., Celsius, Fahrenheit).
+     */
     TEMPERATURE,
+
+    /**
+     * Area unit conversions (e.g., square meters, acres).
+     */
     AREA,
+
+    /**
+     * Density unit conversions (e.g., kg/m³, g/cm³).
+     */
     DENSITY,
+
+    /**
+     * Currency conversions (e.g., USD, EUR).
+     */
     CURRENCY,
+
+    /**
+     * Pressure unit conversions (e.g., Pascal, bar).
+     */
     PRESSURE,
+
+    /**
+     * Speed unit conversions (e.g., km/h, mph).
+     */
     SPEED,
+
+    /**
+     * Energy unit conversions (e.g., Joules, calories).
+     */
     ENERGY,
+
+    /**
+     * Force unit conversions (e.g., Newton, pound-force).
+     */
     FORCE,
+
+    /**
+     * Time unit conversions (e.g., seconds, minutes, hours).
+     */
     TIME,
+
+    /**
+     * Numeral unit conversions (e.g., binary, octal, hexadecimal).
+     */
     BINARY;
 
     /**

@@ -27,6 +27,13 @@ import java.util.stream.Collectors;
 public class TimeConverter implements IUnitConverter<Double>{
 
     /**
+     * Default constructor for TimeConverter.
+     */
+    public TimeConverter() {
+        // Default constructor
+    }
+
+    /**
      * Converts a value from one time unit to another, using unit names as strings.
      *
      * @param fromUnit the source unit name (e.g., "minute")

@@ -35,14 +35,12 @@ import java.util.stream.Collectors;
 public class NumberSystemConverter implements IUnitConverter<String> {
 
     /**
-     * Converts a value from one number system to another, using unit names as strings.
-     *
-     * @param fromUnit the source base name (e.g., "binary", "decimal", "hexadecimal")
-     * @param toUnit   the target base name
-     * @param value    the number to convert, as a string (e.g., "0xA", "0b1101")
-     * @return the converted value in the target base
-     * @throws IllegalArgumentException if the input is not valid for the source base
+     * Default constructor for NumberSystemConverter.
      */
+    public NumberSystemConverter() {
+        // Default constructor
+    }
+
     @Override
     public String convert(String fromUnit, String toUnit, String value) {
         NumberSystemEnum from = NumberSystemEnum.fromString(fromUnit);
@@ -151,4 +149,4 @@ public class NumberSystemConverter implements IUnitConverter<String> {
     }
 
 
-} 
+}

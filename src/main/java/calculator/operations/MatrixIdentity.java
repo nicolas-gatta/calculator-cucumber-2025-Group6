@@ -9,12 +9,30 @@ import calculator.numbers.RationalNumber;
 
 import java.util.List;
 
+/**
+ * Operation that creates an identity matrix from a given matrix.
+ * The identity matrix has ones on the main diagonal and zeros elsewhere,
+ * with the same dimensions as the input matrix.
+ */
 public final class MatrixIdentity extends Operation{
 
+    /**
+     * Constructs a MatrixIdentity operation with the given list of expressions.
+     * 
+     * @param elist the list of expressions to operate on
+     * @throws IllegalConstruction if the construction is invalid
+     */
     public MatrixIdentity(List<Expression> elist) throws IllegalConstruction {
         this(elist, null);
     }
 
+    /**
+     * Constructs a MatrixIdentity operation with the given list of expressions and notation.
+     * 
+     * @param elist the list of expressions to operate on
+     * @param n the notation to use
+     * @throws IllegalConstruction if the construction is invalid
+     */
     public MatrixIdentity(List<Expression> elist, Notation n) throws IllegalConstruction {
         super(elist, n);
         symbol = "I";

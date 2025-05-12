@@ -27,14 +27,12 @@ import java.util.stream.Collectors;
 public class SpeedConverter implements IUnitConverter<Double>{
 
     /**
-     * Converts a value from one speed unit to another, using unit names as strings.
-     *
-     * @param fromUnit the source unit name (e.g., "Meter per Hour")
-     * @param toUnit   the target unit name (e.g., "Kilometer per Hour")
-     * @param value    the speed value to convert
-     * @return the converted value in the target unit
-     * @throws IllegalArgumentException if the unit names are invalid
+     * Default constructor for SpeedConverter.
      */
+    public SpeedConverter() {
+        // Default constructor
+    }
+
     @Override
     public Double convert(String fromUnit, String toUnit, Double value) {
         SpeedUnitEnum from = SpeedUnitEnum.fromString(fromUnit);

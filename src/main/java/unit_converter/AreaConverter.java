@@ -28,6 +28,13 @@ import java.util.stream.Collectors;
 public class AreaConverter implements IUnitConverter<Double>{
 
     /**
+     * Default constructor for AreaConverter.
+     */
+    public AreaConverter() {
+        // Default constructor
+    }
+
+    /**
      * Converts a value from one area unit to another, using unit names as strings.
      *
      * @param fromUnit the source unit name (e.g., "square_meter")

@@ -27,13 +27,21 @@ import java.util.stream.Collectors;
 public class PressureConverter implements IUnitConverter<Double>{
 
     /**
-     * Converts a value from one pressure unit to another, using unit names as strings.
+     * Default constructor for PressureConverter.
+     */
+    public PressureConverter() {
+        // Default constructor
+    }
+
+    /**
+     * Converts a pressure value from one unit to another using string unit identifiers.
+     * This method parses the string unit identifiers to PressureUnitEnum objects and delegates
+     * to the typed convert method.
      *
-     * @param fromUnit the source unit name (e.g., "Pascal")
-     * @param toUnit   the target unit name (e.g., "Bar")
-     * @param value    the pressure value to convert
+     * @param fromUnit the source pressure unit as a string
+     * @param toUnit the target pressure unit as a string
+     * @param value the value to convert
      * @return the converted value in the target unit
-     * @throws IllegalArgumentException if the unit names are invalid
      */
     @Override
     public Double convert(String fromUnit, String toUnit, Double value) {

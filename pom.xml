@@ -217,9 +217,18 @@
                 <configuration>
                     <!--needed to prevent module problem-->
                     <detectJavaApiLink>false</detectJavaApiLink>
-                    <excludes>
-                        <exclude>**/ExpressionParser*.class</exclude>
-                    </excludes>
+                    <!-- Exclude package expressionParser and JavaDoc generation-->
+                    <excludePackageNames>expressionParser</excludePackageNames>
+                    <!-- Exclude auto generate files -->
+                    <sourceFileExcludes>
+                        <sourceFileExclude>**/calculator/Main.java</sourceFileExclude>
+                        <sourceFileExclude>**/ExpressionParserBaseListener.java</sourceFileExclude>
+                        <sourceFileExclude>**/ExpressionParserBaseVisitor.java</sourceFileExclude>
+                        <sourceFileExclude>**/ExpressionParserParser.java</sourceFileExclude>
+                        <sourceFileExclude>**/ExpressionParserLexer.java</sourceFileExclude>
+                        <sourceFileExclude>**/ExpressionParserListener.java</sourceFileExclude>
+                        <sourceFileExclude>**/ExpressionParserVisitor.java</sourceFileExclude>
+                    </sourceFileExcludes>
                 </configuration>
                 <executions>
                     <!-- Exports JavaDocs to regular HTML files -->

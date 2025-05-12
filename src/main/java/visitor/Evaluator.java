@@ -18,7 +18,15 @@ public class Evaluator extends Visitor {
 
     private String error;
     private Expression result;
-
+    
+    /**
+     * Default constructor for Evaluator.
+     * Initializes a new Evaluator with null error and result.
+     */
+    public Evaluator() {
+        this.error = null;
+        this.result = null;
+    }
 
     /** getter method to obtain the result of the evaluation
      *

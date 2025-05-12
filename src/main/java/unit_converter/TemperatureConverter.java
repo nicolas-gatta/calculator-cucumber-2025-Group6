@@ -27,14 +27,12 @@ import java.util.stream.Collectors;
 public class TemperatureConverter implements IUnitConverter<Double>{
 
     /**
-     * Converts a value from one temperature unit to another, using unit names as strings.
-     *
-     * @param fromUnit the source unit name (e.g., "celcius")
-     * @param toUnit   the target unit name (e.g., "kelvin")
-     * @param value    the  value to convert
-     * @return the converted temperature value in the target unit
-     * @throws IllegalArgumentException if the unit names are invalid
+     * Default constructor for TemperatureConverter.
      */
+    public TemperatureConverter() {
+        // Default constructor
+    }
+
     @Override
     public Double convert(String fromUnit, String toUnit, Double value) {
         TemperatureUnitEnum from = TemperatureUnitEnum.fromString(fromUnit);

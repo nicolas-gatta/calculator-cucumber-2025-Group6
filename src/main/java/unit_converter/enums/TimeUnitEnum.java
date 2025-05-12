@@ -15,14 +15,23 @@ package unit_converter.enums;
  * </ul>
  */
 public enum TimeUnitEnum {
+    /** Represents a nanosecond (10^-9 seconds) */
     NANOSECOND(0.000000001),
+    /** Represents a millisecond (10^-3 seconds) */
     MILLISECOND(0.001),
+    /** Represents a second (base unit) */
     SECOND(1.0),
+    /** Represents a minute (60 seconds) */
     MINUTE(60.0),
+    /** Represents an hour (3600 seconds) */
     HOUR(3600.0),
+    /** Represents a day (86400 seconds) */
     DAY(86400.0),
+    /** Represents a week (604800 seconds) */
     WEEK(604800.0),
+    /** Represents a month (2628000 seconds, approximated as 30.42 days) */
     MONTH(2628000.0),
+    /** Represents a year (31536000 seconds, approximated as 365 days) */
     YEAR(31536000.0);
 
     private final double toSecond;

@@ -21,6 +21,13 @@ import org.springframework.web.server.ResponseStatusException;
 public class LinearEquationController {
 
     /**
+     * Default constructor for LinearEquationController.
+     */
+    public LinearEquationController() {
+        // Default constructor
+    }
+
+    /**
      * Solves a system of linear equations based on the provided request data.
      *
      * @param request the {@link LinearEquationRequest} containing the coefficient matrix, constant matrix, and variable names
