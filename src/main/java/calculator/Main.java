@@ -6,7 +6,9 @@ import unit_converter.ConverterFactory;
 import unit_converter.IUnitConverter;
 import unit_converter.enums.ConverterTypeEnum;
 
+import java.awt.*;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -440,23 +442,6 @@ public class Main {
 		c.print(e);
 	}
 
-	private static void runCommand(String command) throws IOException {
-		ProcessBuilder processBuilder = new ProcessBuilder();
-
-		processBuilder.directory(new java.io.File("..../web_gui"));
-
-		// Start the process
-		Process process = processBuilder.start();
-
-		// Read the output
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-			String line;
-			while ((line = reader.readLine()) != null) {
-				System.out.println(line);
-			}
-		}
-	}
-
 	/**
 	 * Launches the GUI application
 	 * @param args Command line arguments (not used)
@@ -478,12 +463,27 @@ public class Main {
 	 * @param args Command line arguments (not used)
 	 */
 	private static void launchWeb(String[] args){
-		try{
-			CalculatorAPIApplication.main(args);
-			runCommand("npm install react-scripts");
-			runCommand("npm start");
-		} catch (IOException e) {
-			System.out.println(e);
+		CalculatorAPIApplication.main(args);
+
+		File buildFolder = new File("web_gui/build");
+
+		if (buildFolder.exists() && buildFolder.isDirectory()) {
+			try {
+				File htmlFile = new File("web_gui/build/index.html");
+				ProcessBuilder pb;
+				if (System.getProperty("os.name").toLowerCase().contains("win")) {
+					pb = new ProcessBuilder("cmd.exe", "/c", "start", htmlFile.getAbsolutePath());
+				} else {
+					pb = new ProcessBuilder("xdg-open", htmlFile.getAbsolutePath());
+				}
+				pb.start();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else{
+			System.out.println("If you don't have react-scripts install: npm install react-scripts");
+			System.out.println("After installing, you can open a terminal in the main directory of the project and run: \n \t- cd ./web_gui\n \t- npm start");
 		}
 	}
 
