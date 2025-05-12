@@ -81,6 +81,11 @@ class MatrixInvertedTest {
     }
 
     @Test
+    void testOpMatrixDouble() {
+        assertThrows(ArithmeticException.class, () -> matrixInverted.opMatrix(matrix, 20));
+    }
+
+    @Test
     void testOpComplex() {
         ComplexNumber c1 = new ComplexNumber(1, 1);
         ComplexNumber c2 = new ComplexNumber(2, 2);

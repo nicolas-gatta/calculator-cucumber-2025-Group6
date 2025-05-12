@@ -22,7 +22,7 @@ class LinearEquationSystemExpressionTest {
 
     @BeforeEach
     void setUp() throws IllegalConstruction {
-        Expression left1 = new Plus(List.of(new VariableExpression("y"), new VariableExpression(new RealNumber(8),"x")));
+        Expression left1 = new Plus(List.of(new VariableExpression("y"), new VariableExpression(new RealNumber(8),"z")));
         Expression right1 = new RealNumber(5.5);
         expr1 = new EquationExpression(new Equation(left1, right1));
 
@@ -41,8 +41,14 @@ class LinearEquationSystemExpressionTest {
 
     @Test
     void testToString() {
-        String expected = "((y + 8.0000x) = 5.5000, (y + 2.6667z) = 7.0000)";
+        String expected = "((y + 8.0000z) = 5.5000, (y + 2.6667z) = 7.0000)";
         assertEquals(expected, system.toString());
+    }
+
+    @Test
+    void testSolve() {
+        String expected = "(y = 7.7500, z = -0.2813)";
+        assertEquals(expected, system.solve().toString());
     }
 
     @Test
@@ -56,7 +62,7 @@ class LinearEquationSystemExpressionTest {
     void testAcceptCallsVisitor() {
         EquationCollectorVisitor visitor = new EquationCollectorVisitor();
         assertDoesNotThrow(() -> system.accept(visitor));
-        assertEquals(3, visitor.getAllVariables().size());
+        assertEquals(2, visitor.getAllVariables().size());
     }
 
     @Test
