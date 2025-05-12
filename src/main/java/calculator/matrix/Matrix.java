@@ -413,9 +413,10 @@ public class Matrix {
 
         String[] rows = input.split("(?<=]),");
 
-        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
-        boolean hasEmptyRows = !Arrays.stream(rows).allMatch(row -> pattern.matcher(row).matches());
+        Pattern pattern = Pattern.compile("\\-?[\\d+\\.\\d+]+");
 
+        boolean hasEmptyRows = !Arrays.stream(rows).allMatch(row -> pattern.matcher(row).find());
+        
         if (rows.length == 0 || hasEmptyRows){
             throw new IllegalArgumentException("Matrix cannot be empty");
         }
