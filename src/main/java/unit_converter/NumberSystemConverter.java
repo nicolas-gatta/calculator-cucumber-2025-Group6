@@ -1,16 +1,64 @@
 package unit_converter;
 
+import unit_converter.enums.EnumDisplayUtil;
 import unit_converter.enums.NumberSystemEnum;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * Converter for numeric values between different number systems (bases).
+ * <p>
+ * This implementation supports conversions between binary, octal, decimal, and hexadecimal,
+ * using {@link NumberSystemEnum} as the unit representation. Values are handled as {@code String}
+ * and formatted accordingly depending on the base.
+ * </p>
+ *
+ * <p>Supported bases include:</p>
+ * <ul>
+ *     <li>Binary (base 2)</li>
+ *     <li>Octal (base 8)</li>
+ *     <li>Decimal (base 10)</li>
+ *     <li>Hexadecimal (base 16)</li>
+ * </ul>
+ *
+ * <p>Example usage:</p>
+ * <pre>{@code
+ *     NumberSystemConverter converter = new NumberSystemConverter();
+ *     String result = converter.convert("binary", "hexadecimal", "0b1011"); // returns "0xB"
+ * }</pre>
+ *
+ * @see NumberSystemEnum
+ * @see IUnitConverter
+ */
 public class NumberSystemConverter implements IUnitConverter<String> {
-    
+
+    /**
+     * Converts a value from one number system to another, using unit names as strings.
+     *
+     * @param fromUnit the source base name (e.g., "binary", "decimal", "hexadecimal")
+     * @param toUnit   the target base name
+     * @param value    the number to convert, as a string (e.g., "0xA", "0b1101")
+     * @return the converted value in the target base
+     * @throws IllegalArgumentException if the input is not valid for the source base
+     */
     @Override
     public String convert(String fromUnit, String toUnit, String value) {
         NumberSystemEnum from = NumberSystemEnum.fromString(fromUnit);
         NumberSystemEnum to = NumberSystemEnum.fromString(toUnit);
         return convert(from, to, value);
     }
-    
+
+    /**
+     * Converts a value between number systems using enum representations.
+     *
+     * @param from  the source number system
+     * @param to    the target number system
+     * @param value the value to convert
+     * @return the formatted result string in the target base
+     * @throws IllegalArgumentException if the input format is invalid for the source base
+     */
     public String convert(NumberSystemEnum from, NumberSystemEnum to, String value) {
         if (value == null || value.trim().isEmpty()) {
             return "0";
@@ -42,7 +90,15 @@ public class NumberSystemConverter implements IUnitConverter<String> {
                 return result;
         }
     }
-    
+
+    /**
+     * Removes formatting prefixes (like {@code 0x}, {@code 0b}, or {@code #}) from input strings,
+     * based on the detected number system.
+     *
+     * @param value the raw input string
+     * @param base  the number system base
+     * @return the cleaned string without prefix
+     */
     private String cleanInput(String value, NumberSystemEnum base) {
         value = value.trim();
         
@@ -70,4 +126,29 @@ public class NumberSystemConverter implements IUnitConverter<String> {
         
         return value;
     }
+
+    /**
+     * Returns a list of supported number systems in a user-friendly format.
+     *
+     * @return a list of display names (e.g., "Binary", "Hexadecimal")
+     */
+    @Override
+    public List<String> getConverterUnitListNames() {
+        return Arrays.stream(NumberSystemEnum.values())
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns the class type used by this converter for input/output values.
+     *
+     * @return {@code String.class}
+     */
+    @Override
+    public Class<String> getValueType() {
+        return String.class;
+    }
+
+
 } 
