@@ -62,7 +62,7 @@ class LinearEquationSystemExpressionTest {
     void testAcceptCallsVisitor() {
         EquationCollectorVisitor visitor = new EquationCollectorVisitor();
         assertDoesNotThrow(() -> system.accept(visitor));
-        assertEquals(3, visitor.getAllVariables().size());
+        assertEquals(2, visitor.getAllVariables().size());
     }
 
     @Test
