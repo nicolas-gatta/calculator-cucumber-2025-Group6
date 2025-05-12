@@ -217,6 +217,9 @@
                 <configuration>
                     <!--needed to prevent module problem-->
                     <detectJavaApiLink>false</detectJavaApiLink>
+                    <excludes>
+                        <exclude>**/ExpressionParser*.class</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <!-- Exports JavaDocs to regular HTML files -->

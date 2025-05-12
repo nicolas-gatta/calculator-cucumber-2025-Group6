@@ -10,9 +10,19 @@ import java.util.*;
  */
 public class LinearEquationSolver {
 
+    /**
+     * Constructor to prevent instantiation of the {@code LinearEquationSolver} utility class.
+     * <p>
+     * This constructor throws an {@link IllegalStateException} if called,
+     * indicating that {@code LinearEquationSolver} is intended to be used statically.
+     * </p>
+     *
+     * @throws IllegalStateException if an attempt is made to instantiate the class.
+     */
     public LinearEquationSolver(){
         throw new IllegalStateException("Utility class");
     }
+
     /**
      * Solves a linear system Ax = b and returns it as a LinearEquationSystemExpression.
      *

@@ -33,7 +33,7 @@ public class ConversionController {
      *     <li>value (numeric string to be converted)</li>
      * </ul>
      * Returns a string representation of the converted value, formatted appropriately.
-     * </p>
+     *
      *
      * @param request the conversion request
      * @return the result of the unit conversion as a string
