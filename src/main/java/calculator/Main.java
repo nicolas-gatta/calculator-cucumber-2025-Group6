@@ -464,27 +464,8 @@ public class Main {
 	 */
 	private static void launchWeb(String[] args){
 		CalculatorAPIApplication.main(args);
-
-		File buildFolder = new File("web_gui/build");
-
-		if (buildFolder.exists() && buildFolder.isDirectory()) {
-			try {
-				File htmlFile = new File("web_gui/build/index.html");
-				ProcessBuilder pb;
-				if (System.getProperty("os.name").toLowerCase().contains("win")) {
-					pb = new ProcessBuilder("cmd.exe", "/c", "start", htmlFile.getAbsolutePath());
-				} else {
-					pb = new ProcessBuilder("xdg-open", htmlFile.getAbsolutePath());
-				}
-				pb.start();
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}else{
-			System.out.println("If you don't have react-scripts install: npm install react-scripts");
-			System.out.println("After installing, you can open a terminal in the main directory of the project and run: \n \t- cd ./web_gui\n \t- npm start");
-		}
+		System.out.println("If you don't have react-scripts install: npm install react-scripts");
+		System.out.println("After installing, you can open a terminal in the main directory of the project and run: \n \t- cd ./web_gui\n \t- npm start");
 	}
 
 	/**
