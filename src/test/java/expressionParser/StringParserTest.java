@@ -37,7 +37,7 @@ class StringParserTest {
     @Test
     void testInvalidExpression() {
         String input = "3 + " ;
-        assertThrows(NullPointerException.class, () -> StringParser.parse(input));
+        assertThrows(RecognitionException.class, () -> StringParser.parse(input));
     }
 
     @Test
@@ -54,6 +54,6 @@ class StringParserTest {
     @Test
     void testMalformedExpression() {
         String input = "x + y =";
-        assertThrows(NullPointerException.class, () -> StringParser.parse(input));
+        assertThrows(RecognitionException.class, () -> StringParser.parse(input));
     }
 }

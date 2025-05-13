@@ -55,7 +55,13 @@ public class StringParser {
 
         ExpressionParserVisitor visitor = new ExpressionParserVisitor();
 
-        Expression expression = visitor.visit(tree);
+        Expression expression;
+
+        try{
+            expression = visitor.visit(tree);
+        }catch (NullPointerException e){
+            throw new RecognitionException("Invalid Expression", parser, parser.getInputStream(), parser.getContext());
+        }
 
         if (expression == null){
             throw new RecognitionException("Invalid Expression", parser, parser.getInputStream(), parser.getContext());
