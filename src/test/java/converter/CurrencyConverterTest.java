@@ -3,12 +3,32 @@ package converter;
 import org.junit.jupiter.api.Test;
 import unit_converter.CurrencyConverter;
 import unit_converter.IUnitConverter;
+import unit_converter.enums.CurrencyUnitEnum;
+import unit_converter.enums.EnumDisplayUtil;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CurrencyConverterTest {
 
     private final IUnitConverter<Double> converter = new CurrencyConverter();
+
+    @Test
+    public void testUnitNamesMatchEnumValues() {
+
+        List<String> expectedUnits = List.of(CurrencyUnitEnum.values()).stream()
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
+                .collect(Collectors.toList());
+
+
+        List<String> actualUnits = converter.getConverterUnitListNames();
+
+        assertEquals(expectedUnits.size(), actualUnits.size(), "Number of units mismatch.");
+        assertTrue(actualUnits.containsAll(expectedUnits), "Some expected units are missing.");
+    }
 
     @Test
     public void testEurToUsd() {
@@ -73,6 +93,11 @@ public class CurrencyConverterTest {
         assertThrows(IllegalArgumentException.class, () ->
                 converter.convert("eur", "dogecoin", 10.0)
         );
+    }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
     }
 }
 

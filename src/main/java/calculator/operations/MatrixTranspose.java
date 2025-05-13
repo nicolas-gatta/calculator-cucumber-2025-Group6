@@ -9,12 +9,30 @@ import calculator.numbers.RationalNumber;
 
 import java.util.List;
 
+/**
+ * Operation that calculates the transpose of a matrix.
+ * The transpose of a matrix is obtained by flipping the matrix over its main diagonal,
+ * switching the row and column indices of each element.
+ */
 public final class MatrixTranspose extends Operation{
 
+    /**
+     * Constructs a MatrixTranspose operation with the given list of expressions.
+     * 
+     * @param elist the list of expressions to operate on
+     * @throws IllegalConstruction if the construction is invalid
+     */
     public MatrixTranspose(List<Expression> elist) throws IllegalConstruction {
         this(elist, null);
     }
 
+    /**
+     * Constructs a MatrixTranspose operation with the given list of expressions and notation.
+     * 
+     * @param elist the list of expressions to operate on
+     * @param n the notation to use
+     * @throws IllegalConstruction if the construction is invalid
+     */
     public MatrixTranspose(List<Expression> elist, Notation n) throws IllegalConstruction {
         super(elist, n);
         symbol = "T";

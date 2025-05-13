@@ -32,7 +32,11 @@ public class CalculationRequest {
         // empty constructor
     }
 
-    /** @return the first operand as a String */
+    /**
+     * Gets the first operand.
+     * 
+     * @return the first operand as a String
+     */
     public String getFirstOperand() { return firstOperand; }
 
     /**
@@ -42,8 +46,13 @@ public class CalculationRequest {
      */
     public void setFirstOperand(String firstOperand) { this.firstOperand = firstOperand; }
 
-    /** @return the operator as a String (e.g., "+", "-", "*", "/") */
+    /**
+     * Gets the operator.
+     * 
+     * @return the operator as a String (e.g., "+", "-", "*", "/")
+     */
     public String getOperator() { return operator; }
+    
     /**
      * Sets the operator.
      *
@@ -51,8 +60,13 @@ public class CalculationRequest {
      */
     public void setOperator(String operator) { this.operator = operator; }
 
-    /** @return the second operand as a String */
+    /**
+     * Gets the second operand.
+     * 
+     * @return the second operand as a String
+     */
     public String getSecondOperand() { return secondOperand; }
+    
     /**
      * Sets the second operand.
      *
@@ -60,8 +74,13 @@ public class CalculationRequest {
      */
     public void setSecondOperand(String secondOperand) { this.secondOperand = secondOperand; }
 
-    /** @return the number type as a String (e.g., "integer", "rational", "real") */
+    /**
+     * Gets the number type.
+     * 
+     * @return the number type as a String (e.g., "integer", "rational", "real")
+     */
     public String getNumberType() { return numberType; }
+    
     /**
      * Sets the type of number system.
      *

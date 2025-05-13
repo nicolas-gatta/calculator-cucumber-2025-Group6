@@ -20,6 +20,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CalculatorAPIApplication {
 
     /**
+     * Default constructor for the CalculatorAPIApplication.
+     * <p>
+     * This constructor is used by Spring Boot to instantiate the application class.
+     * </p>
+     */
+    public CalculatorAPIApplication() {
+        // Default constructor
+    }
+
+    /**
      * The main method that serves as the entry point for the application.
      * <p>
      * This method launches the Spring Boot application by calling the

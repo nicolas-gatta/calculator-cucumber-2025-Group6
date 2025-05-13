@@ -1,10 +1,10 @@
 package calculator.api;
 
 /**
- * Data Transfer Object (DTO) representing a unit conversion request.
+ * Represents a request for a unit conversion operation.
  * <p>
- * This class is used to receive JSON data from API clients for unit conversion operations.
- * It contains the type of conversion, the source and target units, and the numeric value to convert.
+ * This class encapsulates all required inputs for a unit conversion,
+ * such as the conversion type, source unit, target unit, and the value to convert.
  * </p>
  *
  * Example JSON:
@@ -27,37 +27,85 @@ public class ConversionRequest {
     /** String representation of the numeric value to convert. */
     private String value;
 
-    /** Empty constructor required for deserialization. */
+    /**
+     * Default constructor.
+     * <p>
+     * Required for frameworks such as Spring when deserializing from JSON.
+     * </p>
+     */
     public ConversionRequest() {
-        //Empty constructor
+        // empty constructor
     }
 
-    /** @return the conversion type */
-    public String getConversionType() { return conversionType; }
-    /** Set the conversion type
-     *
-     * @param conversionType the conversion type to set */
-    public void setConversionType(String conversionType) { this.conversionType = conversionType; }
+    /**
+     * Gets the conversion type.
+     * 
+     * @return the conversion type
+     */
+    public String getConversionType() {
+        return conversionType;
+    }
 
-    /** @return the unit to convert from */
-    public String getFromUnit() { return fromUnit; }
-    /** Set the unit to convert from
-     *
+    /**
+     * Sets the conversion type.
+     * 
+     * @param conversionType the conversion type to set
+     */
+    public void setConversionType(String conversionType) {
+        this.conversionType = conversionType;
+    }
+
+    /**
+     * Gets the unit to convert from.
+     * 
+     * @return the unit to convert from
+     */
+    public String getFromUnit() {
+        return fromUnit;
+    }
+
+    /**
+     * Sets the unit to convert from.
+     * 
      * @param fromUnit the unit to convert from
      */
-    public void setFromUnit(String fromUnit) { this.fromUnit = fromUnit; }
+    public void setFromUnit(String fromUnit) {
+        this.fromUnit = fromUnit;
+    }
 
-    /** @return the source unit */
-    public String getToUnit() { return toUnit; }
-    /** Set the unit to convert to
-     *
-     * @param toUnit the target unit to set */
-    public void setToUnit(String toUnit) { this.toUnit = toUnit; }
+    /**
+     * Gets the target unit to convert to.
+     * 
+     * @return the source unit
+     */
+    public String getToUnit() {
+        return toUnit;
+    }
 
-    /** @return the value to convert */
-    public String getValue() { return value; }
-    /** Set the value to convert
-     *
-     * @param value the value to convert */
-    public void setValue(String value) { this.value = value; }
+    /**
+     * Sets the target unit to convert to.
+     * 
+     * @param toUnit the target unit to set
+     */
+    public void setToUnit(String toUnit) {
+        this.toUnit = toUnit;
+    }
+
+    /**
+     * Gets the value to convert.
+     * 
+     * @return the value to convert
+     */
+    public String getValue() {
+        return value;
+    }
+
+    /**
+     * Sets the value to convert.
+     * 
+     * @param value the value to convert
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

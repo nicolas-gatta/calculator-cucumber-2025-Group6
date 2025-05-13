@@ -10,6 +10,11 @@ class StringParserTest {
 
 
     @Test
+    void testIllegalConstructor() {
+        assertThrows(IllegalStateException.class, StringParser::new);
+    }
+
+    @Test
     void testValidSimpleExpression() {
         String input = "3 + 4";
         Expression result = assertDoesNotThrow(() -> StringParser.parse(input));

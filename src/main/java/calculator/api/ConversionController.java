@@ -23,6 +23,13 @@ import java.util.Locale;
 public class ConversionController {
 
     /**
+     * Default constructor for ConversionController.
+     */
+    public ConversionController() {
+        // Default constructor
+    }
+
+    /**
      * Endpoint for converting a numeric value from one unit to another.
      * <p>
      * Accepts a {@link ConversionRequest} JSON body containing:
@@ -33,7 +40,7 @@ public class ConversionController {
      *     <li>value (numeric string to be converted)</li>
      * </ul>
      * Returns a string representation of the converted value, formatted appropriately.
-     * </p>
+     *
      *
      * @param request the conversion request
      * @return the result of the unit conversion as a string

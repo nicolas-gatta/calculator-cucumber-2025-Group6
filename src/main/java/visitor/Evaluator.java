@@ -18,7 +18,15 @@ public class Evaluator extends Visitor {
 
     private String error;
     private Expression result;
-
+    
+    /**
+     * Default constructor for Evaluator.
+     * Initializes a new Evaluator with null error and result.
+     */
+    public Evaluator() {
+        this.error = null;
+        this.result = null;
+    }
 
     /** getter method to obtain the result of the evaluation
      *
@@ -182,8 +190,9 @@ public class Evaluator extends Visitor {
                     }
                 }
 
-                else if ((accumulator instanceof RealNumber || accumulator instanceof MyNumber || accumulator instanceof RationalNumber) && current instanceof MatrixExpression accMat) {
-                    double currVal = getRealNumber(current).getValue();
+                else if ((accumulator instanceof RealNumber || accumulator instanceof MyNumber || accumulator instanceof RationalNumber) &&
+                        current instanceof MatrixExpression accMat) {
+                    double currVal = getRealNumber(accumulator).getValue();
 
                     if (o instanceof Divides) {
                         accumulator = new MatrixExpression(accMat.getMatrix().divide(currVal));

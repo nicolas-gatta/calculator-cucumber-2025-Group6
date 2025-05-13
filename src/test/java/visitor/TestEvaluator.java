@@ -312,4 +312,20 @@ class TestEvaluator {
         assertEquals(mExpected, result);
     }
 
+    @Test
+    void testScalarTimesMatrix() throws IllegalConstruction {
+        double[][] data = {{1, 2}, {3, 4}};
+        Matrix matrix = new Matrix(data);
+        MatrixExpression m = new MatrixExpression(matrix);
+        RealNumber scalar = new RealNumber(2);
+
+        Times times = new Times(List.of(m, scalar));
+        times.accept(evaluator);
+        MatrixExpression result = (MatrixExpression) evaluator.getResult();
+
+        double[][] expected = {{2, 4}, {6, 8}};
+        Matrix expectedMatrix = new Matrix(expected);
+        MatrixExpression mExpected = new MatrixExpression(expectedMatrix);
+        assertEquals(mExpected, result);
+    }
 }

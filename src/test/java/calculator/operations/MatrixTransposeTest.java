@@ -81,6 +81,11 @@ class MatrixTransposeTest {
     }
 
     @Test
+    void testOpMatrixDouble() {
+        assertThrows(ArithmeticException.class, () -> matrixTranspose.opMatrix(matrix, 20));
+    }
+
+    @Test
     void testOpComplex() {
         ComplexNumber c1 = new ComplexNumber(1, 1);
         ComplexNumber c2 = new ComplexNumber(2, 2);

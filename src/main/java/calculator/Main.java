@@ -1,9 +1,16 @@
 package calculator;
 
+import calculator.api.CalculatorAPIApplication;
+import calculator.cli.ApplicationCLI;
 import unit_converter.ConverterFactory;
 import unit_converter.IUnitConverter;
 import unit_converter.enums.ConverterTypeEnum;
 
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 import static unit_converter.ConverterFactory.getConverter;
@@ -301,6 +308,15 @@ public class Main {
 			e = new Times(List.of(e1, rationalNumber));
 			c.print(e);
 
+			e = new Times(List.of(number, e1));
+			c.print(e);
+
+			e = new Times(List.of(realNumber, e1));
+			c.print(e);
+
+			e = new Times(List.of(rationalNumber, e1));
+			c.print(e);
+
 			e = new MatrixTranspose(List.of(e1));
 			c.print(e);
 
@@ -332,7 +348,7 @@ public class Main {
 		try {
 
 			Expression left1 = new Plus(List.of(new VariableExpression(new MyNumber(3),"x"),
-								new VariableExpression(new MyNumber(3),"y")));
+					new VariableExpression(new MyNumber(3),"y")));
 
 			Expression right1 = new MyNumber(5);
 
@@ -430,8 +446,53 @@ public class Main {
 	 * Launches the GUI application
 	 * @param args Command line arguments (not used)
 	 */
-	public static void launchGUI(String[] args) {
+	private static void launchGUI(String[] args) {
 		CalculatorApp.main(args);
+	}
+
+	/**
+	 * Launches the API application
+	 * @param args Command line arguments (not used)
+	 */
+	private static void launchAPI(String[] args) {
+		CalculatorAPIApplication.main(args);
+	}
+
+	/**
+	 * Launches the Web application
+	 * @param args Command line arguments (not used)
+	 */
+	private static void launchWeb(String[] args){
+		CalculatorAPIApplication.main(args);
+
+		File buildFolder = new File("web_gui/build");
+
+		if (buildFolder.exists() && buildFolder.isDirectory()) {
+			try {
+				File htmlFile = new File("web_gui/build/index.html");
+				ProcessBuilder pb;
+				if (System.getProperty("os.name").toLowerCase().contains("win")) {
+					pb = new ProcessBuilder("cmd.exe", "/c", "start", htmlFile.getAbsolutePath());
+				} else {
+					pb = new ProcessBuilder("xdg-open", htmlFile.getAbsolutePath());
+				}
+				pb.start();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else{
+			System.out.println("If you don't have react-scripts install: npm install react-scripts");
+			System.out.println("After installing, you can open a terminal in the main directory of the project and run: \n \t- cd ./web_gui\n \t- npm start");
+		}
+	}
+
+	/**
+	 * Launches the CLI application
+	 * @param args Command line arguments (not used)
+	 */
+	private static void launchCLI(String[] args) {
+		ApplicationCLI.entryPointCli();
 	}
 
 	/**
@@ -439,17 +500,59 @@ public class Main {
 	 * @param args Command line arguments (not used)
 	 */
 	public static void main(String[] args) {
-		if (args.length > 0 && args[0].equals("--gui")) {
-			launchGUI(args);
-		} else {
-			// Votre code existant pour la version console
-			demonstrateIntegerOperations();
-			demonstrateRealOperations();
-			demonstrateRationalOperations();
-			demonstrateComplexOperations();
-			demonstrateMatrixOperations();
-			demonstrateLinearEquation();
-			demonstrateExpressionParser();
+		Scanner scanner = new Scanner(System.in);
+		boolean running = true;
+		int choice = 5;
+
+		while (running) {
+			System.out.println("===== Application Launcher =====");
+			System.out.println("1. Start GUI Application");
+			System.out.println("2. Start API Server");
+			System.out.println("3. Start Web Application");
+			System.out.println("4. Start CLI Application");
+			System.out.println("5. Exit");
+			System.out.print("Select an option (1-5): ");
+
+			if (!scanner.hasNextInt()) {
+				System.out.println("Invalid input. Please enter a number between 1 and 5.");
+				scanner.next(); // Clear the invalid input
+			}else{
+				choice = scanner.nextInt();
+				scanner.nextLine(); // Clear the buffer
+
+				if (choice < 1 || choice > 5) {
+					System.out.println("Invalid option. Please enter a number between 1 and 5.");
+				}
+				else{
+					running = false;
+				}
+			}
+
+			switch (choice) {
+				case 1:
+					System.out.println("Launching GUI Application...");
+					launchGUI(args);
+					break;
+				case 2:
+					System.out.println("Launching API Server...");
+					launchAPI(args);
+					break;
+				case 3:
+					System.out.println("Launching Web Application...");
+					launchWeb(args);
+					break;
+				case 4:
+					System.out.println("Launching CLI Application...");
+					launchCLI(args);
+					break;
+				case 5:
+					System.out.println("Exiting application...");
+					break;
+				default:
+					System.out.println("Invalid option. Please enter a number between 1 and 5.");
+			}
 		}
+
+		scanner.close();
 	}
 }

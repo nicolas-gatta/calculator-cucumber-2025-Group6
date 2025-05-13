@@ -26,6 +26,13 @@ import java.util.List;
 @RequestMapping("/api/matrix")
 public class MatrixController {
 
+    /**
+     * Default constructor for MatrixController.
+     */
+    public MatrixController() {
+        // Default constructor
+    }
+
     /** Calculator instance used to evaluate matrix operations. */
     Calculator calculator = new Calculator();
 

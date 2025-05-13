@@ -19,6 +19,19 @@ import visitor.ExpressionParserVisitor;
 public class StringParser {
 
     /**
+     * Constructor to prevent instantiation of the {@code StringParser} utility class.
+     * <p>
+     * This constructor throws an {@link IllegalStateException} if called,
+     * indicating that {@code StringParser} is intended to be used statically.
+     * </p>
+     *
+     * @throws IllegalStateException if an attempt is made to instantiate the class.
+     */
+    public StringParser() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    /**
      * Parses a string into an {@link Expression} tree using the ANTLR lexer, parser,
      * and a custom visitor.
      *

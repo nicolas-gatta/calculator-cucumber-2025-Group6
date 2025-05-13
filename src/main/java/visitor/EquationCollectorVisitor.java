@@ -33,6 +33,14 @@ public class EquationCollectorVisitor extends Visitor {
     private String previousSymbol = "";
 
     private String currentSymbol = "";
+    
+    /**
+     * Default constructor for EquationCollectorVisitor.
+     * Initializes the visitor with empty collections for storing variables and equation values.
+     */
+    public EquationCollectorVisitor() {
+        // Initialize with default empty collections
+    }
 
     /**
      * Returns a list of all variables in the system.

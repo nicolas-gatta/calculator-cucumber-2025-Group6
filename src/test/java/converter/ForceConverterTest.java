@@ -3,6 +3,11 @@ package converter;
 import org.junit.jupiter.api.Test;
 import unit_converter.ForceConverter;
 import unit_converter.IUnitConverter;
+import unit_converter.enums.EnumDisplayUtil;
+import unit_converter.enums.ForceUnitEnum;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +15,20 @@ public class ForceConverterTest {
 
     private final IUnitConverter<Double> converter = new ForceConverter();
 
-    //TODO: Add more unit test for others time units
+    @Test
+    public void testUnitNamesMatchEnumValues() {
+
+        List<String> expectedUnits = List.of(ForceUnitEnum.values()).stream()
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
+                .collect(Collectors.toList());
+
+
+        List<String> actualUnits = converter.getConverterUnitListNames();
+
+        assertEquals(expectedUnits.size(), actualUnits.size(), "Number of units mismatch.");
+        assertTrue(actualUnits.containsAll(expectedUnits), "Some expected units are missing.");
+    }
 
     @Test
     public void testNewtonToKilopondConversion() {
@@ -49,5 +67,10 @@ public class ForceConverterTest {
         assertThrows(IllegalArgumentException.class, () ->
                 converter.convert("Newton", "notarealunit", 100.0)
         );
+    }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
     }
 }

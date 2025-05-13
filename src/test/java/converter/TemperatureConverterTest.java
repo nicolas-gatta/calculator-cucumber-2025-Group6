@@ -3,12 +3,32 @@ package converter;
 import org.junit.jupiter.api.Test;
 import unit_converter.IUnitConverter;
 import unit_converter.TemperatureConverter;
+import unit_converter.enums.EnumDisplayUtil;
+import unit_converter.enums.TemperatureUnitEnum;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TemperatureConverterTest {
 
     private final IUnitConverter<Double> converter = new TemperatureConverter();
+
+    @Test
+    public void testUnitNamesMatchEnumValues() {
+
+        List<String> expectedUnits = List.of(TemperatureUnitEnum.values()).stream()
+                .map(Enum::name)
+                .map(EnumDisplayUtil::toDisplayName)
+                .collect(Collectors.toList());
+
+
+        List<String> actualUnits = converter.getConverterUnitListNames();
+
+        assertEquals(expectedUnits.size(), actualUnits.size(), "Number of units mismatch.");
+        assertTrue(actualUnits.containsAll(expectedUnits), "Some expected units are missing.");
+    }
 
     @Test
     public void testCelsiusToFahrenheit() {
@@ -63,5 +83,10 @@ public class TemperatureConverterTest {
         assertThrows(IllegalArgumentException.class, () ->
                 converter.convert("celsius", "unknown", 100.0)
         );
+    }
+
+    @Test
+    void testValueType(){
+        assertEquals(Double.class, converter.getValueType(), "Value type mismatch.");
     }
 }
