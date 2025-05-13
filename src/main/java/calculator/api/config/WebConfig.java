@@ -11,8 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * It allows frontend applications from specific origins to access resources on the backend.
  * </p>
  * <p>
- * The configuration allows requests from the specified frontend (e.g., http://localhost:3000) to interact with the API
- * at http://localhost:8080. This is essential for applications running on different domains or ports, especially during development.
+ * The configuration allows requests from the specified frontend to interact with the API.
+ * This is essential for applications running on different domains or ports, especially during development.
  * </p>
  * <p>
  * The allowed methods and headers are configured to ensure that the necessary HTTP requests (GET, POST, PUT, DELETE)
@@ -26,7 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
      * Configures CORS mappings for the application.
      * <p>
      * This method adds CORS support for the API endpoints starting with "/api".
-     * Requests from the frontend at http://localhost:3000 are allowed to access these endpoints.
+     * Requests from the frontend are allowed to access these endpoints.
      * </p>
      *
      * @param registry the CorsRegistry used to define the CORS mappings
