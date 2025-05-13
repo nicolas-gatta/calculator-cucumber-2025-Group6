@@ -104,7 +104,7 @@ class ApplicationCLITest {
         assertTrue(consoleOutput.contains("> "));
         assertTrue(consoleOutput.contains("Enter value"));
         assertTrue(consoleOutput.contains("> "));
-        assertTrue(consoleOutput.contains("Result: 80,0000 centimeter = 0,8000 meter"));
+        assertTrue(consoleOutput.contains("Result: 80,0000 centimeter = 0,8000 meter") || consoleOutput.contains("Result: 80.0000 centimeter = 0.8000 meter"));
         assertTrue(consoleOutput.contains("Exit Application"));
     }
 }
